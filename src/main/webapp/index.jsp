@@ -2,9 +2,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>GameStorm</title>
+    <link rel="stylesheet "type="text/css" href="css/main.css">
 </head>
-    <body>
+<body>
+    <div class="wrapper">
+    <header>
         <%@include file="WEB-INF/fragments/header.jsp"%>
-    </body>
+    </header>
+    <main>
+        GAMES
+    </main>
+    <footer>
+        <%@include file="WEB-INF/fragments/footer.jsp"%>
+    </footer>
+    </div>
+</body>
 </html>

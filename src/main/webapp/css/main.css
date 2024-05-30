@@ -1,17 +1,39 @@
 :root{
     --sfondo: #135CA1;
     --hover: #1E8EF7;
-    --scritte: #FFFFFF;
+    --scritte:#FFFFFF;
 }
 
-* {
+/* Impostazioni generali del documento */
+html, body {
+    height: 100%;
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
 }
 
-body {
-    font-family: barlow, arial, sans-serif;
-    font-weight: 400;
-    background-color: var(--sfondo);
+/* Wrapper principale che contiene tutti gli elementi della pagina */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Assicura che il wrapper sia almeno alto quanto la finestra */
 }
+
+/* Il main cresce per riempire lo spazio disponibile */
+main {
+    flex: 1;
+}
+
+/* Stili specifici per header, main e footer */
+header, main, footer {
+    padding: 20px;
+    text-align: center;
+}
+
+header {
+    background: var(--sfondo);
+    color: var(--scritte);
+}
+
+main {
+    background: #ecf0f1;
+}
+
