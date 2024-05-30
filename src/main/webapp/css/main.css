@@ -1,0 +1,17 @@
+:root{
+    --sfondo: #135CA1;
+    --hover: #1E8EF7;
+    --scritte: #FFFFFF;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: barlow, arial, sans-serif;
+    font-weight: 400;
+    background-color: var(--sfondo);
+}
