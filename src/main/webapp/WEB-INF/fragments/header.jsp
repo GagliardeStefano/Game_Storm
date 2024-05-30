@@ -22,7 +22,7 @@
             <span></span>
         </div>
         <div class="logo">
-            <a href="index.html">
+            <a href="index.jsp">
                 <img src="./images/logoWhiteNoBackround.png" alt="Logo">
             </a>
         </div>

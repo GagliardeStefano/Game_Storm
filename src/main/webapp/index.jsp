@@ -6,16 +6,14 @@
     <link rel="stylesheet "type="text/css" href="css/main.css">
 </head>
 <body>
-    <div class="wrapper">
-    <header>
-        <%@include file="WEB-INF/fragments/header.jsp"%>
-    </header>
-    <main>
-        GAMES
-    </main>
-    <footer>
-        <%@include file="WEB-INF/fragments/footer.jsp"%>
-    </footer>
-    </div>
+        <header>
+            <%@include file="WEB-INF/fragments/header.jsp"%>
+        </header>
+        <main>
+
+        </main>
+        <footer>
+            <%@include file="WEB-INF/fragments/footer.jsp"%>
+        </footer>
 </body>
 </html>
