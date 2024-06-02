@@ -1,10 +1,3 @@
-<html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameStorm</title>
-    <link rel="stylesheet"  type="text/css" href="css/footer.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-</head>
 <section>
     <footer>
         <div class="footer-content">
@@ -42,6 +35,4 @@
             <p>&copy; 2024 GameStorm. All rights reserved.</p>
         </div>
     </footer>
-
 </section>
-</html>

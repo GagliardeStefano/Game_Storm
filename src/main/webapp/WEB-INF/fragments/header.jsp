@@ -1,47 +1,63 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: stefa
-  Date: 29/05/2024
-  Time: 17:30
-  To change this template use File | Settings | File Templates.
---%>
-<html>
-<head></head>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Navbar</title>
-    <link rel="stylesheet" href="./css/main.css">
-    <link rel="stylesheet" href="./css/styleNavbar.css">
-</head>
-<body>
-    <nav class="navbar">
-        <div class="hamburger-menu" id="hamburger-menu">
-            <span></span>
-            <span></span>
-            <span></span>
+<div class="fragment">
+    <header>
+        <div class="container">
+            <div class="content">
+                <div class="left">
+                    <span class="trigger"><i class="ri-menu-line"></i></span>
+                    <div class="logo"><a href="index.jsp"><img src="./images/logoWhiteNoBackround.png" alt="Logo"></a></div>
+                </div>
+                <div class="middle">
+                    <nav>
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">In Tendenza</a></li>
+                            <li><a href="#">Preordini</a></li>
+                            <li><a href="#">Prossime Uscite</a></li>
+                            <li><a href="#">Contatti</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="right">
+                    <ul>
+                        <li><i id="search" class="ri-search-line"></i></li>
+                        <li><a><span class="num">0</span><i class="ri-shopping-bag-2-line"></i></a></li>
+                        <li><a href="#"><i class="ri-user-line"></i></a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="logo">
-            <a href="index.jsp">
-                <img src="./images/logoWhiteNoBackround.png" alt="Logo">
-            </a>
-        </div>
-        <ul class="nav-links">
-            <li><a href="#trend">In tendenza</a></li>
-            <li><a href="#preorders">Preordini</a></li>
-            <li><a href="#upcoming">Prossime Uscite</a></li>
-            <li><a href="#about">About Us</a></li>
-        </ul>
-        <div class="nav-icons">
-            <a href="#cart">
-                <img alt="cart" src="./images/cart.svg">
-            </a>
-            <a href="#user">
-                <img alt="account" src="./images/account.svg">
-            </a>
+    </header>
+
+    <div class="search-bar-container">
+        <form action="" class="search-bar">
+            <input type="search" placeholder="Search..." name="search">
+        </form>
+    </div>
+
+    <!-- MOBILE -->
+    <nav class="mobile-menu">
+        <div class="mini">
+            <a href="#" class="mini-close"><i class="ri-close-line"></i></a>
+            <div class="menu-head">
+                <div class="top">
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">In Tendenza</a></li>
+                        <li><a href="#">Preordini</a></li>
+                        <li><a href="#">Prossime Uscite</a></li>
+                        <li><a href="#">Contatti</a></li>
+                        <div class="search">
+                            <i class="ri-search-line"></i>
+                            <form action="">
+                                <input type="search" placeholder="Search..." name="" id="">
+                            </form>
+                        </div>
+                    </ul>
+                </div>
+                <div class="logo"><a href="index.jsp"><img src="./images/logoWhiteNoBackround.png" alt="" srcset=""></a></div>
+
+            </div>
         </div>
     </nav>
-
-    <script src="./js/navbar.js"></script>
-</body>
-</html>
+    <div class="overlay"></div>
+</div>

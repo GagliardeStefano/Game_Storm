@@ -2,18 +2,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>GameStorm</title>
-    <link rel="stylesheet "type="text/css" href="css/main.css">
+    <title>JSP - Hello World</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Icone -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+
+    <!-- Stili css -->
+    <link rel="stylesheet" type="text/css" href="./css/main.css" />
+    <link rel="stylesheet" type="text/css" href="./css/styleNavbar.css" />
+    <link rel="stylesheet"  type="text/css" href="./css/footer.css" />
+
 </head>
-<body>
-        <header>
-            <%@include file="WEB-INF/fragments/header.jsp"%>
-        </header>
-        <main>
+    <body>
+
+        <%@include file="WEB-INF/fragments/header.jsp"%>
+
+        <main style="margin: 500px;" >
 
         </main>
-        <footer>
-            <%@include file="WEB-INF/fragments/footer.jsp"%>
-        </footer>
-</body>
+
+        <%@ include file="WEB-INF/fragments/footer.jsp"%>
+        <script src="./js/navbar.js"></script>
+    </body>
 </html>
