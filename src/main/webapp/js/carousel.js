@@ -1,6 +1,23 @@
+var cards = document.querySelectorAll('.carousel .card');
 
-const cards = document.querySelectorAll('.card');
+checkWindowSize();
+window.addEventListener('resize', checkWindowSize);
 
+
+cards.forEach(card => {
+    card.addEventListener('click', (event) => {
+        const link = card.querySelector('a');
+
+        if (!card.classList.contains('expanded')) {
+            event.preventDefault();
+            handleExpand(card);
+        } else {
+            link.classList.remove('disabled');
+        }
+    });
+});
+
+// FUNZIONI
 function handleExpand(card) {
     const link = card.querySelector('a');
 
@@ -16,15 +33,22 @@ function handleExpand(card) {
     }
 }
 
-cards.forEach(card => {
-    card.addEventListener('click', (event) => {
-        const link = card.querySelector('a');
+function checkWindowSize(){
 
-        if (!card.classList.contains('expanded')) {
-            event.preventDefault();
-            handleExpand(card);
-        } else {
-            link.classList.remove('disabled');
+    let cardsHiding = 0;
+    const widths = [540, 420, 480];
+
+    widths.forEach((width) => {
+        if(window.innerWidth < width){
+            cardsHiding++;
         }
     });
-});
+
+    cards.forEach((card, index) => {
+        if(index >= cards.length - cardsHiding){
+            card.style.display = 'none';
+        } else {
+            card.style.display = '';
+        }
+    })
+}

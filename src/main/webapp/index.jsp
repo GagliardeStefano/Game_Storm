@@ -73,6 +73,16 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="card">
+                    <div class="card-content">
+                        <a href="#" class="disabled"><img src="./images/giochi/GTA6.jpg" alt="img1"></a>
+                        <div class="info">
+                            <h3 class="title">GTA 6</h3>
+                            <p>0.00€</p>
+                        </div>
+                    </div>
+                </div>
             </section>
         </main>
 
