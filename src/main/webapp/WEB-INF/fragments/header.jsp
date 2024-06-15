@@ -21,7 +21,7 @@
                     <ul>
                         <li><i id="search" class="ri-search-line"></i></li>
                         <li><a><span class="num">0</span><i class="ri-shopping-bag-2-line"></i></a></li>
-                        <li><a href="#"><i class="ri-user-line"></i></a></li>
+                        <li><a href="./login.jsp"><i class="ri-user-line"></i></a></li>
                     </ul>
                 </div>
             </div>
