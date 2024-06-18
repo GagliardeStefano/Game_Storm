@@ -81,18 +81,88 @@
                     </div>
                 </div>
             </section>
-        </main>
+        <section class="sezione trending">
+            <div class="titolo trending">
+                <h2>In tendenza</h2>
+                <a href="#paginaCompleta"><h5>Visualizza tutto</h5></a>
+            </div>
+            <div class="card-container trending">
+                <div class="card">
+                    <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
+                </div>
+                <div class="card">
+                    <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
+                </div>
+                <div class="card">
+                    <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
+                </div>
+                <div class="card">
+                    <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
+                </div>
+                <div class="card">
+                    <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
+                </div>
+                <div class="card">
+                    <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
+                </div>
+            </div>
+        </section>
+        <section class="sezione preorder">
+            <div class="titolo preorder">
+                <a><h2>Preordini</h2></a>
+            </div>
+            <div class="card-container preorder">
+                <div class="card">
+                    <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
+                </div>
+                <div class="card">
+                    <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
+                </div>
+                <div class="card">
+                    <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
+                </div>
+                <div class="card">
+                    <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
+                </div>
+                <div class="card">
+                    <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
+                </div>
+                <div class="card">
+                    <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
+                </div>
+            </div>
+        </section>
+        <section class="sezione arrival">
+            <div class="titolo arrival">
+                <a><h2>Prossime Uscite</h2></a>
+            </div>
+            <div class="card-container arrival">
+                <div class="card">
+                    <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
+                </div>
+                <div class="card">
+                    <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
+                </div>
+                <div class="card">
+                    <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
+                </div>
+                <div class="card">
+                    <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
+                </div>
+                <div class="card">
+                    <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
+                </div>
+                <div class="card">
+                    <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
+                </div>
+            </div>
+        </section>
 
+        </main>
         <%@ include file="./WEB-INF/fragments/footer.jsp"%>
         <!-- SCRIPT -->
         <script src="${context}/js/navbar.js"></script>
         <script src="${context}/js/carousel.js"></script>
-        <script>
-            if (window.innerWidth < 430) {
-                const script = document.createElement('script');
-                script.src = './js/smallScreenCarousel.js';
-                document.head.appendChild(script);
-            }
-        </script>
+        <script src="${context}/js/smallScreenCarousel.js"></script>
     </body>
 </html>
