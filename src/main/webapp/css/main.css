@@ -2,9 +2,11 @@
 
 :root{
     --sfondo: #0F487D;
+    --sfondo3: #0A3054;
+    --sfondo4: #135CA1;
     --hover: #1E8EF7;
+    --sfondo2: #1977CF;
     --scritte: #FFFFFF;
-    --sfondo2: #1977CF
 }
 
 /* width */
@@ -40,16 +42,21 @@ body {
     display: block;
     font-family: barlow, arial, sans-serif;
     font-weight: 400;
-    background-color: var(--sfondo);
     color: var(--scritte);
+    background: var(--sfondo) url("https://static.tumblr.com/03fbbc566b081016810402488936fbae/pqpk3dn/MRSmlzpj3/tumblr_static_bg3.png") repeat 0 0;
+    -webkit-animation: 10s linear 0s normal none infinite animate;
+}
+@keyframes animate {
+    from {background-position:0 0;}
+    to {background-position: 500px 0;}
 }
 
-a{
+a {
     text-decoration: none;
     color: var(--scritte);
 }
 
-ul{
+ul {
     list-style: none;
 }
 
