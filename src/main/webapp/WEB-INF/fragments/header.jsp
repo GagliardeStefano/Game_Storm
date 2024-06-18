@@ -4,7 +4,7 @@
             <div class="content">
                 <div class="left">
                     <span class="trigger"><i class="ri-menu-line"></i></span>
-                    <div class="logo"><a href="index.jsp"><img src="./images/logoWhiteNoBackround.png" alt="Logo"></a></div>
+                    <div class="logo"><a href="${context}/index.jsp"><img src="${context}/images/logoWhiteNoBackround.png" alt="Logo"></a></div>
                 </div>
                 <div class="middle">
                     <nav>
@@ -21,7 +21,7 @@
                     <ul>
                         <li><i id="search" class="ri-search-line"></i></li>
                         <li><a><span class="num">0</span><i class="ri-shopping-bag-2-line"></i></a></li>
-                        <li><a href="./login.jsp"><i class="ri-user-line"></i></a></li>
+                        <li><a href="${context}/UserManager"><i class="ri-user-line"></i></a></li>
                     </ul>
                 </div>
             </div>
@@ -54,7 +54,9 @@
                         </div>
                     </ul>
                 </div>
-                <div class="logo"><a href="index.jsp"><img src="./images/logoWhiteNoBackround.png" alt="" srcset=""></a></div>
+                <div class="logo">
+                    <a href="${context}/index.jsp"><img src="${context}/images/logoWhiteNoBackround.png" alt="logo"></a>
+                </div>
 
             </div>
         </div>

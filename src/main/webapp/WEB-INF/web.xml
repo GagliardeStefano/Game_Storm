@@ -5,4 +5,8 @@
          version="6.0">
 
 
+        <context-param>
+            <param-name>home</param-name>
+            <param-value>/index.jsp</param-value>
+        </context-param>
 </web-app>

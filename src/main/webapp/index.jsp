@@ -3,19 +3,18 @@
 <html>
 <head>
     <title>Game Storm</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <%@ include file="WEB-INF/results/general.jsp"%>
+    
     <!-- Stili css -->
-    <link rel="stylesheet" type="text/css" href="./css/main.css" />
-    <link rel="stylesheet" type="text/css" href="./css/styleNavbar.css" />
-    <link rel="stylesheet" type="text/css" href="./css/styleCarousel.css" />
-    <link rel="stylesheet"  type="text/css" href="./css/footer.css" />
+    <link rel="stylesheet" type="text/css" href="${context}/css/styleNavbar.css" />
+    <link rel="stylesheet" type="text/css" href="${context}/css/styleCarousel.css" />
+    <link rel="stylesheet"  type="text/css" href="${context}/css/footer.css" />
 
 </head>
     <body>
         <!-- NAVBAR -->
-        <%@include file="WEB-INF/fragments/header.jsp"%>
+        <%@include file="./WEB-INF/fragments/header.jsp"%>
 
         <main style="margin-bottom: 500px;" >
             <!-- CAROSELLO -->
@@ -23,7 +22,7 @@
                 <!--CARD-->
                 <div class="card expanded">
                     <div class="card-content">
-                        <a href="#" class="disabled"><img src="./images/giochi/GTA6.jpg" alt="img1"></a>
+                        <a href="#" class="disabled"><img src="${context}/images/giochi/GTA6.jpg" alt="img1"></a>
                         <div class="info">
                             <h3 class="title">GTA 6</h3>
                             <p>0.00€</p>
@@ -33,7 +32,7 @@
                 <!--FINE CARD-->
                 <div class="card">
                     <div class="card-content">
-                        <a href="#" class="disabled"><img src="./images/giochi/GTA6.jpg" alt="img1"></a>
+                        <a href="#" class="disabled"><img src="${context}/images/giochi/GTA6.jpg" alt="img1"></a>
                         <div class="info">
                             <h3 class="title">GTA 6</h3>
                             <p>0.00€</p>
@@ -43,7 +42,7 @@
 
                 <div class="card">
                     <div class="card-content">
-                        <a href="#" class="disabled"><img src="./images/giochi/GTA6.jpg" alt="img1"></a>
+                        <a href="#" class="disabled"><img src="${context}/images/giochi/GTA6.jpg" alt="img1"></a>
                         <div class="info">
                             <h3 class="title">GTA 6</h3>
                             <p>0.00€</p>
@@ -53,7 +52,7 @@
 
                 <div class="card">
                     <div class="card-content">
-                        <a href="#" class="disabled"><img src="./images/giochi/GTA6.jpg" alt="img1"></a>
+                        <a href="#" class="disabled"><img src="${context}/images/giochi/GTA6.jpg" alt="img1"></a>
                         <div class="info">
                             <h3 class="title">GTA 6</h3>
                             <p>0.00€</p>
@@ -63,7 +62,7 @@
 
                 <div class="card">
                     <div class="card-content">
-                        <a href="#" class="disabled"><img src="./images/giochi/GTA6.jpg" alt="img1"></a>
+                        <a href="#" class="disabled"><img src="${context}/images/giochi/GTA6.jpg" alt="img1"></a>
                         <div class="info">
                             <h3 class="title">GTA 6</h3>
                             <p>0.00€</p>
@@ -73,7 +72,7 @@
 
                 <div class="card">
                     <div class="card-content">
-                        <a href="#" class="disabled"><img src="./images/giochi/GTA6.jpg" alt="img1"></a>
+                        <a href="#" class="disabled"><img src="${context}/images/giochi/GTA6.jpg" alt="img1"></a>
                         <div class="info">
                             <h3 class="title">GTA 6</h3>
                             <p>0.00€</p>
@@ -83,10 +82,10 @@
             </section>
         </main>
 
-        <%@ include file="WEB-INF/fragments/footer.jsp"%>
+        <%@ include file="./WEB-INF/fragments/footer.jsp"%>
 
         <!-- SCRIPT -->
-        <script src="./js/navbar.js"></script>
-        <script src="./js/carousel.js"></script>
+        <script src="${context}/js/navbar.js"></script>
+        <script src="${context}/js/carousel.js"></script>
     </body>
 </html>

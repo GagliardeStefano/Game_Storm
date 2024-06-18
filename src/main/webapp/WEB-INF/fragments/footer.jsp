@@ -1,5 +1,5 @@
 <section>
-    <footer>
+    <footer id="footer">
         <div class="footer-content">
             <div class="footer-section about">
                 <h2>About Us</h2>

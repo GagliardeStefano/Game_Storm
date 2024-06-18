@@ -1,6 +1,5 @@
 .container-page-login {
     display: flex;
-    height: 100vh;
     width: 100%;
 }
 
@@ -30,7 +29,7 @@
 
 .container-page-login .left-side img {
     width: 100%;
-    height: 100%;
+    height: 115%;
     object-fit: cover;
 }
 
@@ -53,7 +52,6 @@
 
 /*FORMS*/
 
-
 .login-container {
     display: block;
     position: relative;
@@ -61,7 +59,6 @@
     padding: 3rem 4rem 0 4rem;
     width: 100%;
     height: 100vh;
-    box-shadow: 0 50px 70px -20px rgba(0, 0, 0, 0.85);
 }
 
 .login-container:after {
@@ -73,7 +70,6 @@
     right: 0;
     bottom: 0;
     left: 0;
-    box-shadow: 0 -20px 150px -20px rgba(0, 0, 0, 0.5);
 }
 
 .login-container .form-login {
@@ -86,7 +82,7 @@
     z-index: 1000;
     position: relative;
     padding: 0;
-    margin: 0 0 6em 1rem;
+    margin: 0 0 3.5em 1rem;
 }
 
 .login-container .login-nav-item {
@@ -146,7 +142,7 @@
     color: rgba(255, 255, 255, 0.5);
     text-transform: uppercase;
     font-size: .75rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1%;
 }
 
 .login-container .login-label-checkbox {
@@ -210,23 +206,8 @@
     background-color: var(--hover);
 }
 
-.login-container .login-forgot {
-    display: block;
-    margin-top: 3rem;
-    text-align: center;
-    color: rgba(255, 255, 255, 0.75);
-    font-size: .75rem;
-    text-decoration: none;
-    position: relative;
-    z-index: 1;
-}
-
-.login-container .login-forgot:hover {
-    color: var(--hover);
-}
-
 #register-form .input-group {
-    margin: 35px 0;
+    margin: 25px 0 0 0;
     display: flex;
     justify-content: space-between;
 }
@@ -243,17 +224,21 @@
     background: var(--sfondo2);
 }
 
+.login-container .error-input{
+    color: red;
+}
+
 @media (max-width: 1430px) {
-    #register-form .input-group:nth-child(2){
+    #register-form .input-group:nth-child(2) {
         display: block;
     }
 
     #register-form .input-group:nth-child(2) .input-half:nth-child(2){
-        margin: 35px 0;
+        margin-top: 1em;
     }
 
     #login-form label{
-        margin-top: 2rem;
+        margin-top: 3rem;
     }
 
     .login-container .login-nav{
@@ -267,7 +252,26 @@
     }
 }
 
-@media (max-width: 726px){
+@media (max-width: 768px){
+    .container-page-login{
+        display: block;
+    }
+
+    #register-form .input-group{
+        margin-top: 35px;
+        display: block;
+    }
+
+    #register-form .input-group:nth-child(2),
+    #register-form .input-group:nth-child(3),
+    #register-form .input-group:nth-child(2) .input-half:nth-child(2){
+        margin-top: 0;
+    }
+
+    #register-form .input-half{
+        margin-top: 1em !important;
+    }
+
     .container-page-login .left-side{
         display: none;
     }
@@ -275,14 +279,19 @@
     .login-container .login-nav{
         float: right;
     }
-
-    .login-container{
-        padding: 6rem 4rem 0 4rem;
-    }
 }
 
-@media (max-width: 363px){
+@media (max-width: 505px){
     .login-container .login-nav{
         display: flex;
+        margin-top: 0.5em;
+    }
+
+    .login-container{
+        padding: 5em 2em 0 2em;
+    }
+
+    .login-container .login-nav-item + .login-nav-item {
+        margin-left: 3.5rem;
     }
 }
