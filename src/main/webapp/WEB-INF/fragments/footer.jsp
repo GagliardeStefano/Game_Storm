@@ -4,7 +4,7 @@
             <div class="footer-section about">
                 <h2>About Us</h2>
                 <p>
-                    Benvenuti su GameStorm! Siamo un team appassionato di studenti di informatica che condividono l'amore per i videogiochi e la tecnologia. La nostra missione è fornire ai giocatori la migliore selezione di videogiochi, accessori e notizie sul gaming. Essendo noi stessi avidi giocatori, comprendiamo l'importanza di avere accesso alle ultime novità nel mondo dei videogiochi.</p>
+                    Benvenuti su GameStorm! Siamo un team appassionato di studenti di informatica che condividono l'amore per i videogiochi e la tecnologia. La nostra missione e' fornire ai giocatori la migliore selezione di videogiochi, accessori e notizie sul gaming. Essendo noi stessi avidi giocatori, comprendiamo l'importanza di avere accesso alle ultime novita' nel mondo dei videogiochi.</p>
             </div>
 
             <div class="footer-section links">
@@ -25,7 +25,7 @@
                         <img class="social-logo instagram" src="images/socialLogo/instagram.png" alt="Instagram">
                     </a>
 
-                    <a href="https://gitlab.com" class="logo-container gitlab">
+                    <a href="https://gitlab.com/g4660/tsw_progetti/tsw23_24/izzo-gagliarde-nunziata_pj" class="logo-container gitlab">
                         <img class="social-logo gitlab" src="images/socialLogo/gitlab.png" alt="GitLab">
                     </a>
                 </div>

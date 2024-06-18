@@ -3,6 +3,9 @@ footer {
     color: var(--scritte);
     padding: 20px 0;
     text-align: center;
+    box-shadow: 0 2px 45px -20px rgb(0 0 0 / 30);
+    width: 100%;
+
 }
 
 .footer-content {

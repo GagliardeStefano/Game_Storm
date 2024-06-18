@@ -9,6 +9,7 @@
     <!-- Stili css -->
     <link rel="stylesheet" type="text/css" href="${context}/css/styleNavbar.css" />
     <link rel="stylesheet" type="text/css" href="${context}/css/styleCarousel.css" />
+    <link rel="stylesheet" type="text/css" href="${context}/css/styleSezioni.css" />
     <link rel="stylesheet"  type="text/css" href="${context}/css/footer.css" />
 
 </head>
@@ -16,7 +17,7 @@
         <!-- NAVBAR -->
         <%@include file="./WEB-INF/fragments/header.jsp"%>
 
-        <main style="margin-bottom: 500px;" >
+        <main>
             <!-- CAROSELLO -->
             <section class="carousel">
                 <!--CARD-->
@@ -83,9 +84,15 @@
         </main>
 
         <%@ include file="./WEB-INF/fragments/footer.jsp"%>
-
         <!-- SCRIPT -->
         <script src="${context}/js/navbar.js"></script>
         <script src="${context}/js/carousel.js"></script>
+        <script>
+            if (window.innerWidth < 430) {
+                const script = document.createElement('script');
+                script.src = './js/smallScreenCarousel.js';
+                document.head.appendChild(script);
+            }
+        </script>
     </body>
 </html>
