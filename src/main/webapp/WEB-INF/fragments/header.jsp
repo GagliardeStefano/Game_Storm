@@ -1,4 +1,4 @@
-<div class="fragment">
+<div class="fragment-nav">
     <header>
         <div class="container">
             <div class="content">
@@ -21,7 +21,12 @@
                     <ul>
                         <li><i id="search" class="ri-search-line"></i></li>
                         <li><a><span class="num">0</span><i class="ri-shopping-bag-2-line"></i></a></li>
-                        <li><a href="${context}/UserManager"><i class="ri-user-line"></i></a></li>
+                        <li><a href="${context}/UserManager">
+                            <%if (userS != null){ %>
+                                <span class="account-active"></span>
+                            <%}%>
+                            <i class="ri-user-line"></i>
+                        </a></li>
                     </ul>
                 </div>
             </div>

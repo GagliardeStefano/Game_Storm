@@ -1,10 +1,25 @@
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+<!-- IMPORT -->
+<%@ page import="Controller.SessionManager" %>
+<%@ page import="Model.User" %>
 
+<!-- TAGLIB -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set scope="application" value="${pageContext.request.contextPath}" var="context" />
+
+<!-- META -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- CSS -->
+<link rel="stylesheet" href="${context}/css/main.css">
+<link rel="stylesheet" type="text/css" href="${context}/css/styleNavbar.css" />
+<link rel="stylesheet"  type="text/css" href="${context}/css/footer.css" />
+
+<!-- JAVA -->
+<%  SessionManager sessionManager = new SessionManager(request, false);
+    User userS = (User) sessionManager.getAttribute("utente");
+%>
 
 <script>
     let context = '';

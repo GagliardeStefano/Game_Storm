@@ -1,3 +1,7 @@
+body{
+    background: var(--sfondo) !important;
+}
+
 .container-page-login {
     display: flex;
     width: 100%;

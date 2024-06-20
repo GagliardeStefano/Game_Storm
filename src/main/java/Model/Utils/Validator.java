@@ -44,6 +44,11 @@ public class Validator {
         asserData(dataNascita, "Devi essere almeno maggiorenne");
     }
 
+    public void validateAll(String email, String password){
+        asserEmail(email, "Inserisci un email valida");
+        asserPassword(password, "Password: Deve contenere almeno un numero\nuna lettera maiuscola e minuscola\nalmeno 8 o più caratteri");
+    }
+
     private boolean validate(String string, Pattern pattern, String msg){
 
         boolean condition = pattern.matcher(string).matches();

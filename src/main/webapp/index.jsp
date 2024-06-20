@@ -7,10 +7,9 @@
     <%@ include file="WEB-INF/results/general.jsp"%>
     
     <!-- Stili css -->
-    <link rel="stylesheet" type="text/css" href="${context}/css/styleNavbar.css" />
+
     <link rel="stylesheet" type="text/css" href="${context}/css/styleCarousel.css" />
     <link rel="stylesheet" type="text/css" href="${context}/css/styleSezioni.css" />
-    <link rel="stylesheet"  type="text/css" href="${context}/css/footer.css" />
 
 </head>
     <body>
@@ -18,6 +17,7 @@
         <%@include file="./WEB-INF/fragments/header.jsp"%>
 
         <main>
+
             <!-- CAROSELLO -->
             <section class="carousel">
                 <!--CARD-->
