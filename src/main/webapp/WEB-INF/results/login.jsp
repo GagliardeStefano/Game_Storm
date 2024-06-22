@@ -2,6 +2,7 @@
 <% if( request.getAttribute("errori") != null){%>
     <jsp:useBean id="errori" scope="request" type="java.util.List"/>
 <%}%>
+<!DOCTYPE html>
 <html>
     <head>
         <title>GS-login</title>

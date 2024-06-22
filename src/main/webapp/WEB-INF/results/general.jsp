@@ -1,10 +1,7 @@
-<!-- IMPORT -->
 <%@ page import="Controller.SessionManager" %>
-<%@ page import="Model.User" %>
-
 <!-- TAGLIB -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set scope="application" value="${pageContext.request.contextPath}" var="context" />
 
 <!-- META -->
@@ -16,19 +13,13 @@
 <link rel="stylesheet" type="text/css" href="${context}/css/styleNavbar.css" />
 <link rel="stylesheet"  type="text/css" href="${context}/css/footer.css" />
 
+<link rel="icon" type="image/x-icon" href="${context}/images/favicon.png" />
+
+<!-- JAVASCRIPT -->
+<script src="${context}/js/navbar.js"></script>
+
 <!-- JAVA -->
-<%  SessionManager sessionManager = new SessionManager(request, false);
-    User userS = (User) sessionManager.getAttribute("utente");
-%>
-
-<script>
-    let context = '';
-
-    function getPageContext()
-    {
-        if(context === '')
-            context = window.location.origin + window.location.pathname.substring(0, window.location.pathname.indexOf('/',1));
-
-        return context;
-    }
-</script>
+<% SessionManager sm = new SessionManager(request, false);
+    if (sm.getAttribute("utente") != null){ %>
+        <jsp:useBean id="utente"  scope="session" type="Model.User"/>
+    <%}%>

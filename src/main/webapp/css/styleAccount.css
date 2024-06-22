@@ -1,0 +1,315 @@
+.container-utente {
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+    padding: 0 1em;
+}
+
+.container-info-utente {
+    display: flex;
+    margin: 5em auto 0 auto;
+    flex-wrap: wrap;
+}
+
+.container-img-utente {
+    padding: 10px;
+    flex: 1 1 100px;
+}
+
+.img-utente {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 1px solid #fff;
+}
+
+.dati-main-utente {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 1em;
+    flex-direction: column;
+    border-left: 1px solid #fff;
+    width: 9em;
+}
+
+.container-anagrafici {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.container-paese{
+    display: flex;
+    justify-content: flex-start;
+    font-size: 16px;
+}
+
+
+.container-anagrafici p,
+.container-paese p{
+    margin-top: 0;
+}
+
+.container-option {
+    margin-top: 5em;
+    display: flex;
+    justify-content: center;
+}
+
+.options {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    padding: 0 20px;
+    border-bottom: 1px solid white;
+    flex-wrap: wrap;
+}
+
+.options .option{
+    list-style: none;
+    flex: 1 1 100px;
+    text-align: center;
+    display: block;
+}
+
+
+.options .option a{
+    position: relative;
+    text-decoration: none;
+    padding-bottom: .5rem;
+    transition: .20s all ease;
+}
+
+.options .option.active a,
+.options .option a:hover{
+    color: var(--scritte);
+    transition: .15s all ease;
+}
+
+.options .option a:after{
+    content: '';
+    display: inline-block;
+    height: 10px;
+    background-color: var(--scritte);
+    position: absolute;
+    right: 100%;
+    bottom: -1px;
+    left: 0;
+    border-radius: 50%;
+    transition: .15s all ease;
+}
+
+.options .option a:hover:after,
+.options .option.active a::after{
+    height: 2px;
+    right: 0;
+    bottom: 2px;
+    border-radius: 0;
+    transition: .20s all ease;
+}
+
+
+.dati-main-utente>div,
+.options li.option {
+    margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    .dati-main-utente {
+        flex-direction: column;
+        padding-left: 0;
+        border-left: none;
+        align-items: center;
+    }
+
+    .container-anagrafici,
+    .container-paese {
+        padding-left: 0;
+        border: none;
+    }
+
+    .options {
+        padding-left: 0;
+        list-style-type: none;
+        padding-inline-start: 0;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .options li.option {
+        border: none;
+        flex: 1 1 auto;
+        width: 100%;
+        text-align: center;
+    }
+
+    .container-info-utente {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin: 2em 0;
+    }
+}
+
+.container-choice{
+    margin: 2em 3em;
+    display: flex;
+    justify-content: center;
+}
+
+.container-choice .container-wishlist{
+    display: flex;
+    width: 100%;
+    flex-flow: column;
+    align-items: center;
+}
+
+.container-choice .actions{
+    display: flex;
+    justify-content: space-around;
+    width: 50%;
+    align-items: center;
+    margin-top: 1em;
+}
+
+.container-choice .actions p{
+    cursor: pointer;
+}
+
+.container-choice .container-preferiti{
+    display: flex;
+    flex-direction: column;
+    width: inherit;
+    padding: 22px;
+}
+.container-choice .container-card{
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+    margin: 1em 2em;
+    padding-bottom: 35px;
+    border-bottom: 1px solid grey;
+}
+
+.container-choice .container-info-card{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    flex: 0.5;
+}
+
+.container-choice .container-info-card .cont-img-card img{
+    width: 100%;
+    height: 100%;
+}
+
+.container-choice .container-info-card .cont-img-card{
+    width: 100%;
+}
+
+.container-choice .info-card,
+.container-choice .actions-card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.container-choice .info-card{
+    width: 70%;
+    margin-left: 1em;
+}
+
+.container-choice .actions-card{
+    flex-direction: row;
+    width: 10%;
+    justify-content: space-around;
+    font-size: 25px;
+    flex: 0.1;
+}
+
+.container-choice .actions-card i{
+    cursor: pointer;
+}
+
+
+@media (max-width: 768px) {
+    .container-choice .container-card {
+        flex-direction: column;
+        padding: 1em;
+    }
+
+    .container-choice .container-info-card {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .container-choice .info-card {
+        margin: 1em;
+        text-align: center;
+    }
+
+    .container-choice .actions-card {
+        justify-content: space-around;
+        width: 100%;
+    }
+
+    .container-choice .actions{
+        width: 100%;
+        padding: 0 50px;
+    }
+}
+
+@media (max-width: 970px){
+    .container-choice .actions-card i{
+        margin-left: 1em;
+    }
+
+    .container-choice .actions-card i{
+        margin: 0;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 971px) {
+
+    .container-choice .container-card{
+        margin: 1em 0;
+    }
+
+    .container-choice .info-card{
+        width: 20%;
+    }
+
+    .container-choice .actions-card{
+        flex: 0.2;
+    }
+
+}
+
+@media (max-width: 560px){
+    .container-choice{
+        margin: 1em 0 0 0;
+    }
+
+    .container-choice .actions{
+        padding: 0;
+    }
+
+    .container-choice .container-card{
+        margin: 0;
+    }
+
+}
+
+@media (max-width: 340px) {
+    .container-choice .actions{
+        flex-direction: column;
+    }
+
+    .container-choice .actions .add-all{
+        margin-top: 1em;
+    }
+}

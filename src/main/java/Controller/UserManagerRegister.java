@@ -35,7 +35,7 @@ public class UserManagerRegister extends HttpServlet {
         sessionManager.setAttribute("utente", user);
 
         //indirizzo alla home o pagina utente
-        RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
         dispatcher.forward(req, resp);
     }
 

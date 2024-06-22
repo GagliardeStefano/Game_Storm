@@ -19,6 +19,7 @@ public class UserManager extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+
         SessionManager sessionManager = new SessionManager(req, false);
         User user = (User) sessionManager.getAttribute("utente");
 
@@ -38,7 +39,6 @@ public class UserManager extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         Validator validator = new Validator();
-
         String tipo = req.getParameter("t");
 
         if (tipo.equals("l")) { //LOGIN
@@ -74,7 +74,7 @@ public class UserManager extends HttpServlet {
 
             if (!validator.hasErrors()) { //tutto ok per la sintassi degli input
 
-                req.setAttribute("newUser", new User(nome, cognome,email,password,data,paese));
+                req.setAttribute("newUser", new User(nome, cognome, email, password, data, paese));
                 RequestDispatcher dispatcher = req.getRequestDispatcher("/UserManagerRegister");
                 dispatcher.forward(req, resp);
 
