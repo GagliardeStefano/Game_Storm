@@ -1,11 +1,14 @@
-const url = new URLSearchParams(window.location.search);
-const param = url.get("t");
+const param = document.getElementById('typeReq').textContent;
+const errosLogin = document.querySelectorAll("#login-form .error-input");
+const errosReg = document.querySelectorAll("#register-form .error-input");
+
 if(param === "l"){ //login
-    console.log(window.location.search);
     showLogin();
-}else if (param === "r"){
-    console.log(window.location.search);
+    hiddenErrors(errosReg);
+}
+else if (param === "r"){ //reg
     showRegister();
+    hiddenErrors(errosLogin);
 }
 
 document.getElementById('login-tab').addEventListener('click', function() {
@@ -15,6 +18,12 @@ document.getElementById('login-tab').addEventListener('click', function() {
 document.getElementById('register-tab').addEventListener('click', function() {
     showRegister();
 });
+
+function hiddenErrors(errorElements){
+    errorElements.forEach(element => {
+        element.style.display = 'none';
+    })
+}
 
 function showRegister(){
     document.getElementById('login-form').style.display = 'none';

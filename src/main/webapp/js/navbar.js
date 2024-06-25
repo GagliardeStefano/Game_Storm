@@ -1,16 +1,19 @@
-const menuTrigger = document.querySelector('.trigger'),
-    closeTrigger = document.querySelector('.mini-close'),
-    giveClass = document.querySelector('.fragment');
+document.addEventListener('DOMContentLoaded', function() {
 
-menuTrigger.addEventListener('click', function(){
-    giveClass.classList.toggle('showmenu')
-})
+    const menuTrigger = document.querySelector('.trigger'),
+        closeTrigger = document.querySelector('.mini-close'),
+        giveClass = document.querySelector('.fragment-nav');
 
-closeTrigger.addEventListener('click', function(){
-    giveClass.classList.remove('showmenu')
-})
+    menuTrigger.addEventListener('click', function(){
+        giveClass.classList.toggle('showmenu');
+    });
 
-const searchTrigger = document.querySelector('#search');
-searchTrigger.addEventListener('click', function() {
-    giveClass.classList.toggle('show-search-bar');
+    closeTrigger.addEventListener('click', function(){
+        giveClass.classList.remove('showmenu');
+    });
+
+    const searchTrigger = document.querySelector('#search');
+    searchTrigger.addEventListener('click', function() {
+        giveClass.classList.toggle('show-search-bar');
+    });
 });

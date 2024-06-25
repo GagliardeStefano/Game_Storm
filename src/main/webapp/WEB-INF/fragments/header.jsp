@@ -1,4 +1,4 @@
-<div class="fragment">
+<div class="fragment-nav">
     <header>
         <div class="container">
             <div class="content">
@@ -20,14 +20,20 @@
                 <div class="right">
                     <ul>
                         <li><i id="search" class="ri-search-line"></i></li>
-                        <li><a><span class="num">0</span><i class="ri-shopping-bag-2-line"></i></a></li>
-                        <li><a href="${context}/UserManager"><i class="ri-user-line"></i></a></li>
+                        <li><a><span class="num">0</span><i class="ri-shopping-cart-2-line"></i></a></li>
+                        <li>
+                            <a href="${context}/UserManager">
+                                <c:if test="${utente != null}">
+                                    <span class="account-active"></span>
+                                </c:if>
+                                <i class="ri-user-line"></i>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
     </header>
-
     <div class="search-bar-container">
         <form action="" class="search-bar">
             <input type="search" placeholder="Search..." name="search">
@@ -49,7 +55,7 @@
                         <div class="search">
                             <i class="ri-search-line"></i>
                             <form action="">
-                                <input type="search" placeholder="Search..." name="" id="">
+                                <input type="search" placeholder="Search..." name="search" >
                             </form>
                         </div>
                     </ul>
