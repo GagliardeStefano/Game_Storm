@@ -7,8 +7,8 @@
     <%@ include file="WEB-INF/results/general.jsp"%>
     
     <!-- Stili css -->
-    <link rel="stylesheet" type="text/css" href="${context}/css/styleCarousel.css" />
-    <link rel="stylesheet" type="text/css" href="${context}/css/styleSezioni.css" />
+    <link rel="stylesheet" type="text/css" href="${context}/css/carousel.css" />
+    <link rel="stylesheet" type="text/css" href="${context}/css/sezioni.css" />
 </head>
     <body>
         <!-- NAVBAR -->

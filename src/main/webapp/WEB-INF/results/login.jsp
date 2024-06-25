@@ -9,12 +9,11 @@
 
         <%@ include file="general.jsp"%>
 
-        <link rel="stylesheet" href="${context}/css/styleLogin.css">
+        <link rel="stylesheet" href="${context}/css/login.css">
     </head>
     <body>
         <p id="typeReq" style="visibility: hidden"><%=request.getParameter("t")%></p>
         <div class="container-page-login">
-
             <div class="close-btn"><a href="${context}/index.jsp"><i class="ri-close-line"></i></a></div>
             <div class="left-side">
                 <img src="${context}/images/bgSoulsLogin.png" alt="">

@@ -22,7 +22,7 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #1977CF;
+    background: var(--sfondo2);
     border-radius: 10px;
 }
 

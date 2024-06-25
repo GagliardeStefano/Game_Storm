@@ -20,7 +20,7 @@
                 <div class="right">
                     <ul>
                         <li><i id="search" class="ri-search-line"></i></li>
-                        <li><a><span class="num">0</span><i class="ri-shopping-bag-2-line"></i></a></li>
+                        <li><a><span class="num">0</span><i class="ri-shopping-cart-2-line"></i></a></li>
                         <li>
                             <a href="${context}/UserManager">
                                 <c:if test="${utente != null}">

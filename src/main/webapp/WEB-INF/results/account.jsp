@@ -4,7 +4,7 @@
 <head>
     <%@ include file="general.jsp" %>
     <title>GS - my account</title>
-    <link rel="stylesheet" href="${context}/css/styleAccount.css">
+    <link rel="stylesheet" href="${context}/css/account.css">
 </head>
 <body>
     <%@ include file="../fragments/header.jsp"%>

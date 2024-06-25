@@ -10,7 +10,7 @@
 
 <!-- CSS -->
 <link rel="stylesheet" href="${context}/css/main.css">
-<link rel="stylesheet" type="text/css" href="${context}/css/styleNavbar.css" />
+<link rel="stylesheet" type="text/css" href="${context}/css/navbar.css" />
 <link rel="stylesheet"  type="text/css" href="${context}/css/footer.css" />
 
 <link rel="icon" type="image/x-icon" href="${context}/images/favicon.png" />
