@@ -3,7 +3,7 @@
 <html>
 <head>
     <%@ include file="general.jsp" %>
-    <title>GS - my account</title>
+    <title>GS-my account</title>
     <link rel="stylesheet" href="${context}/css/account.css">
 </head>
 <body>
@@ -128,6 +128,7 @@
 
     <%@ include file="../fragments/footer.jsp"%>
 
+    <script src="${context}/js/navbar.js"></script>
     <script src="${context}/js/account.js"></script>
 
 </body>

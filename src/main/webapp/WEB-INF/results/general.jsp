@@ -15,9 +15,6 @@
 
 <link rel="icon" type="image/x-icon" href="${context}/images/favicon.png" />
 
-<!-- JAVASCRIPT -->
-<script src="${context}/js/navbar.js"></script>
-
 <!-- JAVA -->
 <% SessionManager sm = new SessionManager(request, false);
     if (sm.getAttribute("utente") != null){ %>

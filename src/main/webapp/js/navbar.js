@@ -1,19 +1,17 @@
-document.addEventListener('DOMContentLoaded', function() {
 
-    const menuTrigger = document.querySelector('.trigger'),
-        closeTrigger = document.querySelector('.mini-close'),
-        giveClass = document.querySelector('.fragment-nav');
+const menuTrigger = document.querySelector('.trigger'),
+    closeTrigger = document.querySelector('.mini-close'),
+    giveClass = document.querySelector('.fragment-nav');
 
-    menuTrigger.addEventListener('click', function(){
-        giveClass.classList.toggle('showmenu');
-    });
+menuTrigger.addEventListener('click', function(){
+    giveClass.classList.toggle('showmenu');
+});
 
-    closeTrigger.addEventListener('click', function(){
-        giveClass.classList.remove('showmenu');
-    });
+closeTrigger.addEventListener('click', function(){
+    giveClass.classList.remove('showmenu');
+});
 
-    const searchTrigger = document.querySelector('#search');
-    searchTrigger.addEventListener('click', function() {
-        giveClass.classList.toggle('show-search-bar');
-    });
+const searchTrigger = document.querySelector('#search');
+searchTrigger.addEventListener('click', function() {
+    giveClass.classList.toggle('show-search-bar');
 });
