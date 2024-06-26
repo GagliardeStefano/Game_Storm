@@ -6,30 +6,28 @@
     margin: 0 auto;
     flex: 1;
 }
+
 .sezione .card-container .card img{
     max-width: 100%;
     border :0;
 }
-/*TODO allineare titolo con card*/
+
 .sezione .titolo {
-    align-self: start;
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+    display: flex; /* Utilizziamo flexbox per allineare gli elementi */
+    justify-content: space-between; /* Distribuiamo gli elementi lungo l'asse principale (orizzontale) */
+    align-items: center; /* Allineiamo gli elementi al centro lungo l'asse trasversale (verticale) */
     padding: 30px 30px 0 30px;
     margin: 0 auto;
+    width: 100%;
 }
 
 .sezione .card-container {
     display: grid;
     margin: 0 auto;
     max-width: 100%;
-    justify-content: center;
-    align-items: center;
-    grid-template-columns: repeat(3, minmax(200px, 400px));
+    grid-template-columns: repeat(3, minmax(200px, auto));
     grid-auto-rows: auto;
-    gap: 20px;
+    gap: 30px;
     padding: 30px;
     height: auto;
 }
@@ -42,11 +40,55 @@
     width: 100%;
     object-fit: cover;
     display: block;
-    border-top: 2px solid #333333;
-    border-right: 2px solid #333333;
-    border-left: 2px solid #333333;
     border-radius: 10px;
 }
+
+.sezione .card-content{
+    display: flex;
+    flex-direction:column;
+}
+
+.sezione .card-info{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.card-image-container {
+    position: relative; /* Posizione relativa per il contenitore */
+    display: inline-block; /* Opzionale, se vuoi che l'elemento si adatti al contenuto */
+}
+
+.scontato {
+    display: flex;
+    width: 65px;
+    height: 30px;
+    justify-content: center;
+    align-items: center;
+    background: var(--hover);
+    color: var(--scritte);
+    position: absolute; /* Posizione assoluta per sovrapporre l'elemento */
+    bottom: 0; /* Posizionamento in basso */
+    left: 0; /* Posizionamento a sinistra */
+    z-index: 1;
+    border-radius: 0 10px 0 10px;
+    font-size: larger;
+    animation: boxShadowPulse 2s infinite ease-in-out; /* Animazione */
+}
+
+@keyframes boxShadowPulse {
+    0% {
+        box-shadow: inset 0 0 5px 3px rgba(15, 72, 125, 0.75);
+    }
+    50% {
+        box-shadow: inset 0 0 15px 10px rgba(15, 72, 125, 0.75);
+    }
+    100% {
+        box-shadow: inset 0 0 5px 3px rgba(15, 72, 125, 0.75);
+    }
+}
+
+
 
 @media only screen and (max-width: 1000px) {
     .sezione .card-container {
@@ -55,7 +97,7 @@
 }
 
 @media only screen and (max-width: 430px) {
-    .sezione{
+    .sezione {
         width: 100vw;
         margin: auto;
         position: relative;
@@ -64,27 +106,35 @@
         flex-direction: column;
         justify-content: center;
         flex: none;
+    }
 
-        &.sezione .card-container{
-            display: flex;
-            align-items: start;
-            position: relative;
-            cursor: grab;
-            touch-action: none;
+    .sezione .card-container {
+        display: flex;
+        align-items: start;
+        position: relative;
+        cursor: grab;
+        touch-action: none;
+    }
 
-            &:active{
-                cursor: grabbing;
-            }
-        }
+    .sezione .card-container:active {
+        cursor: grabbing;
+    }
 
-        &.sezione .card{
-            flex: 0 0 300px;
-            padding: 0 1rem;
-        }
-            & .sezione.card img{
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
+    .sezione .card{
+        flex: 0 0 300px;
+        padding: 0;
+    }
+
+    .sezione .card img {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        object-fit: cover;
+    }
+}
+
+@media only screen and (max-width: 360px) {
+    .sezione h2 {
+        font-size: 1.1rem;
     }
 }

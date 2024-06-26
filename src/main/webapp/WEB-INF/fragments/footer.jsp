@@ -14,18 +14,19 @@
                 <a href="#terms">Terms of Service</a><br>
             </div>
 
+            <!--TODO scegliere a che pagine conducono i link-->
             <div class = "footer-section social">
                 <h2>Follow Us</h2>
                 <div class="logo-container">
-                    <a href="https://linkedin.com" class="logo-container linkedin" >
+                    <a href="https://linkedin.com" target="_blank" class="logo-container linkedin" >
                         <img class="social-logo linkedin" src="images/socialLogo/linkedin.png" alt="Linkedin">
                     </a>
 
-                    <a href="https://instagram.com" class="logo-container instagram">
-                        <img class="social-logo instagram" src="images/socialLogo/instagram.png" alt="Instagram">
+                    <a href="https://instagram.com" target="_blank" class="logo-container instagram">
+                        <img class="social-logo instagram" src="images/socialLogo/instagram.png"  alt="Instagram">
                     </a>
 
-                    <a href="https://gitlab.com/g4660/tsw_progetti/tsw23_24/izzo-gagliarde-nunziata_pj" class="logo-container gitlab">
+                    <a href="https://gitlab.com/g4660/tsw_progetti/tsw23_24/izzo-gagliarde-nunziata_pj" target="_blank" class="logo-container gitlab">
                         <img class="social-logo gitlab" src="images/socialLogo/gitlab.png" alt="GitLab">
                     </a>
                 </div>

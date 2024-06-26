@@ -1,6 +1,4 @@
 {
-
-
     const MathUtil = {
         lerp: (a, b, n) => (1 - n) * a + n * b
         //usata per animare transizione fra due valori
@@ -9,7 +7,8 @@
     let winsize; //dimensioni schermo
     const calcWinsize = () => winsize = { width: window.innerWidth, height: window.innerHeight };
     calcWinsize();
-    window.addEventListener('resize', calcWinsize);  //aggiorna dimensione quando la pagine viene ridimensionata
+    window.addEventListener('resize',calcWinsize);
+
 
     class Card {
         constructor(el, parent) {
@@ -29,9 +28,9 @@
                 this.innerWidth += item.getBoundingClientRect().width;
             });
             this.isDragged = false;
-            this.currentX = 780;
-            this.initialX = 0;
-            this.xOffset = 0;
+            this.currentX = 0; //posizione attuale del carosello
+            this.initialX = 0; // la x da dove il mouse clicca quando inizia a scorrere
+            this.xOffset = 0; //di quanto sono state spostate le card
             this.pervPosition = 0;
             this.maxDrag = this.innerWidth - winsize.width;
             this.intervalId = undefined;
@@ -40,18 +39,25 @@
         }
 
         init() {
-            this.inner.style.width = this.innerWidth + 'px';
             this.render = () => {
                 this.intervalId = undefined;
 
                 this.pervPosition = MathUtil.lerp(this.pervPosition, this.currentX, 0.1);
-                this.inner.style.transform = 'matrix(1, 0, 0, 1, ' + this.pervPosition + ', 0)';
+                if(winsize.width < 430) {
+                    this.inner.style.transform = 'matrix(1, 0, 0, 1, ' + this.pervPosition + ', 0)';
+                    this.inner.style.width = this.innerWidth + 'px';
+                }
+                else{
+                    this.inner.style.transform = '';
+                    this.inner.style.width = '';
+                }
 
                 if (!this.intervalId) {
                     this.intervalId = requestAnimationFrame(() => this.render());
                 }
             };
             this.intervalId = requestAnimationFrame(() => this.render());
+
         }
 
         onDragStart(e) {
@@ -66,18 +72,15 @@
         }
 
         onDragEnd() {
-            console.log("currentX = " + this.currentX)
             //torna indietro quando scorro troppo a destra
-            if (this.currentX < -620) {
-                this.currentX = -780;
-            }
-            if (this.currentX > 800) {
-                console.log("entro qui")
-                this.currentX = 780;
-            }
-
+                if (this.currentX > 0) {
+                    this.currentX = 0;
+                }
+                if (this.currentX < -1 * this.maxDrag) {
+                    this.currentX = -1 * this.maxDrag - 210;
+                }
             this.isDragged = false;
-            this.xOffset = this.currentX;
+            this.xOffset =this.currentX;
         }
 
         initEvents() {
@@ -125,10 +128,16 @@
         }
     }
 
-    var sezione = document.querySelectorAll('.sezione');
-    if (sezione.length > 0) {
-        for (let i = 0; i < sezione.length; i++) {
-            new Sezione(sezione[i]);
-        }
+    function resize(){
+        const sezione = document.querySelectorAll('.sezione');
+        if (sezione.length > 0) {
+                    for (let i = 0; i < sezione.length; i++) {
+                            new Sezione(sezione[i]);
+                    }
+                }
     }
+    /*nel caso lo shcermo sia inizialmente minore di 430*/
+    resize();
+    window.addEventListener('resize',resize);
+
 }
