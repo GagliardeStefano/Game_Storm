@@ -12,6 +12,8 @@ public class User {
     private String nome, cognome, email, password, passwordHash, data, foto, paese;
     private TipoUtente tipo;
 
+    public User(){}
+
     public User(String nome, String cognome, String email, String password, String data, String paese) {
         this.nome = nome;
         this.cognome = cognome;
@@ -45,21 +47,20 @@ public class User {
         this.password = password;
     }
 
+    public void setPaese(String paese) {
+        this.paese = paese;
+    }
+
     public void setPasswordHash() throws NoSuchAlgorithmException {
+
         MessageDigest md = MessageDigest.getInstance("SHA-1");
         md.reset();
         md.update(this.password.getBytes(StandardCharsets.UTF_8));
         this.passwordHash = String.format("%032x", new BigInteger(1, md.digest()));
-
-        System.out.println(passwordHash);
     }
 
     public void setTipo(TipoUtente tipo) {
         this.tipo = tipo;
-    }
-
-    public void setPaese(String paese) {
-        this.paese = paese;
     }
 
     public String getNome() {

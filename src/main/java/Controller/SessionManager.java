@@ -11,11 +11,6 @@ public class SessionManager {
         this.session = session;
     }
 
-    public SessionManager(HttpServletRequest request) {
-        if (request != null)
-            this.session = request.getSession();
-    }
-
     public SessionManager(HttpServletRequest request, boolean createNew){
 
         if (request != null)

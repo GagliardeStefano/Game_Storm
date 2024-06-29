@@ -40,79 +40,41 @@
         <div class="container-choice">
             <!-- WISHLIST -->
             <div id="wishlist" class="container-wishlist" style="display: none">
-                <div class="actions">
-                    <p id="delete-all" class="delete-all">Elimina tutti</p>
-                    <p id="add-all" class="add-all">Aggiungi tutti al carrello</p>
-                </div>
 
-                <div class="container-preferiti">
-                    <div class="container-card">
-                        <div class="container-info-card">
-                            <div class="cont-img-card">
-                                <img src="${context}/images/giochi/GTA6.jpg" alt="img gioco">
-                            </div>
-                            <div class="info-card">
-                                <p class="nome">GTA 6</p>
-                                <p class="prezzo">50.00€</p>
-                            </div>
+                <c:choose>
+                    <c:when test="${empty wishlist}">
+                        <p>Non hai ancora inserito giochi tra i preferiti</p>
+                    </c:when>
+                    <c:otherwise>
+
+                        <div class="actions">
+                            <p id="delete-all" class="delete-all">Elimina tutti</p>
+                            <p id="add-all" class="add-all">Aggiungi tutti al carrello</p>
                         </div>
-                        <div class="actions-card">
-                            <a><i title="Aggiungi al carrello" class="ri-shopping-cart-2-line"></i></a>
-                            <a><i title="Elimina dai preferiti" class="ri-delete-bin-5-line"></i></a>
+
+
+                        <div class="container-preferiti">
+                            <c:forEach var="gioco" items="${wishlist}">
+                                <div class="container-card">
+                                    <div class="container-info-card">
+                                        <div class="cont-img-card">
+                                            <img src="${context}${gioco.getImg()}" alt="img gioco">
+                                        </div>
+                                        <div class="info-card">
+                                            <p class="nome">${gioco.getNome()}</p>
+                                            <p class="prezzo">${gioco.getPrezzoScontato()}€</p>
+                                        </div>
+                                    </div>
+                                    <div class="actions-card">
+                                        <a><i title="Aggiungi al carrello" class="ri-shopping-cart-2-line"></i></a>
+                                        <a><i title="Elimina dai preferiti" class="ri-delete-bin-5-line"></i></a>
+                                    </div>
+                                </div>
+                            </c:forEach>
                         </div>
                     </div>
-
-                    <div class="container-card">
-                        <div class="container-info-card">
-                            <div class="cont-img-card">
-                                <img src="${context}/images/giochi/GTA6.jpg" alt="img gioco">
-                            </div>
-                            <div class="info-card">
-                                <p class="nome">GTA 6</p>
-                                <p class="prezzo">50.00€</p>
-                            </div>
-                        </div>
-                        <div class="actions-card">
-                            <a><i title="Aggiungi al carrello" class="ri-shopping-cart-2-line"></i></a>
-                            <a><i title="Elimina dai preferiti" class="ri-delete-bin-5-line"></i></a>
-                        </div>
-                    </div>
-
-
-                    <div class="container-card">
-                        <div class="container-info-card">
-                            <div class="cont-img-card">
-                                <img src="${context}/images/giochi/GTA6.jpg" alt="img gioco">
-                            </div>
-                            <div class="info-card">
-                                <p class="nome">GTA 6</p>
-                                <p class="prezzo">50.00€</p>
-                            </div>
-                        </div>
-                        <div class="actions-card">
-                            <a><i title="Aggiungi al carrello" class="ri-shopping-cart-2-line"></i></a>
-                            <a><i title="Elimina dai preferiti" class="ri-delete-bin-5-line"></i></a>
-                        </div>
-                    </div>
-
-
-                    <div class="container-card">
-                        <div class="container-info-card">
-                            <div class="cont-img-card">
-                                <img src="${context}/images/giochi/GTA6.jpg" alt="img gioco">
-                            </div>
-                            <div class="info-card">
-                                <p class="nome">GTA 6</p>
-                                <p class="prezzo">50.00€</p>
-                            </div>
-                        </div>
-                        <div class="actions-card">
-                            <a><i title="Aggiungi al carrello" class="ri-shopping-cart-2-line"></i></a>
-                            <a><i title="Elimina dai preferiti" class="ri-delete-bin-5-line"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                </c:otherwise>
+            </c:choose>
 
             <!-- ORDINI -->
             <div id="ordini-effettuati" style="display: none"></div>

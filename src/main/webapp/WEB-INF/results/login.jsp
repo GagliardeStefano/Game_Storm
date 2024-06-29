@@ -32,7 +32,7 @@
                     </ul>
                     <!--FORMS-->
                     <!--LOGIN-->
-                    <form action="${context}/UserManager" method="post" class="form-login" id="login-form">
+                    <form action="${context}/UserManagerLogin" method="post" class="form-login" id="login-form">
                         <input type="text" name="t" value="l" hidden />
                         <label for="login-input-user" class="login-label tooltip">Email</label>
                         <input id="login-input-user" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
@@ -66,7 +66,7 @@
                     </form>
 
                     <!--REGISTRAZIONE-->
-                    <form action="${context}/UserManager" method="post" class="form-login" id="register-form" style="display: none;">
+                    <form action="${context}/UserManagerRegister" method="post" class="form-login" id="register-form" style="display: none;">
                         <input type="text" name="t" value="r" hidden />
                         <div class="input-group ">
                             <div class="input-half">
