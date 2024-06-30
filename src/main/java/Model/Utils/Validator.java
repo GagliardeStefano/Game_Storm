@@ -8,9 +8,9 @@ public class Validator {
     private final List<String> errors;
 
     private static final Pattern NOME_COGNOME_COUNTRY_PATTERN = Pattern.compile(".+");
-    private static final Pattern EMAIL_PATTERN = Pattern.compile("[a-z0-9._%+\\-]+@[a-z0-9.\\-]+\\.[a-z]{2,}$");
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("[a-z0-9._%+\\-]+@[a-z0-9.\\-]+\\.[a-z]{2,}");
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}");
-    private static final Pattern DATA_NASCITA_PATTERN = Pattern.compile("^(19[3-9][4-9]|19[4-9]\\d|200[0-6])-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$");
+    private static final Pattern DATA_NASCITA_PATTERN = Pattern.compile("(19[3-9][4-9]|19[4-9]\\d|200[0-6])-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])");
 
 
 
@@ -26,6 +26,10 @@ public class Validator {
         return errors;
     }
 
+    public void setErrors(List<String> errors) {
+        this.errors.addAll(errors);
+    }
+
     private boolean addErros(boolean condition, String error){
 
         if(!condition){
@@ -38,15 +42,15 @@ public class Validator {
     public void validateAll(String nome, String cognome, String country, String email, String password, String dataNascita){
         asserString(nome, "Inserisci un nome");
         asserString(cognome, "Inserisci un cognome");
-        asserString(country, "Inserisci un paese");
+        asserString(country, "Seleziona almeno un paese");
         asserEmail(email, "Inserisci un email valida");
-        asserPassword(password, "Password: Deve contenere almeno un numero\nuna lettera maiuscola e minuscola\nalmeno 8 o più caratteri");
-        asserData(dataNascita, "Devi essere almeno maggiorenne");
+        asserPassword(password, "Deve contenere almeno un numero, almeno una lettera maiuscola e minuscola e almeno 8 o più caratteri");
+        asserData(dataNascita, "Inserisci una data valida");
     }
 
     public void validateAll(String email, String password){
         asserEmail(email, "Inserisci un email valida");
-        asserPassword(password, "Password: Deve contenere almeno un numero\nuna lettera maiuscola e minuscola\nalmeno 8 o più caratteri");
+        asserPassword(password, "Deve contenere almeno un numero, almeno una lettera maiuscola e minuscola e almeno 8 o più caratteri");
     }
 
     private boolean validate(String string, Pattern pattern, String msg){

@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "UserManagerRegister", value = "/UserManagerRegister")
@@ -63,6 +64,17 @@ public class UserManagerRegister extends HttpServlet {
 
             }else {
 
+                if (userDAO.EmailAlreadyExists(email)){
+
+                    List<String> errore = new ArrayList<>();
+                    errore.add("Email già registrata, prova ad accedere");
+                    validator.setErrors(errore);
+                    req.setAttribute("errori", validator.getErrors());
+                    dispatcher = req.getRequestDispatcher("/WEB-INF/results/login.jsp?t=r");
+                    dispatcher.forward(req, resp);
+
+                }
+
                 User user = new User(nome, cognome, email, password, data, paese);
                 user.setTipo(TipoUtente.Semplice);
                 try {
@@ -71,20 +83,19 @@ public class UserManagerRegister extends HttpServlet {
                     throw new RuntimeException(e);
                 }
 
-                //salvo utente nel DB
-                userDAO.doSave(user);
 
-                //prendo wishlist
-                wishlist = userDAO.getWishlistByEmail(user.getEmail());
+                if (userDAO.doSave(user)){//salvo utente nel DB
+                    //prendo wishlist
+                    wishlist = userDAO.getWishlistByEmail(user.getEmail());
 
-                //salvo nella sessione
-                sessionManager = new SessionManager(req, true);
-                sessionManager.setAttribute("utente", user);
-                sessionManager.setAttribute("wishlist", wishlist);
+                    //salvo nella sessione
+                    sessionManager = new SessionManager(req, true);
+                    sessionManager.setAttribute("utente", user);
+                    sessionManager.setAttribute("wishlist", wishlist);
 
-                dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
-                dispatcher.forward(req, resp);
-
+                    dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
+                    dispatcher.forward(req, resp);
+                }
             }
         }
     }

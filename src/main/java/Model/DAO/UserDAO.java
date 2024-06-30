@@ -11,6 +11,19 @@ import java.util.List;
 
 public class UserDAO {
 
+    public void cancellaTutti(){//temporanea
+
+        try(Connection conn = ConPool.getConnection()){
+
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM utente");
+            ps.executeUpdate();
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+
+    }
+
     public boolean doSave(User user) {
         try(Connection conn = ConPool.getConnection()){
 
@@ -80,7 +93,7 @@ public class UserDAO {
     }
 
     public List<Prodotto> getWishlistByEmail(String email){
-        List<Prodotto> prodotti = new ArrayList<Prodotto>();
+        List<Prodotto> prodotti = new ArrayList<>();
 
         try(Connection conn = ConPool.getConnection()){
 
@@ -106,6 +119,23 @@ public class UserDAO {
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
+    }
+
+    public boolean EmailAlreadyExists(String email){
+
+        try(Connection conn = ConPool.getConnection()){
+
+            PreparedStatement ps = conn.prepareStatement("select email from utente where email = ?");
+            ps.setString(1, email);
+
+            ResultSet rs = ps.executeQuery();
+
+            return rs.next();
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+
     }
 
 
