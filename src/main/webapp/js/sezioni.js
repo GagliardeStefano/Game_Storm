@@ -140,4 +140,16 @@
     resize();
     window.addEventListener('resize',resize);
 
+    /*aggiungo elemento all'url in modo da riconoscere che sezione ho scelto*/
+    let link = document.querySelectorAll('.sezione .titolo a');
+    let titoli = document.querySelectorAll('.sezione .titolo h2');
+    for (let i = 0; i < link.length; i++) {
+        link[i].addEventListener('click', (e) => {
+            console.log(titoli[i].textContent);
+            link[i].href += "?type=" + titoli[i].textContent.replace(" ","-");
+            console.log(link[i].href.toString());
+
+        })
+    }
+
 }

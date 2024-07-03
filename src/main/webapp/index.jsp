@@ -86,7 +86,7 @@
         <section class="sezione trending">
             <div class="titolo trending">
                 <h2>In tendenza</h2>
-                <a href="#paginaCompleta"><h5>Visualizza tutto ></h5></a>
+                <a href="${context}/SectionManager"><h5>Visualizza tutto ></h5></a>
             </div>
             <div class="card-container trending">
                 <div class="card">
@@ -172,7 +172,7 @@
         <section class="sezione preorder">
             <div class="titolo preorder">
                 <h2>Preordini</h2>
-                <a href="#paginaCompleta"><h5>Visualizza tutto ></h5></a>
+                <a href="${context}/SectionManager"><h5>Visualizza tutto ></h5></a>
             </div>
             <div class="card-container preorder">
                 <div class="card">
@@ -235,7 +235,7 @@
         <section class="sezione arrival">
             <div class="titolo arrival">
                 <h2>Prossime Uscite</h2>
-                <a href="#paginaCompleta"><h5>Visualizza tutto ></h5></a>
+                <a href="${context}/SectionManager"><h5>Visualizza tutto ></h5></a>
             </div>
             <div class="card-container arrival">
                 <div class="card">
@@ -296,6 +296,7 @@
         </section>
 
         </main>
+
         <%@ include file="./WEB-INF/fragments/footer.jsp"%>
         <!-- SCRIPT -->
         <script src="${context}/js/navbar.js"></script>

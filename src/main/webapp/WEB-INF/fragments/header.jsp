@@ -9,7 +9,7 @@
                 <div class="middle">
                     <nav>
                         <ul>
-                            <li><a href="#">Home</a></li>
+                            <li><a href="${context}/index.jsp">Home</a></li>
                             <li><a href="#">In Tendenza</a></li>
                             <li><a href="#">Preordini</a></li>
                             <li><a href="#">Prossime Uscite</a></li>
