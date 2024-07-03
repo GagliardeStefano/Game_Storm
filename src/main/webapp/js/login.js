@@ -105,9 +105,11 @@ function checkViewErrors(value, errorElement, pattern, mexRequired, mexErrorPatt
 
     if (value === ""){
         errorElement.innerHTML = mexRequired;
+        errorElement.style.display = 'inline';
         return true;
     }else if(pattern.test(value) === false){
         errorElement.innerHTML = mexErrorPattern;
+        errorElement.style.display = 'inline';
         return true;
     }else {
         errorElement.style.display = 'none';

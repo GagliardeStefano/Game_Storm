@@ -57,8 +57,9 @@ public class UserDAO {
                 user.setEmail(rs.getString("email"));
                 user.setNome(rs.getString("nome"));
                 user.setCognome(rs.getString("cognome"));
-                user.setPaese(rs.getString("paese"));
+                user.setPaese(rs.getString("regione"));
                 user.setData(rs.getString("data_nascita"));
+                user.setPasswordHash(rs.getString("password_hash"));
                 user.setTipo(TipoUtente.valueOf(rs.getString("tipo")));
                 user.setFoto(rs.getString("foto"));
 
@@ -72,7 +73,7 @@ public class UserDAO {
         }
     }
 
-    public boolean checkUser(String email, String passwordHashata){
+    public boolean checkLoginUser(String email, String passwordHashata){
         try(Connection conn = ConPool.getConnection()){
 
             PreparedStatement ps = conn.prepareStatement("select password_hash from utente where email = ?");
@@ -115,6 +116,33 @@ public class UserDAO {
             }
 
             return prodotti;
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void removeFavorite(String idProd, String email){
+        try(Connection conn = ConPool.getConnection()) {
+
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM preferiti WHERE ID_prodotto = ? AND email_utente = ?");
+            ps.setString(1, idProd);
+            ps.setString(2, email);
+
+            ps.executeUpdate();
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void removeAllFavorite(String email){
+        try(Connection conn = ConPool.getConnection()) {
+
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM preferiti WHERE email_utente = ?");
+            ps.setString(1, email);
+
+            ps.executeUpdate();
 
         }catch (SQLException e){
             throw new RuntimeException(e);

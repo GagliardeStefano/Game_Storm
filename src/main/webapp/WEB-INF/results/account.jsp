@@ -31,10 +31,10 @@
         </div>
         <div class="container-option">
             <ul class="options">
-                <li class="option active" id="scelta-wishlist"><a href="#">Wishlist</a></li>
-                <li class="option" id="scelta-ordini"><a href="#">Ordini effettuati</a></li>
-                <li class="option" id="scelta-pagamento"><a href="#">Metodi di pagamento</a></li>
-                <li class="option" id="scelta-modifica"><a href="#">Modifica dati</a></li>
+                <li class="option active" id="scelta-wishlist"><a>Wishlist</a></li>
+                <li class="option" id="scelta-ordini"><a>Ordini effettuati</a></li>
+                <li class="option" id="scelta-pagamento"><a>Metodi di pagamento</a></li>
+                <li class="option" id="scelta-modifica"><a>Modifica dati</a></li>
             </ul>
         </div>
         <div class="container-choice">
@@ -48,7 +48,7 @@
                     <c:otherwise>
 
                         <div class="actions">
-                            <p id="delete-all" class="delete-all">Elimina tutti</p>
+                            <p onclick="deleteAllFromDb()" id="delete-all" class="delete-all">Elimina tutti</p>
                             <p id="add-all" class="add-all">Aggiungi tutti al carrello</p>
                         </div>
 
@@ -67,7 +67,7 @@
                                     </div>
                                     <div class="actions-card">
                                         <a><i title="Aggiungi al carrello" class="ri-shopping-cart-2-line"></i></a>
-                                        <a><i title="Elimina dai preferiti" class="ri-delete-bin-5-line"></i></a>
+                                        <a><i onclick="deleteFromDb(${gioco.getId()}, this)" title="Elimina dai preferiti" class="ri-delete-bin-5-line"></i></a>
                                     </div>
                                 </div>
                             </c:forEach>
@@ -77,7 +77,255 @@
             </div>
 
             <!-- ORDINI -->
-            <div id="ordini-effettuati" style="display: none"></div>
+            <div id="ordini-effettuati" style="display: none">
+                <div class="mese">
+                    <h2>Mese 1</h2>
+                    <div class="container-ordini">
+                        <div class="ordine">
+                            <div class="container-info">
+                                <div class="info-main">
+                                    <div class="data">
+                                        <h3>Data di acquisto</h3>
+                                        <p>23/06/2024</p>
+                                    </div>
+                                    <div class="totale">
+                                        <h3>Totale</h3>
+                                        <p>135.00€</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="container-games">
+                                <div class="game">
+                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
+                                    <div class="info">
+                                        <h4 class="titolo">Titolo</h4>
+                                        <div class="key hidden">
+                                            <p>key: a4d-fdh-1s5</p>
+                                            <i class="ri-file-copy-2-line" title="copia"></i>
+                                        </div>
+                                        <p class="prezzo hidden">45€</p>
+                                    </div>
+                                </div>
+
+                                <div class="game">
+                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
+                                    <div class="info">
+                                        <h4 class="titolo">Titolo</h4>
+                                        <div class="key hidden">
+                                            <p>key: a4d-fdh-1s5</p>
+                                            <i class="ri-file-copy-2-line" title="copia"></i>
+                                        </div>
+                                        <p class="prezzo hidden">45€</p>
+                                    </div>
+                                </div>
+
+                                <div class="game">
+                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
+                                    <div class="info">
+                                        <h4 class="titolo">Titolo</h4>
+                                        <div class="key hidden">
+                                            <p>key: a4d-fdh-1s5</p>
+                                            <i class="ri-file-copy-2-line" title="copia"></i>
+                                        </div>
+                                        <p class="prezzo hidden">45€</p>
+                                    </div>
+                                </div>
+
+                                <div class="game more">
+                                    <p>+3</p>
+                                </div>
+                            </div>
+
+                            <div class="container-games hidden">
+                                <div class="game">
+                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
+                                    <div class="info">
+                                        <h4 class="titolo">Titolo</h4>
+                                        <div class="key">
+                                            <p>key: a4d-fdh-1s5</p>
+                                            <i class="ri-file-copy-2-line" title="copia"></i>
+                                        </div>
+                                        <p class="prezzo">45€</p>
+                                    </div>
+                                </div>
+
+                                <div class="game">
+                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
+                                    <div class="info">
+                                        <h4 class="titolo">Titolo</h4>
+                                        <div class="key">
+                                            <p>key: a4d-fdh-1s5</p>
+                                            <i class="ri-file-copy-2-line" title="copia"></i>
+                                        </div>
+                                        <p class="prezzo">45€</p>
+                                    </div>
+                                </div>
+
+                                <div class="game">
+                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
+                                    <div class="info">
+                                        <h4 class="titolo">Titolo</h4>
+                                        <div class="key">
+                                            <p>key: a4d-fdh-1s5</p>
+                                            <i class="ri-file-copy-2-line" title="copia"></i>
+                                        </div>
+                                        <p class="prezzo">45€</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="mostra-meno hidden">mostra meno</span>
+                        </div>
+                        <div class="ordine">
+                            <div class="container-info">
+                                <div class="info-main">
+                                    <div class="data">
+                                        <h3>Data di acquisto</h3>
+                                        <p>23/06/2024</p>
+                                    </div>
+                                    <div class="totale">
+                                        <h3>Totale</h3>
+                                        <p>135.00€</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="container-games">
+                                <div class="game">
+                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
+                                    <div class="info">
+                                        <h4 class="titolo">Titolo</h4>
+                                        <div class="key hidden">
+                                            <p>key: a4d-fdh-1s5</p>
+                                            <i class="ri-file-copy-2-line" title="copia"></i>
+                                        </div>
+                                        <p class="prezzo hidden">45€</p>
+                                    </div>
+                                </div>
+
+                                <div class="game">
+                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
+                                    <div class="info">
+                                        <h4 class="titolo">Titolo</h4>
+                                        <div class="key hidden">
+                                            <p>key: a4d-fdh-1s5</p>
+                                            <i class="ri-file-copy-2-line" title="copia"></i>
+                                        </div>
+                                        <p class="prezzo hidden">45€</p>
+                                    </div>
+                                </div>
+
+                                <div class="game">
+                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
+                                    <div class="info">
+                                        <h4 class="titolo">Titolo</h4>
+                                        <div class="key hidden">
+                                            <p>key: a4d-fdh-1s5</p>
+                                            <i class="ri-file-copy-2-line" title="copia"></i>
+                                        </div>
+                                        <p class="prezzo hidden">45€</p>
+                                    </div>
+                                </div>
+
+                                <div class="game more">
+                                    <p>+</p>
+                                </div>
+                            </div>
+
+                            <div class="container-games hidden"></div>
+                            <span class="mostra-meno hidden">mostra meno</span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="mese">
+                    <h2>Mese 1</h2>
+                    <div class="container-ordini">
+                        <div class="ordine">
+                            <div class="container-info">
+                                <div class="info-main">
+                                    <div class="data">
+                                        <h3>Data di acquisto</h3>
+                                        <p>23/06/2024</p>
+                                    </div>
+                                    <div class="totale">
+                                        <h3>Totale</h3>
+                                        <p>135.00€</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="container-games">
+                                <div class="game">
+                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
+                                    <div class="info">
+                                        <p>Titolo</p>
+                                    </div>
+                                </div>
+
+                                <div class="game">
+                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
+                                    <div class="info">
+                                        <p>Titolo</p>
+                                    </div>
+                                </div>
+
+                                <div class="game">
+                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
+                                    <div class="info">
+                                        <p>Titolo</p>
+                                    </div>
+                                </div>
+
+                                <div class="game more">
+                                    <p>+3</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ordine">
+                            <div class="container-info">
+                                <div class="info-main">
+                                    <div class="data">
+                                        <h3>Data di acquisto</h3>
+                                        <p>23/06/2024</p>
+                                    </div>
+                                    <div class="totale">
+                                        <h3>Totale</h3>
+                                        <p>135.00€</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="container-games">
+                                <div class="game">
+                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
+                                    <div class="info">
+                                        <p>Titolo</p>
+                                    </div>
+                                </div>
+
+                                <div class="game">
+                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
+                                    <div class="info">
+                                        <p>Titolo</p>
+                                    </div>
+                                </div>
+
+                                <div class="game">
+                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
+                                    <div class="info">
+                                        <p>Titolo</p>
+                                    </div>
+                                </div>
+
+                                <div class="game more">
+                                    <p>+</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- METODI PAGAMENTO -->
             <div id="metodi-pagamento" style="display: none"></div>

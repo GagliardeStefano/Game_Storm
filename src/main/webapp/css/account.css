@@ -81,6 +81,7 @@
     text-decoration: none;
     padding-bottom: .5rem;
     transition: .20s all ease;
+    cursor: pointer;
 }
 
 .options .option.active a,
@@ -160,14 +161,15 @@
     justify-content: center;
 }
 
-.container-choice .container-wishlist{
+/*-- WISHLIST --*/
+#wishlist{
     display: flex;
     width: 100%;
     flex-flow: column;
     align-items: center;
 }
 
-.container-choice .actions{
+#wishlist .actions{
     display: flex;
     justify-content: space-around;
     width: 50%;
@@ -175,17 +177,17 @@
     margin-top: 1em;
 }
 
-.container-choice .actions p{
+#wishlist .actions p{
     cursor: pointer;
 }
 
-.container-choice .container-preferiti{
+#wishlist .container-preferiti{
     display: flex;
     flex-direction: column;
     width: inherit;
     padding: 22px;
 }
-.container-choice .container-card{
+#wishlist .container-card{
     display: flex;
     justify-content: space-between;
     flex: 1;
@@ -194,36 +196,40 @@
     border-bottom: 1px solid grey;
 }
 
-.container-choice .container-info-card{
+#wishlist .container-info-card{
     display: flex;
     justify-content: space-around;
     width: 100%;
     flex: 0.5;
 }
 
-.container-choice .container-info-card .cont-img-card img{
+#wishlist .container-info-card .cont-img-card img{
     width: 363px;
     height: 232px;
 }
 
-.container-choice .container-info-card .cont-img-card{
+#wishlist .container-info-card .cont-img-card{
     width: 100%;
 }
 
-.container-choice .info-card,
-.container-choice .actions-card{
+#wishlist .info-card,
+#wishlist .actions-card{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.container-choice .info-card{
+#wishlist .info-card{
     width: 70%;
     margin-left: 1em;
 }
 
-.container-choice .actions-card{
+#wishlist .prezzo{
+    margin-top: 10px;
+}
+
+#wishlist .actions-card{
     flex-direction: row;
     width: 10%;
     justify-content: space-around;
@@ -231,85 +237,203 @@
     flex: 0.1;
 }
 
-.container-choice .actions-card i{
+#wishlist .actions-card i{
     cursor: pointer;
 }
 
 
+
+@media (max-width: 1120px){
+    #wishlist .container-info-card{
+        flex: 0.7;
+    }
+}
+
 @media (max-width: 768px) {
-    .container-choice .container-card {
+    #wishlist .container-card {
         flex-direction: column;
         padding: 1em;
     }
 
-    .container-choice .container-info-card {
+    #wishlist .container-info-card {
         flex-direction: column;
         align-items: center;
     }
 
-    .container-choice .info-card {
+    #wishlist .info-card {
         margin: 1em;
         text-align: center;
     }
 
-    .container-choice .actions-card {
+    #wishlist .actions-card {
         justify-content: space-around;
         width: 100%;
     }
 
-    .container-choice .actions{
+    #wishlist .actions{
         width: 100%;
         padding: 0 50px;
+    }
+
+    #wishlist .container-preferiti{
+        width: unset;
     }
 }
 
 @media (max-width: 970px){
-    .container-choice .actions-card i{
+    #wishlist .actions-card i{
         margin-left: 1em;
     }
 
-    .container-choice .actions-card i{
+    #wishlist .actions-card i{
         margin: 0;
     }
 }
 
 @media (min-width: 769px) and (max-width: 971px) {
 
-    .container-choice .container-card{
+    #wishlist .container-card{
         margin: 1em 0;
     }
 
-    .container-choice .info-card{
+    #wishlist .info-card{
         width: 20%;
     }
 
-    .container-choice .actions-card{
+    #wishlist .actions-card{
         flex: 0.2;
     }
 
 }
 
 @media (max-width: 560px){
-    .container-choice{
+    #wishlist{
         margin: 1em 0 0 0;
     }
 
-    .container-choice .actions{
+    #wishlist .actions{
         padding: 0;
     }
 
-    .container-choice .container-card{
+    #wishlist .container-card{
         margin: 0;
     }
 
 }
 
+@media (max-width: 442px){
+    #wishlist .container-info-card .cont-img-card img{
+        max-width: 100%;
+        height: auto;
+    }
+
+    .container-choice{
+        margin: 0;
+    }
+}
+
 @media (max-width: 340px) {
-    .container-choice .actions{
+    #wishlist .actions{
         flex-direction: column;
     }
 
-    .container-choice .actions .add-all{
+    #wishlist .actions .add-all{
         margin-top: 1em;
     }
 }
+
+/*-- ORDINI EFFETTUATI --*/
+#ordini-effettuati{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
+#ordini-effettuati .mese{
+    display: flex;
+    width: 80%;
+    flex-direction: column;
+    flex:1;
+}
+
+#ordini-effettuati .mese > h2{
+    margin-bottom: 1em;
+}
+
+#ordini-effettuati .container-ordini{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+#ordini-effettuati .ordine{
+    margin: 1em 0 3em 0;
+    padding: 30px;
+    box-shadow: 0 0 10px 10px #00000029;
+    background-color: var(--sfondo4);
+}
+
+#ordini-effettuati .container-info{
+    display: flex;
+}
+
+#ordini-effettuati .container-games{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 3em;
+}
+
+#ordini-effettuati .game{
+    flex: 0 1 calc(25% - 10px);
+    margin: 5px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#ordini-effettuati .game img{
+    width: 12em;
+}
+
+#ordini-effettuati .info-main{
+    display: flex;
+    justify-content: space-between;
+    width: 35%;
+}
+
+#ordini-effettuati .more{
+    cursor: pointer;
+    height: fit-content;
+    padding: 0;
+    font-size: 30px;
+}
+
+#ordini-effettuati .info h4{
+    margin: 5px 0;
+}
+
+#ordini-effettuati .key{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+#ordini-effettuati .key p{
+    margin: 5px 0;
+}
+
+#ordini-effettuati .key i{
+    cursor: pointer;
+}
+
+#ordini-effettuati .mostra-meno{
+    float: right;
+    cursor: pointer;
+}
+
+#ordini-effettuati .hidden{
+    display: none;
+}
+/* TODO gestire il responsive */

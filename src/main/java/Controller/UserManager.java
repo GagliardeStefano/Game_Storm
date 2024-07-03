@@ -21,6 +21,7 @@ public class UserManager extends HttpServlet {
 
         SessionManager sessionManager = new SessionManager(req, false);
         UserDAO userDAO = new UserDAO();
+        //userDAO.cancellaTutti();
         RequestDispatcher dispatcher;
 
         if (sessionManager.getSession() == null){//non esiste sessione

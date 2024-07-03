@@ -8,6 +8,7 @@
     max-width: 1200px;
     padding: 0 15px;
     margin: 0 auto;
+    height: inherit;
 }
 
 header{
@@ -20,6 +21,7 @@ header .content{
     display: flex;
     justify-content: space-between;
     line-height: 80px;
+    height: inherit;
 }
 
 header .content :where(.left, ul){
@@ -115,6 +117,7 @@ header .middle, header .right ul li:not(:nth-child(1), :nth-child(2), :nth-child
 
 .show-search-bar .search-bar-container {
     display: block;
+    transition: display 0.5s ease-in-out;
 }
 
 

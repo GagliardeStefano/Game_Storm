@@ -59,6 +59,10 @@ public class User {
         this.passwordHash = String.format("%032x", new BigInteger(1, md.digest()));
     }
 
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
     public void setTipo(TipoUtente tipo) {
         this.tipo = tipo;
     }

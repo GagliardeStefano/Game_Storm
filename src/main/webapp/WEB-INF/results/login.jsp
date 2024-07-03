@@ -51,7 +51,7 @@
                         />
                         <span id="login-pass-error" class="error-input">
                             <c:forEach items="${errori}" var="errore">
-                                <c:if test="${fn: containsIgnoreCase(errore, '8')}">
+                                <c:if test="${fn: containsIgnoreCase(errore, '8') || fn: containsIgnoreCase(errore, 'Password')}">
                                     ${errore}
                                 </c:if>
                             </c:forEach>
