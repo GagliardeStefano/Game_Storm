@@ -32,60 +32,59 @@
                     </ul>
                     <!--FORMS-->
                     <!--LOGIN-->
-                    <form action="${context}/UserManagerLogin" method="post" class="form-login" id="login-form">
-                        <input type="text" name="t" value="l" hidden />
-                        <label for="login-input-user" class="login-label tooltip">Email</label>
-                        <input id="login-input-user" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
-                               title="Inserisci un email valida" class="login-input" type="text" name="Email" required
-                        />
+                    <form action="${context}/UserManagerLogin" method="post" onsubmit="return validateFormLogin()" class="form-login" id="login-form">
 
-                        <c:forEach items="${errori}" var="error">
-                            <c:if test="${fn:contains(error, 'email')}">
-                                <span class="error-input">Inserisci un email valida</span>
-                            </c:if>
-                        </c:forEach>
+                        <label for="login-input-user" class="login-label tooltip">Email</label>
+                        <input id="login-input-user" title="Inserisci un email valida" class="login-input" type="text" name="Email"/>
+                        <span id="login-email-error"  class="error-input">
+                            <c:forEach items="${errori}" var="errore">
+                                <c:if test="${fn: containsIgnoreCase(errore, 'email')}">
+                                    ${errore}
+                                </c:if>
+                            </c:forEach>
+                        </span>
 
                         <label for="login-input-password" class="login-label">Password</label>
-                        <input id="login-input-password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                        <input id="login-input-password"
                                title="Deve contenere almeno un numero&#13una lettera maiuscola e minuscola&#13almeno 8 o più caratteri"
-                               class="login-input" type="password" name="Password" required
+                               class="login-input" type="password" name="Password"
                         />
+                        <span id="login-pass-error" class="error-input">
+                            <c:forEach items="${errori}" var="errore">
+                                <c:if test="${fn: containsIgnoreCase(errore, '8')}">
+                                    ${errore}
+                                </c:if>
+                            </c:forEach>
+                        </span>
 
-                        <c:forEach items="${errori}" var="error">
-                            <c:if test="${fn:contains(error, '8')}">
-                                <span class="error-input">Deve contenere almeno un numero, una lettera maiuscola e minuscola, almeno 8 o più caratteri<br></span>
-                            </c:if>
-                        </c:forEach>
-
-
-                        <label for="login-sign-up" class="login-label-checkbox">
-                            <input id="login-sign-up" type="checkbox" class="login-input-checkbox" />
-                            Rimani connesso
-                        </label>
                         <button class="login-submit">Accedi</button>
                     </form>
 
                     <!--REGISTRAZIONE-->
-                    <form action="${context}/UserManagerRegister" method="post" class="form-login" id="register-form" style="display: none;">
+                    <form action="${context}/UserManagerRegister" method="post" onsubmit="return validateFormRegister()" class="form-login" id="register-form" style="display: none;">
                         <input type="text" name="t" value="r" hidden />
                         <div class="input-group ">
                             <div class="input-half">
                                 <label for="register-input-nome" class="login-label">Nome</label>
-                                <input id="register-input-nome" name="Nome" class="login-input" type="text" required />
-                                <c:forEach items="${errori}" var="error">
-                                    <c:if test="${fn:contains(error, ' nome')}">
-                                        <span class="error-input">Inserisci un nome</span>
-                                    </c:if>
-                                </c:forEach>
+                                <input id="register-input-nome" name="Nome" class="login-input" type="text"/>
+                                <span id="reg-nome-error" class="error-input">
+                                    <c:forEach items="${errori}" var="errore">
+                                        <c:if test="${fn: containsIgnoreCase(errore, ' nome')}">
+                                            ${errore}
+                                        </c:if>
+                                    </c:forEach>
+                                </span>
                             </div>
                             <div class="input-half">
                                 <label for="register-input-cognome" class="login-label">Cognome</label>
-                                <input id="register-input-cognome" name="Cognome" class="login-input" type="text" required />
-                                <c:forEach items="${errori}" var="error">
-                                    <c:if test="${fn:contains(error, 'cognome')}">
-                                        <span class="error-input">Inserisci un cognome</span>
-                                    </c:if>
-                                </c:forEach>
+                                <input id="register-input-cognome" name="Cognome" class="login-input" type="text"/>
+                                <span id="reg-cognome-error" class="error-input">
+                                    <c:forEach items="${errori}" var="errore">
+                                        <c:if test="${fn: containsIgnoreCase(errore, 'cognome')}">
+                                            ${errore}
+                                        </c:if>
+                                    </c:forEach>
+                                </span>
                             </div>
                         </div>
 
@@ -93,61 +92,62 @@
                             <div class="input-half">
                                 <label for="register-input-data" class="login-label">Data di nascita</label>
                                 <input id="register-input-data"
-                                       title="Devi essere almeno maggiorenne"
-                                       name="Data" class="login-input" type="date"
-                                       pattern="^(19[3-9][4-9]|19[4-9]\d|200[0-6])-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$" required
+                                       title="Devi essere almeno maggiorenne" name="Data" class="login-input" type="date"
                                 />
-
-                                <c:forEach items="${errori}" var="error">
-                                    <c:if test="${fn:contains(error, 'maggiorenne')}">
-                                        <span class="error-input">Devi essere almeno maggiorenne</span>
-                                    </c:if>
-                                </c:forEach>
+                                <span id="reg-data-error" class="error-input">
+                                    <c:forEach items="${errori}" var="errore">
+                                        <c:if test="${fn: containsIgnoreCase(errore, 'data')}">
+                                            ${errore}
+                                        </c:if>
+                                    </c:forEach>
+                                </span>
                             </div>
                             <div class="input-half">
                                 <label for="register-input-country" class="login-label">Paese</label>
-                                <select id="register-input-country"  name="Country" class="login-input" required >
+                                <select id="register-input-country"  name="Country" class="login-input">
                                     <option value=""></option>
                                     <option value="US">Stati Uniti</option>
                                     <option value="EU">Europa</option>
                                     <option value="AS">Asia</option>
                                     <option value="UR">Regno Unito</option>
                                 </select>
-                                <c:forEach items="${errori}" var="error">
-                                    <c:if test="${fn:contains(error, 'paese')}">
-                                        <span class="error-input">Inserisci un paese</span>
-                                    </c:if>
-                                </c:forEach>
+                                <span id="reg-paese-error" class="error-input">
+                                    <c:forEach items="${errori}" var="errore">
+                                        <c:if test="${fn: containsIgnoreCase(errore, 'paese')}">
+                                            ${errore}
+                                        </c:if>
+                                    </c:forEach>
+                                </span>
                             </div>
                         </div>
 
                         <div class="input-group">
                             <div class="input-half">
                                 <label for="register-input-user" class="login-label">Email</label>
-                                <input id="register-input-user"
-                                       title="Inserisci un email valida"
+                                <input id="register-input-user" title="Inserisci un email valida"
                                        class="login-input" type="text" name="Email"
-                                       pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" required
                                 />
-
-                                <c:forEach items="${errori}" var="error">
-                                    <c:if test="${fn:contains(error, 'email')}">
-                                        <span class="error-input">Inserisci un email valida</span>
-                                    </c:if>
-                                </c:forEach>
+                                <span id="reg-email-error" class="error-input">
+                                    <c:forEach items="${errori}" var="errore">
+                                        <c:if test="${fn: containsIgnoreCase(errore, 'email')}">
+                                            ${errore}
+                                        </c:if>
+                                    </c:forEach>
+                                </span>
                             </div>
                             <div class="input-half">
                                 <label for="register-input-password" class="login-label">Password</label>
                                 <input id="register-input-password"
                                        title="Deve contenere almeno un numero&#13una lettera maiuscola e minuscola&#13almeno 8 o più caratteri"
                                        class="login-input" type="password" name="Password"
-                                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required
                                 />
-                                <c:forEach items="${errori}" var="error">
-                                    <c:if test="${fn:contains(error, '8')}">
-                                        <span class="error-input">Deve contenere almeno un numero, una lettera maiuscola e minuscola, almeno 8 o più caratteri</span>
-                                    </c:if>
-                                </c:forEach>
+                                <span id="reg-pass-error" class="error-input">
+                                    <c:forEach items="${errori}" var="errore">
+                                        <c:if test="${fn: containsIgnoreCase(errore, '8')}">
+                                            ${errore}
+                                        </c:if>
+                                    </c:forEach>
+                                </span>
                             </div>
                         </div>
 

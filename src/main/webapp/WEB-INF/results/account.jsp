@@ -72,9 +72,9 @@
                                 </div>
                             </c:forEach>
                         </div>
-                    </div>
-                </c:otherwise>
-            </c:choose>
+                    </c:otherwise>
+                </c:choose>
+            </div>
 
             <!-- ORDINI -->
             <div id="ordini-effettuati" style="display: none"></div>
@@ -87,6 +87,7 @@
 
         </div>
     </div>
+
 
     <%@ include file="../fragments/footer.jsp"%>
 
