@@ -7,13 +7,12 @@
     <link rel="stylesheet" href="${context}/css/account.css">
 </head>
 <body>
-    <%@ include file="../fragments/header.jsp"%>
-
 
     <c:if test="${empty utente}">
         <% response.sendRedirect("index.jsp"); %>
     </c:if>
 
+    <%@ include file="../fragments/header.jsp"%>
 
     <div class="container-utente">
         <div class="container-info-utente">
@@ -78,253 +77,92 @@
 
             <!-- ORDINI -->
             <div id="ordini-effettuati" style="display: none">
-                <div class="mese">
-                    <h2>Mese 1</h2>
-                    <div class="container-ordini">
-                        <div class="ordine">
-                            <div class="container-info">
-                                <div class="info-main">
-                                    <div class="data">
-                                        <h3>Data di acquisto</h3>
-                                        <p>23/06/2024</p>
+
+                <c:choose>
+                    <c:when test="${empty ordini}">
+                        <p>Non hai ancora effettauto degli ordini</p>
+                    </c:when>
+                    <c:otherwise>
+
+
+                        <c:forEach items="${ordini}" var="entry">
+                            <div class="mese">
+                                <h2>${entry.key}</h2>
+                                <div class="container-ordini">
+                                    <c:forEach items="${entry.value}" var="ordine">
+                                    <div class="ordine">
+                                        <div class="container-info">
+                                            <div class="info-main">
+                                                <div class="data">
+                                                    <h3>Data di acquisto</h3>
+                                                    <p>${ordine.data}</p>
+                                                </div>
+                                                <div class="totale">
+                                                    <h3>Totale</h3>
+                                                    <p>${ordine.totale}€</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="container-games">
+                                            <c:set var="totalProdotti" value="${fn:length(ordine.prodotti)}" />
+
+                                            <c:forEach items="${ordine.prodotti}" var="prodottoComposto" begin="0" end="${totalProdotti > 3 ? 2 : totalProdotti - 1}">
+
+                                                <div class="game">
+                                                    <img src="${context}${prodottoComposto.prodotto.img}" alt="locandina">
+                                                    <div class="info">
+                                                        <h4 class="titolo">${prodottoComposto.prodotto.nome}</h4>
+                                                        <div class="key hidden">
+                                                            <p>key: ${prodottoComposto.key}</p>
+                                                            <i class="ri-file-copy-2-line" title="copia"></i>
+                                                        </div>
+                                                        <p class="prezzo hidden">${prodottoComposto.prezzo}€</p>
+                                                    </div>
+                                                </div>
+
+                                            </c:forEach>
+
+                                            <div class="game more">
+                                            <c:choose>
+                                                <c:when test="${totalProdotti - 3 <= 0}">
+                                                    <p>+</p>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <p>+${totalProdotti - 3}</p>
+                                                </c:otherwise>
+                                            </c:choose>
+
+                                            </div>
+
+
+                                            <c:if test="${totalProdotti > 3}">
+                                                <c:forEach items="${ordine.prodotti}" var="prodottoComposto" begin="3" end="${totalProdotti - 1}">
+                                                <div class="game hidden">
+                                                    <img src="${context}${prodottoComposto.prodotto.img}" alt="locandina">
+                                                    <div class="info">
+                                                        <h4 class="titolo">${prodottoComposto.prodotto.nome}</h4>
+                                                        <div class="key">
+                                                            <p>key: ${prodottoComposto.key}</p>
+                                                            <i class="ri-file-copy-2-line" title="copia"></i>
+                                                        </div>
+                                                        <p class="prezzo">${prodottoComposto.prezzo}€</p>
+                                                    </div>
+                                                </div>
+                                                </c:forEach>
+                                            </c:if>
+                                        </div>
+
+                                        <span class="mostra-meno hidden">mostra meno</span>
                                     </div>
-                                    <div class="totale">
-                                        <h3>Totale</h3>
-                                        <p>135.00€</p>
-                                    </div>
+                                    </c:forEach>
+
                                 </div>
                             </div>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
 
-                            <div class="container-games">
-                                <div class="game">
-                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
-                                    <div class="info">
-                                        <h4 class="titolo">Titolo</h4>
-                                        <div class="key hidden">
-                                            <p>key: a4d-fdh-1s5</p>
-                                            <i class="ri-file-copy-2-line" title="copia"></i>
-                                        </div>
-                                        <p class="prezzo hidden">45€</p>
-                                    </div>
-                                </div>
-
-                                <div class="game">
-                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
-                                    <div class="info">
-                                        <h4 class="titolo">Titolo</h4>
-                                        <div class="key hidden">
-                                            <p>key: a4d-fdh-1s5</p>
-                                            <i class="ri-file-copy-2-line" title="copia"></i>
-                                        </div>
-                                        <p class="prezzo hidden">45€</p>
-                                    </div>
-                                </div>
-
-                                <div class="game">
-                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
-                                    <div class="info">
-                                        <h4 class="titolo">Titolo</h4>
-                                        <div class="key hidden">
-                                            <p>key: a4d-fdh-1s5</p>
-                                            <i class="ri-file-copy-2-line" title="copia"></i>
-                                        </div>
-                                        <p class="prezzo hidden">45€</p>
-                                    </div>
-                                </div>
-
-                                <div class="game more">
-                                    <p>+3</p>
-                                </div>
-                            </div>
-
-                            <div class="container-games hidden">
-                                <div class="game">
-                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
-                                    <div class="info">
-                                        <h4 class="titolo">Titolo</h4>
-                                        <div class="key">
-                                            <p>key: a4d-fdh-1s5</p>
-                                            <i class="ri-file-copy-2-line" title="copia"></i>
-                                        </div>
-                                        <p class="prezzo">45€</p>
-                                    </div>
-                                </div>
-
-                                <div class="game">
-                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
-                                    <div class="info">
-                                        <h4 class="titolo">Titolo</h4>
-                                        <div class="key">
-                                            <p>key: a4d-fdh-1s5</p>
-                                            <i class="ri-file-copy-2-line" title="copia"></i>
-                                        </div>
-                                        <p class="prezzo">45€</p>
-                                    </div>
-                                </div>
-
-                                <div class="game">
-                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
-                                    <div class="info">
-                                        <h4 class="titolo">Titolo</h4>
-                                        <div class="key">
-                                            <p>key: a4d-fdh-1s5</p>
-                                            <i class="ri-file-copy-2-line" title="copia"></i>
-                                        </div>
-                                        <p class="prezzo">45€</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="mostra-meno hidden">mostra meno</span>
-                        </div>
-                        <div class="ordine">
-                            <div class="container-info">
-                                <div class="info-main">
-                                    <div class="data">
-                                        <h3>Data di acquisto</h3>
-                                        <p>23/06/2024</p>
-                                    </div>
-                                    <div class="totale">
-                                        <h3>Totale</h3>
-                                        <p>135.00€</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="container-games">
-                                <div class="game">
-                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
-                                    <div class="info">
-                                        <h4 class="titolo">Titolo</h4>
-                                        <div class="key hidden">
-                                            <p>key: a4d-fdh-1s5</p>
-                                            <i class="ri-file-copy-2-line" title="copia"></i>
-                                        </div>
-                                        <p class="prezzo hidden">45€</p>
-                                    </div>
-                                </div>
-
-                                <div class="game">
-                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
-                                    <div class="info">
-                                        <h4 class="titolo">Titolo</h4>
-                                        <div class="key hidden">
-                                            <p>key: a4d-fdh-1s5</p>
-                                            <i class="ri-file-copy-2-line" title="copia"></i>
-                                        </div>
-                                        <p class="prezzo hidden">45€</p>
-                                    </div>
-                                </div>
-
-                                <div class="game">
-                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
-                                    <div class="info">
-                                        <h4 class="titolo">Titolo</h4>
-                                        <div class="key hidden">
-                                            <p>key: a4d-fdh-1s5</p>
-                                            <i class="ri-file-copy-2-line" title="copia"></i>
-                                        </div>
-                                        <p class="prezzo hidden">45€</p>
-                                    </div>
-                                </div>
-
-                                <div class="game more">
-                                    <p>+</p>
-                                </div>
-                            </div>
-
-                            <div class="container-games hidden"></div>
-                            <span class="mostra-meno hidden">mostra meno</span>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="mese">
-                    <h2>Mese 1</h2>
-                    <div class="container-ordini">
-                        <div class="ordine">
-                            <div class="container-info">
-                                <div class="info-main">
-                                    <div class="data">
-                                        <h3>Data di acquisto</h3>
-                                        <p>23/06/2024</p>
-                                    </div>
-                                    <div class="totale">
-                                        <h3>Totale</h3>
-                                        <p>135.00€</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="container-games">
-                                <div class="game">
-                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
-                                    <div class="info">
-                                        <p>Titolo</p>
-                                    </div>
-                                </div>
-
-                                <div class="game">
-                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
-                                    <div class="info">
-                                        <p>Titolo</p>
-                                    </div>
-                                </div>
-
-                                <div class="game">
-                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
-                                    <div class="info">
-                                        <p>Titolo</p>
-                                    </div>
-                                </div>
-
-                                <div class="game more">
-                                    <p>+3</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ordine">
-                            <div class="container-info">
-                                <div class="info-main">
-                                    <div class="data">
-                                        <h3>Data di acquisto</h3>
-                                        <p>23/06/2024</p>
-                                    </div>
-                                    <div class="totale">
-                                        <h3>Totale</h3>
-                                        <p>135.00€</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="container-games">
-                                <div class="game">
-                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
-                                    <div class="info">
-                                        <p>Titolo</p>
-                                    </div>
-                                </div>
-
-                                <div class="game">
-                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
-                                    <div class="info">
-                                        <p>Titolo</p>
-                                    </div>
-                                </div>
-
-                                <div class="game">
-                                    <img src="${context}/images/giochi/GTA6.jpg" alt="locandina">
-                                    <div class="info">
-                                        <p>Titolo</p>
-                                    </div>
-                                </div>
-
-                                <div class="game more">
-                                    <p>+</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- METODI PAGAMENTO -->

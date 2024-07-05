@@ -18,6 +18,7 @@
 <!-- JAVA -->
 <% SessionManager sm = new SessionManager(request, false);
     if (sm.getSession() != null && sm.getAttribute("utente") != null){ %>
-        <jsp:useBean id="utente"  scope="session" type="Model.User"/>
-        <jsp:useBean id="wishlist"  scope="session" type="java.util.List"/>
+        <jsp:useBean id="utente"  scope="session" type="Model.User" />
+        <jsp:useBean id="wishlist"  scope="session" type="java.util.List" />
+        <jsp:useBean id="ordini" scope="session" type="java.util.Map" />
     <%}%>

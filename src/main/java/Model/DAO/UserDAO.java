@@ -1,13 +1,16 @@
 package Model.DAO;
 
+import Model.Carrello;
 import Model.Enum.TipoUtente;
 import Model.Prodotto;
 import Model.User;
 import Model.Utils.ConPool;
+import Model.Utils.ProdottoComposto;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Date;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class UserDAO {
 
@@ -27,8 +30,7 @@ public class UserDAO {
     public boolean doSave(User user) {
         try(Connection conn = ConPool.getConnection()){
 
-            PreparedStatement ps =
-                    conn.prepareStatement("insert into utente(email, nome, cognome, regione, data_nascita, password_hash, tipo) values(?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO utente(email, nome, cognome, regione, data_nascita, password_hash, tipo) VALUES (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getNome());
             ps.setString(3, user.getCognome());
@@ -47,7 +49,7 @@ public class UserDAO {
     public User doRetrieveByEmail(String email){
         try(Connection conn = ConPool.getConnection()){
 
-            PreparedStatement ps = conn.prepareStatement("select * from utente where email = ?");
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM utente WHERE email = ?");
             ps.setString(1, email);
 
             ResultSet rs = ps.executeQuery();
@@ -76,7 +78,7 @@ public class UserDAO {
     public boolean checkLoginUser(String email, String passwordHashata){
         try(Connection conn = ConPool.getConnection()){
 
-            PreparedStatement ps = conn.prepareStatement("select password_hash from utente where email = ?");
+            PreparedStatement ps = conn.prepareStatement("SELECT password_hash FROM utente WHERE email = ?");
             ps.setString(1, email);
 
             ResultSet rs = ps.executeQuery();
@@ -149,11 +151,11 @@ public class UserDAO {
         }
     }
 
-    public boolean EmailAlreadyExists(String email){
+    public boolean emailAlreadyExists(String email){
 
         try(Connection conn = ConPool.getConnection()){
 
-            PreparedStatement ps = conn.prepareStatement("select email from utente where email = ?");
+            PreparedStatement ps = conn.prepareStatement("SELECT email FROM utente WHERE email = ?");
             ps.setString(1, email);
 
             ResultSet rs = ps.executeQuery();
@@ -164,6 +166,95 @@ public class UserDAO {
             throw new RuntimeException(e);
         }
 
+    }
+
+    private List<Carrello> getOrdiniEffettuatiByEmail(String email){
+
+        try(Connection conn = ConPool.getConnection()){
+
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM ordini JOIN prodotti ON ordini.ID_prodotto = prodotti.ID WHERE email_utente = ? ORDER BY data_acquisto ASC;");
+            ps.setString(1, email);
+
+            ResultSet rs = ps.executeQuery();
+
+            List<Carrello> out = new ArrayList<>();
+            Carrello carrello = null;
+            Date lastDate = null;
+
+            while (rs.next()) {
+                Date currentDate = rs.getDate("data_acquisto");
+
+                // Se la data corrente è diversa dalla data dell'ultimo carrello
+                if (lastDate == null || !currentDate.equals(lastDate)) {
+                    // Se c'è un carrello attuale, impostiamo il totale e lo aggiungiamo alla lista
+                    if (carrello != null) {
+                        carrello.setTotale();
+                        out.add(carrello);
+                    }
+
+                    // Creiamo un nuovo carrello per la nuova data
+                    carrello = new Carrello();
+                    carrello.setEmail(rs.getString("email_utente"));
+                    carrello.setData(currentDate);
+
+                    // Aggiorniamo la data dell'ultimo carrello
+                    lastDate = currentDate;
+                }
+
+                // Aggiungiamo il prodotto al carrello attuale
+                Prodotto prodotto = new Prodotto();
+                prodotto.setId(rs.getInt("ID_prodotto"));
+                prodotto.setNome(rs.getString("nome"));
+                prodotto.setImg(rs.getString("immagine"));
+
+                ProdottoComposto prodottoComposto = new ProdottoComposto();
+                prodottoComposto.setProdotto(prodotto);
+                prodottoComposto.setPrezzo(rs.getDouble("prezzo_prodotto"));
+                prodottoComposto.setKey(rs.getString("key_prodotto"));
+
+                carrello.addProdotto(prodottoComposto);
+            }
+
+            // Aggiungiamo l'ultimo carrello alla lista se non è nullo
+            if (carrello != null) {
+                carrello.setTotale();
+                out.add(carrello);
+            }
+
+            return out;
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Map<String, List<Carrello>> getOrdiniByMonth(String email){
+
+        List<Carrello> ordini = getOrdiniEffettuatiByEmail(email);
+        ordini.sort(Comparator.comparing(Carrello::getData).reversed());
+
+        System.out.println("Lista: "+ordini);
+
+        Map<String, List<Carrello>> ordiniByMonth = new HashMap<>();
+
+        for(Carrello ordine : ordini){
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(ordine.getData());
+            int year = cal.get(Calendar.YEAR);
+            int month = cal.get(Calendar.MONTH) + 1; // I mesi in Calendar vanno da 0 a 11
+            String key = year + "-" + String.format("%02d", month);
+
+            ordiniByMonth.computeIfAbsent(key, k -> new ArrayList<>()).add(ordine);
+        }
+
+        return ordiniByMonth.entrySet().stream()
+                .sorted(Map.Entry.<String, List<Carrello>>comparingByKey(Comparator.reverseOrder()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
     }
 
 

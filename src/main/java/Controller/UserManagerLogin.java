@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Carrello;
 import Model.DAO.UserDAO;
 import Model.Prodotto;
 import Model.User;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "UserManagerLogin", value = "/UserManagerLogin")
 public class UserManagerLogin extends HttpServlet {
@@ -45,7 +47,7 @@ public class UserManagerLogin extends HttpServlet {
 
         }else {
 
-            if (!userDAO.EmailAlreadyExists(email)){ //email non trovata nel DB
+            if (!userDAO.emailAlreadyExists(email)){ //email non trovata nel DB
 
                 errore.add("Email non trovata, riprova o Registrati");
                 validator = new Validator();
@@ -68,10 +70,12 @@ public class UserManagerLogin extends HttpServlet {
 
                     User user = userDAO.doRetrieveByEmail(email);
                     List<Prodotto> wishlist = userDAO.getWishlistByEmail(email);
+                    Map<String, List<Carrello>> ordini = userDAO.getOrdiniByMonth(email);
 
                     sessionManager = new SessionManager(req, true);
                     sessionManager.setAttribute("utente", user);
                     sessionManager.setAttribute("wishlist", wishlist);
+                    sessionManager.setAttribute("ordini", ordini);
                     dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
                     dispatcher.forward(req, resp);
 

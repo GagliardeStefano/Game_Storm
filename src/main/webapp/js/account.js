@@ -89,13 +89,13 @@
                 if (this.readyState == 4 && this.status == 200) {
                     closeCard(element);
                 }else if (this.readyState == 4) {
-                    window.alert('Errore nel rimuovere il gioco dal database');
+                    window.alert('Errore nel rimuovere il gioco dai preferiti');
                 }
             };
 
             xhttp.open("POST", "UpdateUser", true);
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xhttp.send("IdProd=" + encodeURIComponent(id));
+            xhttp.send("from=account&IdProd=" + encodeURIComponent(id));
 
         }
 
@@ -106,13 +106,13 @@
                 if (this.readyState == 4 && this.status == 200) {
                     closeAllCard();
                 }else if (this.readyState == 4) {
-                    window.alert('Errore nel rimuovere i gioco dal database');
+                    window.alert('Errore nel rimuovere i giochi dai preferiti');
                 }
             };
 
             xhttp.open("POST", "UpdateUser", true);
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xhttp.send("IdProd=all");
+            xhttp.send("from=account&IdProd=all");
         }
 
         function closeCard(element){
@@ -144,55 +144,59 @@
         const moreButtons = document.querySelectorAll('.game.more');
         const lessButtons = document.querySelectorAll('.mostra-meno');
 
+        const copiaKey = document.querySelectorAll(".ri-file-copy-2-line");
+
         moreButtons.forEach(function(button) {
             button.addEventListener('click', function() {
                 let container = button.closest('.container-games');
-                container.style.display = 'flex';
                 button.style.display = 'none';
 
                 container.querySelectorAll('.hidden').forEach(function(hiddenElement) {
                     hiddenElement.style.display = 'flex';
                 });
 
-                const nextContainer = container.nextElementSibling;
 
-                if (nextContainer && nextContainer.classList.contains('container-games')) {
-                    nextContainer.style.display = 'flex';
-                    nextContainer.querySelectorAll('.hidden').forEach(function(hiddenElement) {
-                        hiddenElement.style.display = 'flex';
-                    });
-
-                    // Mostra il pulsante "Mostra Meno" del prossimo contenitore
-                    const nextShowLessButton = nextContainer.nextElementSibling
-                    if (nextShowLessButton) {
-                        nextShowLessButton.style.display = 'block';
-                    }
-                }
+                const mostraMeno = container.nextElementSibling;
+                mostraMeno.style.display = 'block';
             });
         });
 
         lessButtons.forEach(function(button) {
             button.addEventListener('click', function() {
-                let containerMore = button.previousElementSibling;
-                console.log(containerMore);
 
-                containerMore.querySelectorAll('.hidden').forEach(function(hiddenElement) {
-                    console.log(hiddenElement);
+                this.style.display = 'none';
+
+                const container = button.previousElementSibling;
+
+                container.querySelectorAll('.hidden').forEach(function(hiddenElement) {
                     hiddenElement.style.display = 'none';
                 });
 
-                containerMore.style.display = 'none';
+                const more = container.querySelector('.game.more');
+                more.style.display = 'flex';
 
-                let container = containerMore.previousElementSibling;
-                console.log(container);
-
-                container.querySelector('.game.more').style.display = 'flex';
-
-                container.querySelectorAll('.hidden').forEach(element =>{
-                    console.log(element);
-                    element.style.display = 'none';
-                })
 
             });
+        });
+
+        copiaKey.forEach(element => {
+            element.addEventListener('click', function() {
+
+                let text = element.previousElementSibling.textContent.replace(" ","").split(":")[1];
+                navigator.clipboard.writeText(text).then(function(){
+
+                    element.classList.remove('ri-file-copy-2-line');
+                    element.classList.add('ri-check-line');
+                    element.style.color = 'lime';
+
+                    setTimeout(() => {
+                        element.classList.remove('ri-check-line');
+                        element.classList.add('ri-file-copy-2-line');
+                        element.style.color = 'unset';
+
+                    }, 3000);
+
+                });
+            })
         });
     })

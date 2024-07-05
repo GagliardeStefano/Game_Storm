@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Carrello;
 import Model.DAO.UserDAO;
 import Model.Enum.TipoUtente;
 import Model.Prodotto;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "UserManagerRegister", value = "/UserManagerRegister")
 public class UserManagerRegister extends HttpServlet {
@@ -33,6 +35,7 @@ public class UserManagerRegister extends HttpServlet {
         }
 
         List<Prodotto> wishlist;
+        Map<String, List<Carrello>> ordini;
         Validator validator = new Validator();
         UserDAO userDAO = new UserDAO();
         RequestDispatcher dispatcher;
@@ -40,7 +43,9 @@ public class UserManagerRegister extends HttpServlet {
         if (check != null) {
 
             wishlist = userDAO.getWishlistByEmail(check.getEmail());
+            ordini = userDAO.getOrdiniByMonth(check.getEmail());
             sessionManager.setAttribute("wishlist", wishlist);
+            sessionManager.setAttribute("ordini", ordini);
             dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
             dispatcher.forward(req, resp);
 
@@ -64,7 +69,7 @@ public class UserManagerRegister extends HttpServlet {
 
             }else {
 
-                if (userDAO.EmailAlreadyExists(email)){
+                if (userDAO.emailAlreadyExists(email)){
 
                     List<String> errore = new ArrayList<>();
                     errore.add("Email già registrata, prova ad accedere");
@@ -88,10 +93,13 @@ public class UserManagerRegister extends HttpServlet {
                     //prendo wishlist
                     wishlist = userDAO.getWishlistByEmail(user.getEmail());
 
+                    ordini = userDAO.getOrdiniByMonth(user.getEmail());
+
                     //salvo nella sessione
                     sessionManager = new SessionManager(req, true);
                     sessionManager.setAttribute("utente", user);
                     sessionManager.setAttribute("wishlist", wishlist);
+                    sessionManager.setAttribute("ordini", ordini);
 
                     dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
                     dispatcher.forward(req, resp);

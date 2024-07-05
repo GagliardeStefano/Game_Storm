@@ -23,13 +23,20 @@ public class UserUpdateManager extends HttpServlet {
         if (sm.getSession() != null){
             if(sm.getAttribute("utente") != null){
 
-                String id = req.getParameter("IdProd");
                 User user = (User) sm.getAttribute("utente");
 
-                if (id.equals("all")){
-                    userDAO.removeAllFavorite(user.getEmail());
-                } else if(!id.isEmpty()){
-                    userDAO.removeFavorite(id, user.getEmail());
+                String from = req.getParameter("from");
+
+                if (from.equals("account")){
+
+                    String id = req.getParameter("IdProd");
+
+                    if (id.equals("all")){
+                        userDAO.removeAllFavorite(user.getEmail());
+                    } else if(!id.isEmpty()){
+                        userDAO.removeFavorite(id, user.getEmail());
+                    }
+
                 }
             }
         }
