@@ -11,7 +11,7 @@ public class Carrello {
     private int id;
     private String email;
     private List<ProdottoComposto> prodotti;
-    private double totale;
+    private double totale = 0;
     private Date data;
 
     public Carrello(){
@@ -55,11 +55,14 @@ public class Carrello {
     }
 
     public void setTotale(){
-        this.totale = 0;
 
         prodotti.forEach((ProdottoComposto p)->{
             totale += p.getPrezzo();
         });
+    }
+
+    public void addPrezzo(double prezzo){
+        this.totale += prezzo;
     }
 
     public double getTotale() {

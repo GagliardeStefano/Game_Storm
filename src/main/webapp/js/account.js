@@ -95,7 +95,7 @@
 
             xhttp.open("POST", "UpdateUser", true);
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xhttp.send("from=account&IdProd=" + encodeURIComponent(id));
+            xhttp.send("from=wishlist&IdProd=" + encodeURIComponent(id));
 
         }
 
@@ -112,7 +112,7 @@
 
             xhttp.open("POST", "UpdateUser", true);
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xhttp.send("from=account&IdProd=all");
+            xhttp.send("from=wishlist&IdProd=all");
         }
 
         function closeCard(element){
@@ -139,46 +139,61 @@
         });
 
     /*-- ORDINI EFFETTUATI --*/
-    ordiniEffettuati.addEventListener('click', function(){
+    function ShowMoreGames(button){
 
-        const moreButtons = document.querySelectorAll('.game.more');
-        const lessButtons = document.querySelectorAll('.mostra-meno');
+        let container = button.closest('.container-games');
+        button.style.display = 'none';
 
+        let orderId = button.getAttribute('data-order-id');
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                if (xhttp.responseText){
+                    let response = JSON.parse(xhttp.responseText);
+                    printOtherGames(container, response);
+                    addCopyEventAtKeys();
+                }
+            }
+        }
+
+        xhttp.open('GET', 'UpdateUser?from=ordini&orderId='+orderId ,true);
+        xhttp.setRequestHeader('Content-type', 'application/json');
+        xhttp.send();
+
+        container.querySelectorAll('.hidden').forEach(function(hiddenElement) {
+            hiddenElement.style.display = 'flex';
+        });
+
+        const mostraMeno = container.nextElementSibling;
+        mostraMeno.style.display = 'block';
+    }
+
+    function printOtherGames(container, games){
+
+        games.forEach(game => {
+
+            var newGame =`
+                    <a href="${game.idProd}"><img src="/GameStorm_war${game.img}" alt='locandina' /></a>
+                    <div class='info'>
+                        <h4 class='titolo'>${game.nome}</h4>
+                        <div class='key'>
+                            <p>key: ${game.keyProd}</p>
+                            <i class='ri-file-copy-2-line' title='copia'></i>
+                        </div>
+                        <p class='prezzo'>${game.prezzo}€</p>
+                    </div>`
+
+            let gameDiv = document.createElement("div");
+            gameDiv.classList.add("game");
+            gameDiv.innerHTML = newGame;
+
+            container.appendChild(gameDiv);
+
+        })
+    }
+
+    function addCopyEventAtKeys(){
         const copiaKey = document.querySelectorAll(".ri-file-copy-2-line");
-
-        moreButtons.forEach(function(button) {
-            button.addEventListener('click', function() {
-                let container = button.closest('.container-games');
-                button.style.display = 'none';
-
-                container.querySelectorAll('.hidden').forEach(function(hiddenElement) {
-                    hiddenElement.style.display = 'flex';
-                });
-
-
-                const mostraMeno = container.nextElementSibling;
-                mostraMeno.style.display = 'block';
-            });
-        });
-
-        lessButtons.forEach(function(button) {
-            button.addEventListener('click', function() {
-
-                this.style.display = 'none';
-
-                const container = button.previousElementSibling;
-
-                container.querySelectorAll('.hidden').forEach(function(hiddenElement) {
-                    hiddenElement.style.display = 'none';
-                });
-
-                const more = container.querySelector('.game.more');
-                more.style.display = 'flex';
-
-
-            });
-        });
-
         copiaKey.forEach(element => {
             element.addEventListener('click', function() {
 
@@ -199,4 +214,37 @@
                 });
             })
         });
-    })
+    }
+
+    ordiniEffettuati.addEventListener('click', function(){
+
+        const lessButtons = document.querySelectorAll('.mostra-meno');
+
+        addCopyEventAtKeys();
+
+        lessButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+
+                this.style.display = 'none';
+
+                const container = button.previousElementSibling;
+
+                container.querySelectorAll('.hidden').forEach(function(hiddenElement) {
+                    hiddenElement.style.display = 'none';
+                });
+
+                const more = container.querySelector('.game.more');
+                more.style.display = 'flex';
+
+                let otherGameSibling = more.nextElementSibling;
+
+                while (otherGameSibling) {
+                    if (otherGameSibling.classList.contains('game')) {
+                        otherGameSibling.remove();
+                    }
+                    otherGameSibling = otherGameSibling.nextElementSibling;
+                }
+
+            });
+        });
+    });

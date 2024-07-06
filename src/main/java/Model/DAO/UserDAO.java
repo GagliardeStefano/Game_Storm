@@ -14,19 +14,6 @@ import java.util.stream.Collectors;
 
 public class UserDAO {
 
-    public void cancellaTutti(){//temporanea
-
-        try(Connection conn = ConPool.getConnection()){
-
-            PreparedStatement ps = conn.prepareStatement("DELETE FROM utente");
-            ps.executeUpdate();
-
-        }catch (SQLException e){
-            throw new RuntimeException(e);
-        }
-
-    }
-
     public boolean doSave(User user) {
         try(Connection conn = ConPool.getConnection()){
 
@@ -83,9 +70,7 @@ public class UserDAO {
 
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-                if(rs.getString("password_hash").equals(passwordHashata)){
-                    return true;
-                }
+                return rs.getString("password_hash").equals(passwordHashata);
             }
 
             return false;
@@ -180,12 +165,13 @@ public class UserDAO {
             List<Carrello> out = new ArrayList<>();
             Carrello carrello = null;
             Date lastDate = null;
+            int count = 0; // Contatore per tenere traccia delle righe per ogni ordine
 
             while (rs.next()) {
                 Date currentDate = rs.getDate("data_acquisto");
 
                 // Se la data corrente è diversa dalla data dell'ultimo carrello
-                if (lastDate == null || !currentDate.equals(lastDate)) {
+                if (!currentDate.equals(lastDate)) {
                     // Se c'è un carrello attuale, impostiamo il totale e lo aggiungiamo alla lista
                     if (carrello != null) {
                         carrello.setTotale();
@@ -196,12 +182,66 @@ public class UserDAO {
                     carrello = new Carrello();
                     carrello.setEmail(rs.getString("email_utente"));
                     carrello.setData(currentDate);
+                    count = 0; // Resetta il contatore per l'ordine appena iniziato
 
                     // Aggiorniamo la data dell'ultimo carrello
                     lastDate = currentDate;
                 }
 
-                // Aggiungiamo il prodotto al carrello attuale
+                // Verifica se abbiamo già raggiunto il limite di 3 righe per l'ordine corrente
+                if (count < 3) {
+                    // Aggiungiamo il prodotto al carrello attuale
+                    Prodotto prodotto = new Prodotto();
+                    prodotto.setId(rs.getInt("ID_prodotto"));
+                    prodotto.setNome(rs.getString("nome"));
+                    prodotto.setImg(rs.getString("immagine"));
+
+                    ProdottoComposto prodottoComposto = new ProdottoComposto();
+                    prodottoComposto.setProdotto(prodotto);
+                    prodottoComposto.setPrezzo(rs.getDouble("prezzo_prodotto"));
+                    prodottoComposto.setKey(rs.getString("key_prodotto"));
+
+                    carrello.addProdotto(prodottoComposto);
+
+                    // Incrementa il contatore delle righe per l'ordine corrente
+                    count++;
+                }else {
+                    double prezzo = rs.getDouble("prezzo_prodotto");
+                    carrello.addPrezzo(prezzo);
+                    count++;
+                }
+            }
+
+            // Aggiungiamo l'ultimo carrello alla lista se non è nullo
+            if (carrello != null) {
+                carrello.setTotale();
+                out.add(carrello);
+            }
+
+            return out;
+
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<ProdottoComposto> getOtherGamesByOrderId(String email, String orderId){
+        try(Connection conn = ConPool.getConnection()){
+
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM ordini JOIN prodotti ON ordini.ID_prodotto = prodotti.ID WHERE data_acquisto = ? AND email_utente = ? LIMIT ? OFFSET ?");
+
+            ps.setString(1, orderId);
+            ps.setString(2, email);
+            ps.setInt(3, Integer.MAX_VALUE);
+            ps.setInt(4, 3);
+
+            ResultSet rs = ps.executeQuery();
+
+            List<ProdottoComposto> out = new ArrayList<>();
+
+            while (rs.next()) {
+
                 Prodotto prodotto = new Prodotto();
                 prodotto.setId(rs.getInt("ID_prodotto"));
                 prodotto.setNome(rs.getString("nome"));
@@ -212,13 +252,8 @@ public class UserDAO {
                 prodottoComposto.setPrezzo(rs.getDouble("prezzo_prodotto"));
                 prodottoComposto.setKey(rs.getString("key_prodotto"));
 
-                carrello.addProdotto(prodottoComposto);
-            }
+                out.add(prodottoComposto);
 
-            // Aggiungiamo l'ultimo carrello alla lista se non è nullo
-            if (carrello != null) {
-                carrello.setTotale();
-                out.add(carrello);
             }
 
             return out;
@@ -233,8 +268,6 @@ public class UserDAO {
         List<Carrello> ordini = getOrdiniEffettuatiByEmail(email);
         ordini.sort(Comparator.comparing(Carrello::getData).reversed());
 
-        System.out.println("Lista: "+ordini);
-
         Map<String, List<Carrello>> ordiniByMonth = new HashMap<>();
 
         for(Carrello ordine : ordini){
@@ -248,7 +281,7 @@ public class UserDAO {
         }
 
         return ordiniByMonth.entrySet().stream()
-                .sorted(Map.Entry.<String, List<Carrello>>comparingByKey(Comparator.reverseOrder()))
+                .sorted(Map.Entry.comparingByKey(Comparator.reverseOrder()))
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue,

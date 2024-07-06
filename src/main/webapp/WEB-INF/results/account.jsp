@@ -110,7 +110,7 @@
                                             <c:forEach items="${ordine.prodotti}" var="prodottoComposto" begin="0" end="${totalProdotti > 3 ? 2 : totalProdotti - 1}">
 
                                                 <div class="game">
-                                                    <img src="${context}${prodottoComposto.prodotto.img}" alt="locandina">
+                                                    <a href="${prodottoComposto.prodotto.id}"><img src="${context}${prodottoComposto.prodotto.img}" alt="locandina"></a>
                                                     <div class="info">
                                                         <h4 class="titolo">${prodottoComposto.prodotto.nome}</h4>
                                                         <div class="key hidden">
@@ -123,34 +123,10 @@
 
                                             </c:forEach>
 
-                                            <div class="game more">
-                                            <c:choose>
-                                                <c:when test="${totalProdotti - 3 <= 0}">
-                                                    <p>+</p>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <p>+${totalProdotti - 3}</p>
-                                                </c:otherwise>
-                                            </c:choose>
-
+                                            <div onclick="ShowMoreGames(this)" data-order-id="${ordine.data}" class="game more">
+                                                <p title="mostra di più">+</p>
                                             </div>
 
-
-                                            <c:if test="${totalProdotti > 3}">
-                                                <c:forEach items="${ordine.prodotti}" var="prodottoComposto" begin="3" end="${totalProdotti - 1}">
-                                                <div class="game hidden">
-                                                    <img src="${context}${prodottoComposto.prodotto.img}" alt="locandina">
-                                                    <div class="info">
-                                                        <h4 class="titolo">${prodottoComposto.prodotto.nome}</h4>
-                                                        <div class="key">
-                                                            <p>key: ${prodottoComposto.key}</p>
-                                                            <i class="ri-file-copy-2-line" title="copia"></i>
-                                                        </div>
-                                                        <p class="prezzo">${prodottoComposto.prezzo}€</p>
-                                                    </div>
-                                                </div>
-                                                </c:forEach>
-                                            </c:if>
                                         </div>
 
                                         <span class="mostra-meno hidden">mostra meno</span>

@@ -59,8 +59,6 @@ function validateFormLogin(){
     hasErrors.push(checkViewErrors(email, errorEmail, emailPattern ,"L'email è obbligatoria", "Inserisci un email valida"))
     hasErrors.push(checkViewErrors(password, errorPass, passwordPattern ,"La password è obbligatoria", "La password deve contenere almeno un numero, almeno una lettera maiuscola e minuscola e almeno 8 o più caratteri"));
 
-    console.log("Log "+hasErrors);
-
     return !hasErrors.includes(true);
 
 }
@@ -95,7 +93,6 @@ function validateFormRegister(){
     hasErrors.push(checkViewErrors(email, errorEmail, emailPattern, "L'email è obbligatoria", "Inserisci un email valida"));
     hasErrors.push(checkViewErrors(password, errorPass, passwordPattern, "La password è obbligatoria", "La password deve contenere almeno un numero, almeno una lettera maiuscola e minuscola e almeno 8 o più caratteri"));
 
-    console.log("REG "+hasErrors);
 
     return !hasErrors.includes(true);
 
