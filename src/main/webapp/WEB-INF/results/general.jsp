@@ -21,4 +21,5 @@
         <jsp:useBean id="utente"  scope="session" type="Model.User" />
         <jsp:useBean id="wishlist"  scope="session" type="java.util.List" />
         <jsp:useBean id="ordini" scope="session" type="java.util.Map" />
+        <jsp:useBean id="carte" scope="session" type="java.util.List" />
     <%}%>

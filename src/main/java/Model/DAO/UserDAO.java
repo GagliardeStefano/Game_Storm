@@ -1,6 +1,7 @@
 package Model.DAO;
 
 import Model.Carrello;
+import Model.CartaCredito;
 import Model.Enum.TipoUtente;
 import Model.Prodotto;
 import Model.User;
@@ -288,6 +289,66 @@ public class UserDAO {
                         (e1, e2) -> e1,
                         LinkedHashMap::new
                 ));
+    }
+
+    public List<CartaCredito> getMetodiPagamentoByEmail(String email){
+
+        try(Connection conn = ConPool.getConnection()){
+
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM pagamenti WHERE email_utente = ?");
+            ps.setString(1, email);
+
+            ResultSet rs = ps.executeQuery();
+
+            List<CartaCredito> out = new ArrayList<>();
+
+            while (rs.next()) {
+                CartaCredito cartaCredito = new CartaCredito();
+
+                cartaCredito.setId(rs.getInt("ID"));
+                cartaCredito.setEmail(rs.getString("email_utente"));
+
+                String[] proprietario = rs.getString("proprietario").split(" ");
+                cartaCredito.setCognome(proprietario[0]);
+                cartaCredito.setNome(proprietario[1]);
+
+                cartaCredito.setNumero(rs.getString("numero"));
+                cartaCredito.setData_scadenza(rs.getString("data_scadenza"));
+                cartaCredito.setCvv(rs.getString("cvv"));
+                cartaCredito.setTipo(rs.getString("tipo"));
+
+                out.add(cartaCredito);
+            }
+
+            return out;
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+    public void updateCartaCredito(String id, String email, String numero, String data, String cvv, String nome, String cognome){
+
+        try(Connection conn = ConPool.getConnection()){
+
+            PreparedStatement ps = conn.prepareStatement("UPDATE pagamenti " +
+                    "SET numero = ? , proprietario = ?, data_scadenza = ?, cvv = ?" +
+                    "WHERE ID = ? AND email_utente = ? LIMIT 1");
+
+            ps.setString(1, numero);
+            ps.setString(2, cognome+" "+nome);
+            ps.setString(3, data);
+            ps.setString(4, cvv);
+            ps.setString(5, id);
+            ps.setString(6, email);
+
+            ps.executeUpdate();
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 
 

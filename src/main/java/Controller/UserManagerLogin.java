@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Carrello;
+import Model.CartaCredito;
 import Model.DAO.UserDAO;
 import Model.Prodotto;
 import Model.User;
@@ -71,11 +72,15 @@ public class UserManagerLogin extends HttpServlet {
                     User user = userDAO.doRetrieveByEmail(email);
                     List<Prodotto> wishlist = userDAO.getWishlistByEmail(email);
                     Map<String, List<Carrello>> ordini = userDAO.getOrdiniByMonth(email);
+                    List<CartaCredito> metodiPagamento = userDAO.getMetodiPagamentoByEmail(email);
 
                     sessionManager = new SessionManager(req, true);
+
                     sessionManager.setAttribute("utente", user);
                     sessionManager.setAttribute("wishlist", wishlist);
                     sessionManager.setAttribute("ordini", ordini);
+                    sessionManager.setAttribute("carte", metodiPagamento);
+
                     dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
                     dispatcher.forward(req, resp);
 

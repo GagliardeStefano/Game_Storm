@@ -142,7 +142,110 @@
             </div>
 
             <!-- METODI PAGAMENTO -->
-            <div id="metodi-pagamento" style="display: none"></div>
+            <div id="metodi-pagamento" style="display: none">
+                <div class="container-card">
+
+                    <c:choose>
+                        <c:when test="${empty carte}">
+                            <p>Non hai ancora salvato delle carte di credito</p>
+                        </c:when>
+                        <c:otherwise>
+
+                            <% if (request.getAttribute("errori") != null){ %>
+                                <jsp:useBean id="errori" scope="request" type="java.util.List" />
+                            <% } %>
+
+                            <c:forEach items="${carte}" var="carta">
+                                <div class="carta">
+                                    <div class="info-container">
+                                        <div class="info">
+                                            <img src="${context}/images/carteCredito/${carta.tipo}.png" alt="carta"/>
+
+                                            <div class="container-main-info">
+                                                <div class="info-main">
+                                                    <p>${carta.tipo}</p>
+                                                    <p id="info-numero">Termina con .... ${carta.numero.split(" ")[3]}</p>
+                                                </div>
+                                                <div  class="data_scadenza"><p id="info-data">Data di scadenza: ${carta.data_scadenza}</p></div>
+
+                                                <form onsubmit="return checkValueAndSubmit(event, ${carta.id})" id="${carta.id}" method="post" class="hidden">
+                                                    <div>
+                                                        <label for="nome">Nome Proprietario: </label>
+                                                        <input id="nome" type="text" name="nome" value="${carta.nome}">
+                                                        <span id="error-nome" class="error-input">
+                                                            <c:forEach items="${errori}" var="errore">
+                                                                <c:if test="${fn:containsIgnoreCase(errore, ' nome')}" >
+                                                                    ${errore}
+                                                                </c:if>
+                                                            </c:forEach>
+                                                        </span>
+                                                    </div>
+
+                                                    <div>
+                                                        <label for="cognome">Cognome Proprietario: </label>
+                                                        <input id="cognome" type="text" name="cognome" value="${carta.cognome}">
+                                                        <span id="error-cognome" class="error-input">
+                                                            <c:forEach items="${errori}" var="errore">
+                                                                <c:if test="${fn:containsIgnoreCase(errore, 'cognome')}" >
+                                                                    ${errore}
+                                                                </c:if>
+                                                            </c:forEach>
+                                                        </span>
+                                                    </div>
+
+                                                    <div>
+                                                        <label for="numero">Numero carta: </label>
+                                                        <input id="numero" maxlength="19" placeholder="nnnn nnnn nnnn nnnn" type="text" name="numero" value="${carta.numero}">
+                                                        <span id="error-numero" class="error-input">
+                                                            <c:forEach items="${errori}" var="errore">
+                                                                <c:if test="${fn:containsIgnoreCase(errore, 'numero')}" >
+                                                                    ${errore}
+                                                                </c:if>
+                                                            </c:forEach>
+                                                        </span>
+                                                    </div>
+
+                                                    <div>
+                                                        <label for="data">Data di scadenza: </label>
+                                                        <input id="data" maxlength="5" placeholder="MM/AA" type="text" name="data" value="${carta.data_scadenza}">
+                                                        <span id="error-data" class="error-input">
+                                                            <c:forEach items="${errori}" var="errore">
+                                                                <c:if test="${fn:containsIgnoreCase(errore, 'data')}" >
+                                                                    ${errore}
+                                                                </c:if>
+                                                            </c:forEach>
+                                                        </span>
+                                                    </div>
+
+                                                    <div>
+                                                        <label for="cvv">cvv: </label>
+                                                        <input id="cvv" maxlength="3" type="text" name="cvv" value="${carta.cvv}">
+                                                        <span id="error-cvv" class="error-input">
+                                                            <c:forEach items="${errori}" var="errore">
+                                                                <c:if test="${fn:containsIgnoreCase(errore, 'CVV')}" >
+                                                                    ${errore}
+                                                                </c:if>
+                                                            </c:forEach>
+                                                        </span>
+                                                    </div>
+
+                                                    <div><input type="submit" value="Salva"></div>
+
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <div class="actions">
+                                            <div onclick="modificaCarta(${carta.id})" class="modifica"><i title="modifca carta" class="ri-edit-2-line"></i></div>
+                                            <div class="elimina"><i title="Elimina dalla lista" class="ri-delete-bin-5-line"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </div>
 
             <!-- MODIFICA DATI -->
             <div id="modifica-dati" style="display: none"></div>

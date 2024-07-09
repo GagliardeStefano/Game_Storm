@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Carrello;
+import Model.CartaCredito;
 import Model.DAO.UserDAO;
 import Model.Enum.TipoUtente;
 import Model.Prodotto;
@@ -36,6 +37,7 @@ public class UserManagerRegister extends HttpServlet {
 
         List<Prodotto> wishlist;
         Map<String, List<Carrello>> ordini;
+        List<CartaCredito> metodiPagamento;
         Validator validator = new Validator();
         UserDAO userDAO = new UserDAO();
         RequestDispatcher dispatcher;
@@ -44,8 +46,12 @@ public class UserManagerRegister extends HttpServlet {
 
             wishlist = userDAO.getWishlistByEmail(check.getEmail());
             ordini = userDAO.getOrdiniByMonth(check.getEmail());
+            metodiPagamento = userDAO.getMetodiPagamentoByEmail(check.getEmail());
+
             sessionManager.setAttribute("wishlist", wishlist);
             sessionManager.setAttribute("ordini", ordini);
+            sessionManager.setAttribute("carte", metodiPagamento);
+
             dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
             dispatcher.forward(req, resp);
 
@@ -90,16 +96,10 @@ public class UserManagerRegister extends HttpServlet {
 
 
                 if (userDAO.doSave(user)){//salvo utente nel DB
-                    //prendo wishlist
-                    wishlist = userDAO.getWishlistByEmail(user.getEmail());
-
-                    ordini = userDAO.getOrdiniByMonth(user.getEmail());
 
                     //salvo nella sessione
                     sessionManager = new SessionManager(req, true);
                     sessionManager.setAttribute("utente", user);
-                    sessionManager.setAttribute("wishlist", wishlist);
-                    sessionManager.setAttribute("ordini", ordini);
 
                     dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
                     dispatcher.forward(req, resp);

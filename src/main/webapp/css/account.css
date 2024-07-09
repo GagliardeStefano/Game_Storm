@@ -446,8 +446,10 @@
     margin-top: 2em;
 }
 
-#ordini-effettuati .hidden{
-    display: none;
+@media (max-width: 1068px){
+    #ordini-effettuati .container-ordini{
+        width: 100%;
+    }
 }
 
 @media (max-width: 883px){
@@ -470,5 +472,215 @@
 @media (max-width: 600px) {
     #ordini-effettuati .mese{
         width: 100%;
+    }
+}
+
+
+/*-- Metodi Pagamento --*/
+#metodi-pagamento{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
+#metodi-pagamento .container-card{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 80%;
+}
+
+#metodi-pagamento .carta{
+    display: flex;
+    flex: 1 1 100%;
+    border-bottom: 1px solid gray;
+    padding: 2em;
+}
+
+#metodi-pagamento .info-container{
+    display: flex;
+    flex: 1 1 100%;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+#metodi-pagamento .info{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    flex: 1 1 100%;
+}
+
+#metodi-pagamento .info img{
+    width: 195px;
+    height: 125px;
+}
+
+#metodi-pagamento .container-main-info{
+    width: 44%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 5em;
+}
+
+#metodi-pagamento .info-main{
+    display: flex;
+    justify-content: space-between;
+}
+
+#metodi-pagamento .data_scadenza{
+    display: flex;
+    text-align: center;
+    margin-top: 2em;
+}
+
+#metodi-pagamento .actions{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+#metodi-pagamento .actions div{
+    cursor: pointer;
+    font-size: 25px;
+}
+
+#metodi-pagamento form{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#metodi-pagamento form div{
+    margin: 0.3em 0;
+}
+
+#metodi-pagamento form div:last-child{
+    margin: 0.3em 0 0.3em auto;
+
+}
+
+#metodi-pagamento form input{
+    text-align: center;
+    width: fit-content;
+    padding: 2px;
+    border-radius: 1em;
+    border: 1px solid var(--sfondo2);
+    font-size: 15px;
+}
+
+#metodi-pagamento input[type="submit"] {
+    cursor: pointer !important;
+    padding: 4px;
+}
+
+.error-input{
+    display: block;
+    color: red;
+}
+
+#ordini-effettuati .hidden, #metodi-pagamento .hidden{
+    display: none;
+}
+
+@media (max-width: 768px) {
+    #metodi-pagamento .container-card {
+        width: 90%;
+    }
+
+    #metodi-pagamento .carta {
+        flex-direction: column;
+        padding: 1em;
+    }
+
+    #metodi-pagamento .info {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #metodi-pagamento .info img {
+        width: 150px;
+        height: 100px;
+    }
+
+    #metodi-pagamento .container-main-info {
+        width: 100%;
+        margin-left: 0;
+        align-items: center;
+        text-align: center;
+    }
+
+    #metodi-pagamento .data_scadenza {
+        margin-top: 1em;
+    }
+
+    #metodi-pagamento .actions {
+        flex-direction: row;
+        justify-content: space-around;
+        width: 100%;
+    }
+}
+
+/* Small tablets and large smartphones in landscape */
+@media (max-width: 600px) {
+    #metodi-pagamento .container-card {
+        width: 100%;
+    }
+
+    #metodi-pagamento .info img {
+        width: 120px;
+        height: 80px;
+    }
+}
+
+/* Smartphones in portrait and below */
+@media (max-width: 480px) {
+    #metodi-pagamento .carta {
+        padding: 0.5em;
+    }
+
+    #metodi-pagamento .info img {
+        width: 100px;
+        height: 70px;
+    }
+
+    #metodi-pagamento .actions div {
+        font-size: 20px;
+    }
+
+    #metodi-pagamento form input {
+        font-size: 13px;
+    }
+
+    #metodi-pagamento input[type="submit"] {
+        padding: 3px;
+    }
+}
+
+/* Large screens, desktops, and above */
+@media (min-width: 1024px) {
+    #metodi-pagamento .container-card {
+        width: 70%;
+    }
+
+    #metodi-pagamento .carta {
+        padding: 3em;
+    }
+
+    #metodi-pagamento .info img {
+        width: 200px;
+        height: 130px;
+    }
+
+    #metodi-pagamento .container-main-info {
+        width: 50%;
+        margin-left: 6em;
+    }
+
+    #metodi-pagamento .actions div {
+        font-size: 28px;
     }
 }
