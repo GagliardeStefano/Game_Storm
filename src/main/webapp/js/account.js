@@ -131,17 +131,20 @@
             })
         }
 
-        addAll.addEventListener('click', function(){
-            addButtons.forEach(button => {
-                /*TODO aggiunta nel carrello*/
+        function addAllToCart(){
+            addAll.addEventListener('click', function(){
+                addButtons.forEach(button => {
+                    /*TODO aggiunta nel carrello*/
+                });
             });
-        });
+        }
+
 
     /*-- ORDINI EFFETTUATI --*/
     function ShowMoreGames(button){
 
         let container = button.closest('.container-games');
-        console.log(container);
+
         button.style.display = 'none';
 
         container.querySelectorAll('.hidden').forEach(function(hiddenElement) {
@@ -158,16 +161,16 @@
                 if (xhttp.responseText){
 
                     let response = JSON.parse(xhttp.responseText);
+
                     printOtherGames(container, response);
                     addCopyEventAtKeys();
                 }
             }
         }
 
-        xhttp.open('GET', 'UpdateUser?from=ordini&orderId='+orderId ,true);
+        xhttp.open('GET', 'UpdateUser?from=ordini&orderId='+orderId, true);
         xhttp.setRequestHeader('Content-type', 'application/json');
         xhttp.send();
-
 
     }
 
@@ -392,7 +395,7 @@
 
         let hasErrors = [];
 
-        // Validazione nome del titolare
+        // Validazione del titolare
         hasErrors.push(checkErrorPattern(nome, errorNome, /^[a-zA-Z\s]+$/, "Il nome del titolare deve contenere solo lettere e spazi."))
         hasErrors.push(checkErrorPattern(cognome, errorCognome, /^[a-zA-Z\s]+$/, "Il cognome del titolare deve contenere solo lettere e spazi."))
 
@@ -406,7 +409,6 @@
         hasErrors.push(checkErrorDataPassata(data, errorData, "La data di scadenza non può essere nel passato."));
 
         // Validazione CVV
-
         hasErrors.push(checkErrorPattern(cvv, errorCvv, /^\d{3}$/, "Il CVV deve essere composto da 3 cifre."))
 
 

@@ -38,6 +38,7 @@ public class UserUpdateManager extends HttpServlet {
 
                 String from = req.getParameter("from");
 
+
                 if (from != null){
                     switch (from) {
 
@@ -92,7 +93,6 @@ public class UserUpdateManager extends HttpServlet {
                             if (validator.hasErrors() || idCarta.isEmpty()){
 
                                 req.setAttribute("erroriCarta", validator.getErrors());
-                                System.out.println(validator.getErrors());
                                 RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
                                 rd.forward(req, resp);
 
@@ -101,7 +101,6 @@ public class UserUpdateManager extends HttpServlet {
                                 userDAO.updateCartaCredito(idCarta, user.getEmail(), numero, data, cvv, nome, cognome);
 
                             }
-
                             break;
                     }
                 }

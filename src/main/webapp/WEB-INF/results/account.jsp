@@ -8,8 +8,10 @@
 </head>
 <body>
 
+
     <c:if test="${empty utente}">
         <% response.sendRedirect("index.jsp"); %>
+
     </c:if>
 
     <%@ include file="../fragments/header.jsp"%>
@@ -48,7 +50,7 @@
 
                         <div class="actions">
                             <p onclick="deleteAllFromDb()" id="delete-all" class="delete-all">Elimina tutti</p>
-                            <p id="add-all" class="add-all">Aggiungi tutti al carrello</p>
+                            <p onclick="addAllToCart()" id="add-all" class="add-all">Aggiungi tutti al carrello</p>
                         </div>
 
 
@@ -170,7 +172,7 @@
 
                                                 <form onsubmit="return checkValueAndSubmit(event, ${carta.id})" id="${carta.id}" method="post" class="hidden">
                                                     <div>
-                                                        <label for="nome">Nome Proprietario: </label>
+                                                        <label for="nome">Nome: </label>
                                                         <input id="nome" type="text" name="nome" value="${carta.nome}">
                                                         <span id="error-nome" class="error-input">
                                                             <c:forEach items="${errori}" var="errore">
@@ -182,7 +184,7 @@
                                                     </div>
 
                                                     <div>
-                                                        <label for="cognome">Cognome Proprietario: </label>
+                                                        <label for="cognome">Cognome: </label>
                                                         <input id="cognome" type="text" name="cognome" value="${carta.cognome}">
                                                         <span id="error-cognome" class="error-input">
                                                             <c:forEach items="${errori}" var="errore">

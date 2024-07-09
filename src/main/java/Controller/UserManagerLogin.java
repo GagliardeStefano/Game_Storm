@@ -27,76 +27,110 @@ public class UserManagerLogin extends HttpServlet {
 
         Validator validator = new Validator();
         SessionManager sessionManager = new SessionManager(req, false);
-        UserDAO userDAO = new UserDAO();
-        RequestDispatcher dispatcher;
         List<String> errore = new ArrayList<>();
+        UserDAO userDAO = new UserDAO();
+        User check = new User();
+
+        RequestDispatcher dispatcher;
+
+        /*TODO vedere il perchè se invio l'url non si vede nulla*/
 
         if (sessionManager.getSession() == null){
             req.getRequestDispatcher("/WEB-INF/results/login.jsp").forward(req, resp);
+        }else {
+            check = (User) sessionManager.getAttribute("utente");
         }
 
-        String email = req.getParameter("Email");
-        String password = req.getParameter("Password");
+            List<Prodotto> wishlist;
+            List<CartaCredito> metodiPagamento;
+            Map<String, List<Carrello>> ordini;
 
-        validator.validateAll(email, password);
+            if(check != null){
 
-        if (validator.hasErrors()){//errori pattern
 
-            req.setAttribute("errori", validator.getErrors());
-            dispatcher = req.getRequestDispatcher("/WEB-INF/results/login.jsp?t=l");
-            dispatcher.forward(req, resp);
 
-        }else {
+                wishlist = userDAO.getWishlistByEmail(check.getEmail());
 
-            if (!userDAO.emailAlreadyExists(email)){ //email non trovata nel DB
 
-                errore.add("Email non trovata, riprova o Registrati");
-                validator = new Validator();
-                validator.setErrors(errore);
-                req.setAttribute("errori", validator.getErrors());
-                dispatcher = req.getRequestDispatcher("/WEB-INF/results/login.jsp?t=l");
+                ordini = userDAO.getOrdiniByMonth(check.getEmail());
+
+
+                metodiPagamento = userDAO.getMetodiPagamentoByEmail(check.getEmail());
+
+
+                sessionManager.setAttribute("wishlist", wishlist);
+                sessionManager.setAttribute("ordini", ordini);
+                sessionManager.setAttribute("carte", metodiPagamento);
+
+
+                dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
                 dispatcher.forward(req, resp);
 
-            }else { //trovata
+            }else {
+                String email = req.getParameter("Email");
+                String password = req.getParameter("Password");
 
-                User tempUser = new User();
-                tempUser.setPassword(password);
-                try {
-                    tempUser.setPasswordHash();
-                } catch (NoSuchAlgorithmException e) {
-                    throw new RuntimeException(e);
-                }
+                validator.validateAll(email, password);
 
-                if(userDAO.checkLoginUser(email, tempUser.getPasswordHash())){ //check delle credenziali
+                if (validator.hasErrors()){//errori pattern
 
-                    User user = userDAO.doRetrieveByEmail(email);
-                    List<Prodotto> wishlist = userDAO.getWishlistByEmail(email);
-                    Map<String, List<Carrello>> ordini = userDAO.getOrdiniByMonth(email);
-                    List<CartaCredito> metodiPagamento = userDAO.getMetodiPagamentoByEmail(email);
-
-                    sessionManager = new SessionManager(req, true);
-
-                    sessionManager.setAttribute("utente", user);
-                    sessionManager.setAttribute("wishlist", wishlist);
-                    sessionManager.setAttribute("ordini", ordini);
-                    sessionManager.setAttribute("carte", metodiPagamento);
-
-                    dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
+                    req.setAttribute("errori", validator.getErrors());
+                    dispatcher = req.getRequestDispatcher("/WEB-INF/results/login.jsp?t=l");
                     dispatcher.forward(req, resp);
 
                 }else {
 
-                    errore.add("Email o Password non corretti, riprova");
-                    validator = new Validator();
-                    validator.setErrors(errore);
-                    req.setAttribute("errori", validator.getErrors());
-                    dispatcher = req.getRequestDispatcher("/WEB-INF/results/login.jsp?t=l");
-                    dispatcher.forward(req, resp);
-                }
+                    if (!userDAO.emailAlreadyExists(email)){ //email non trovata nel DB
 
+                        errore.add("Email non trovata, riprova o Registrati");
+                        validator = new Validator();
+                        validator.setErrors(errore);
+                        req.setAttribute("errori", validator.getErrors());
+                        dispatcher = req.getRequestDispatcher("/WEB-INF/results/login.jsp?t=l");
+                        dispatcher.forward(req, resp);
+
+                    }else { //trovata
+
+                        User tempUser = new User();
+                        tempUser.setPassword(password);
+                        try {
+                            tempUser.setPasswordHash();
+                        } catch (NoSuchAlgorithmException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                        if(userDAO.checkLoginUser(email, tempUser.getPasswordHash())){ //check delle credenziali
+
+                            User user = userDAO.doRetrieveByEmail(email);
+                            wishlist = userDAO.getWishlistByEmail(email);
+                            ordini = userDAO.getOrdiniByMonth(email);
+                            metodiPagamento = userDAO.getMetodiPagamentoByEmail(email);
+
+                            sessionManager = new SessionManager(req, true);
+
+                            sessionManager.setAttribute("utente", user);
+                            sessionManager.setAttribute("wishlist", wishlist);
+                            sessionManager.setAttribute("ordini", ordini);
+                            sessionManager.setAttribute("carte", metodiPagamento);
+
+                            dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
+                            dispatcher.forward(req, resp);
+
+                        }else {
+
+                            errore.add("Email o Password non corretti, riprova");
+                            validator = new Validator();
+                            validator.setErrors(errore);
+                            req.setAttribute("errori", validator.getErrors());
+                            dispatcher = req.getRequestDispatcher("/WEB-INF/results/login.jsp?t=l");
+                            dispatcher.forward(req, resp);
+                        }
+
+                    }
+
+                }
             }
 
-        }
 
     }
 
