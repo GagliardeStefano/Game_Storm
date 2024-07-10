@@ -179,7 +179,7 @@
         games.forEach(game => {
 
             var newGame =`
-                    <a href="${game.idProd}"><img src="/GameStorm_war${game.img}" alt='locandina' /></a>
+                    <a href="/GameStorm_war/CardManager?id=${game.idProd}"><img src="/GameStorm_war${game.img}" alt='locandina' /></a>
                     <div class='info'>
                         <h4 class='titolo'>${game.nome}</h4>
                         <div class='key'>

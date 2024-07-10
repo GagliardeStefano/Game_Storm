@@ -59,7 +59,7 @@
                                 <div class="container-card">
                                     <div class="container-info-card">
                                         <div class="cont-img-card">
-                                            <img src="${context}${gioco.getImg()}" alt="img gioco">
+                                            <a href="${context}/CardManager?id=${gioco.getId()}"><img src="${context}${gioco.getImg()}" alt="img gioco"></a>
                                         </div>
                                         <div class="info-card">
                                             <p class="nome">${gioco.getNome()}</p>
@@ -112,7 +112,7 @@
                                             <c:forEach items="${ordine.prodotti}" var="prodottoComposto" begin="0" end="${totalProdotti > 3 ? 2 : totalProdotti - 1}">
 
                                                 <div class="game">
-                                                    <a href="${prodottoComposto.prodotto.id}"><img src="${context}${prodottoComposto.prodotto.img}" alt="locandina"></a>
+                                                    <a href="${context}/CardManager?id=${prodottoComposto.prodotto.id}"><img src="${context}${prodottoComposto.prodotto.img}" alt="locandina"></a>
                                                     <div class="info">
                                                         <h4 class="titolo">${prodottoComposto.prodotto.nome}</h4>
                                                         <div class="key hidden">
@@ -161,6 +161,7 @@
                                 <div class="carta">
                                     <div class="info-container">
                                         <div class="info">
+
                                             <img src="${context}/images/carteCredito/${carta.tipo}.png" alt="carta"/>
 
                                             <div class="container-main-info">
