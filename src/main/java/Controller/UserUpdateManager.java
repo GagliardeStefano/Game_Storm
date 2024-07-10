@@ -39,6 +39,7 @@ public class UserUpdateManager extends HttpServlet {
                 String from = req.getParameter("from");
 
 
+
                 if (from != null){
                     switch (from) {
 
@@ -75,6 +76,17 @@ public class UserUpdateManager extends HttpServlet {
                                 out.flush();
                             }
 
+                            break;
+
+                        case "game":
+                            String type = req.getParameter("type");
+                            String idGame = req.getParameter("id");
+                            if(type.equals("idAdd")){
+                                userDAO.addFavourite(idGame, user.getEmail());
+                            }
+                            else {
+                                userDAO.removeFavorite(idGame, user.getEmail());
+                            }
                             break;
 
                         case "metodi":

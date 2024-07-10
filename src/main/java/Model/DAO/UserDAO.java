@@ -97,7 +97,7 @@ public class UserDAO {
                 prodotto.setNome(rs.getString("nome"));
                 prodotto.setImg(rs.getString("immagine"));
                 prodotto.setPrezzo(rs.getDouble("prezzo"));
-                prodotto.setSconto(rs.getDouble("sconto"));
+                prodotto.setSconto(rs.getInt("sconto"));
                 prodotto.setPrezzoScontato();
 
                 prodotti.add(prodotto);
@@ -326,6 +326,20 @@ public class UserDAO {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public boolean addFavourite(String id,String email){
+        try(Connection conn = ConPool.getConnection()) {
+
+            PreparedStatement ps = conn.prepareStatement("insert into preferiti values (?,?)");
+            ps.setString(1, id);
+            ps.setString(2, email);
+
+           return ps.executeUpdate() != -1;
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 
 

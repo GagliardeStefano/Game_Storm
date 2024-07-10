@@ -1,14 +1,16 @@
 package Model;
 
+import java.util.Date;
+
 public class Prodotto {
 
     private int id;
     private String key;
     private String descrizione;
     private String nome;
-    private String dataRilascio;
+    private Date dataRilascio;
     private double prezzo;
-    private double sconto;
+    private int sconto;
     private double prezzoScontato;
     private int disponibilita;
     private String img;
@@ -48,11 +50,11 @@ public class Prodotto {
         this.nome = nome;
     }
 
-    public String getDataRilascio() {
+    public Date getDataRilascio() {
         return dataRilascio;
     }
 
-    public void setDataRilascio(String dataRilascio) {
+    public void setDataRilascio(Date dataRilascio) {
         this.dataRilascio = dataRilascio;
     }
 
@@ -64,11 +66,11 @@ public class Prodotto {
         this.prezzo = prezzo;
     }
 
-    public double getSconto() {
+    public int getSconto() {
         return sconto;
     }
 
-    public void setSconto(double sconto) {
+    public void setSconto(int sconto) {
         this.sconto = sconto;
     }
 
@@ -77,7 +79,7 @@ public class Prodotto {
     }
 
     public void setPrezzoScontato() {
-        this.prezzoScontato = this.getPrezzo() - this.getSconto();
+        this.prezzoScontato = this.getPrezzo() - ((this.getPrezzo()*this.getSconto())/100);
     }
 
     public int getDisponibilita() {
