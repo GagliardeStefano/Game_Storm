@@ -22,7 +22,7 @@ public class UserDAO {
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getNome());
             ps.setString(3, user.getCognome());
-            ps.setString(4, user.getPaese());
+            ps.setString(4, user.getRegione());
             ps.setString(5, user.getData());
             ps.setString(6, user.getPasswordHash());
             ps.setString(7, user.getTipo().name());
@@ -47,7 +47,7 @@ public class UserDAO {
                 user.setEmail(rs.getString("email"));
                 user.setNome(rs.getString("nome"));
                 user.setCognome(rs.getString("cognome"));
-                user.setPaese(rs.getString("regione"));
+                user.setRegione(rs.getString("regione"));
                 user.setData(rs.getString("data_nascita"));
                 user.setPasswordHash(rs.getString("password_hash"));
                 user.setTipo(TipoUtente.valueOf(rs.getString("tipo")));
@@ -328,14 +328,14 @@ public class UserDAO {
 
     }
 
-    public boolean addFavourite(String id,String email){
+    public void addFavourite(String id, String email){
         try(Connection conn = ConPool.getConnection()) {
 
             PreparedStatement ps = conn.prepareStatement("insert into preferiti values (?,?)");
             ps.setString(1, id);
             ps.setString(2, email);
 
-           return ps.executeUpdate() != -1;
+            ps.executeUpdate();
 
         }catch (SQLException e){
             throw new RuntimeException(e);
@@ -364,6 +364,72 @@ public class UserDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public void removeCartaCredito(String idCarta, String email){
+        try(Connection conn = ConPool.getConnection()){
+
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM pagamenti WHERE ID = ? AND email_utente = ?");
+            ps.setString(1, idCarta);
+            ps.setString(2, email);
+
+            ps.executeUpdate();
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateUser(String nome, String cognome, String regione, String newEmail, String data, String passHash, String email){
+
+        try(Connection conn = ConPool.getConnection()){
+
+            System.out.println(passHash);
+
+            PreparedStatement ps = conn.prepareStatement("UPDATE utente " +
+                    "SET email = ?, nome = ?, cognome = ?, regione = ?, data_nascita = ?, password_hash = ?" +
+                    "WHERE email = ?");
+
+            ps.setString(1, newEmail);
+            ps.setString(2, nome);
+            ps.setString(3, cognome);
+            ps.setString(4, regione);
+            ps.setString(5, data);
+            ps.setString(6, passHash);
+            ps.setString(7, email);
+
+            ps.executeUpdate();
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateUser(String nome, String cognome, String regione, String newEmail, String data, String email){
+
+        try(Connection conn = ConPool.getConnection()){
+
+
+
+            PreparedStatement ps = conn.prepareStatement("UPDATE utente " +
+                    "SET email = ?, nome = ?, cognome = ?, regione = ?, data_nascita = ?" +
+                    "WHERE email = ?");
+
+            ps.setString(1, newEmail);
+            ps.setString(2, nome);
+            ps.setString(3, cognome);
+            ps.setString(4, regione);
+            ps.setString(5, data);
+            ps.setString(6, email);
+
+            System.out.println(ps.executeUpdate());
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
 
 
 }

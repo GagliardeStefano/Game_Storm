@@ -18,6 +18,7 @@ import org.json.simple.parser.ParseException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,10 +36,7 @@ public class UserUpdateManager extends HttpServlet {
             if(sm.getAttribute("utente") != null){
 
                 User user = (User) sm.getAttribute("utente");
-
                 String from = req.getParameter("from");
-
-
 
                 if (from != null){
                     switch (from) {
@@ -114,6 +112,45 @@ public class UserUpdateManager extends HttpServlet {
 
                             }
                             break;
+
+                        case "metodiRem":
+                            String idCartaRem = req.getParameter("IdCarta");
+                            userDAO.removeCartaCredito(idCartaRem, user.getEmail());
+                            break;
+
+                        case "modifica":
+                            String newNome = req.getParameter("nome");
+                            String newCognome = req.getParameter("cognome");
+                            String newEmail = req.getParameter("email");
+                            String newRegione = req.getParameter("regione");
+                            String newData = req.getParameter("data");
+
+                            String newPassword = req.getParameter("new-pass");
+
+                            if (!newPassword.isEmpty()){
+
+                                System.out.println(newPassword);
+
+                                User temp = new User();
+                                temp.setPassword(newPassword);
+                                try {
+                                    temp.setPasswordHash();
+                                } catch (NoSuchAlgorithmException e) {
+                                    throw new RuntimeException(e);
+                                }
+
+                                System.out.println(temp.getPasswordHash());
+                                System.out.println(user.getEmail());
+
+                                userDAO.updateUser(newNome, newCognome, newRegione, newEmail, newData, temp.getPasswordHash(), user.getEmail());
+
+                            }else {
+                                userDAO.updateUser(newNome, newCognome, newRegione, newEmail, newData, user.getEmail());
+                            }
+
+                            user.setEmail(newEmail);
+                            sm.setAttribute("utente", user);
+                            break;
                     }
                 }
 
@@ -135,8 +172,7 @@ public class UserUpdateManager extends HttpServlet {
             jsonGame.put("nome", prodottoComposto.getProdotto().getNome());
             jsonGame.put("img", prodottoComposto.getProdotto().getImg());
             jsonGame.put("keyProd", prodottoComposto.getKey());
-            jsonGame.put("prezzo", prodottoComposto.getPrezzo());
-
+            jsonGame.put("prezzo", String.format("%.2f", prodottoComposto.getPrezzo()));
 
             jsonGamesArray.add(jsonGame);
         }

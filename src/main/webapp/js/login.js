@@ -67,7 +67,7 @@ function validateFormRegister(){
 
     let hasErrors = [];
 
-    const NomeCognomePaesePattern = /.+/;
+    const NomeCognomeRegionePattern = /.+/;
     const emailPattern = /[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}/;
     const passwordPattern = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
     const dataPattern = /(19[3-9][4-9]|19[4-9]\d|200[0-6])-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])/;
@@ -75,24 +75,25 @@ function validateFormRegister(){
     const nome = document.getElementById('register-input-nome').value;
     const cognome = document.getElementById('register-input-cognome').value;
     const data = document.getElementById('register-input-data').value;
-    const paese = document.getElementById('register-input-country').value;
+    const regione = document.getElementById('register-input-regione').value;
     const email = document.getElementById('register-input-user').value;
     const password = document.getElementById('register-input-password').value;
 
     const errorNome = document.getElementById('reg-nome-error');
     const errorCognome = document.getElementById('reg-cognome-error');
     const errorData = document.getElementById('reg-data-error');
-    const errorPaese = document.getElementById('reg-paese-error');
+    const errorRegione = document.getElementById('reg-regione-error');
     const errorEmail = document.getElementById('reg-email-error');
     const errorPass = document.getElementById('reg-pass-error');
 
-    hasErrors.push(checkViewErrors(nome, errorNome, NomeCognomePaesePattern, "Il nome è obbligatorio", "Inserisci un nome"));
-    hasErrors.push(checkViewErrors(cognome, errorCognome, NomeCognomePaesePattern, "Il cognome è obbligatorio", "Inserisci un cognome"));
+    hasErrors.push(checkViewErrors(nome, errorNome, NomeCognomeRegionePattern, "Il nome è obbligatorio", "Inserisci un nome"));
+    hasErrors.push(checkViewErrors(cognome, errorCognome, NomeCognomeRegionePattern, "Il cognome è obbligatorio", "Inserisci un cognome"));
     hasErrors.push(checkViewErrors(data, errorData, dataPattern, "Inserisci data di nascita", "Devi essere almeno maggiorenne"));
-    hasErrors.push(checkViewErrors(paese, errorPaese, NomeCognomePaesePattern, "Seleziona almeno un paese", "Seleziona almeno un paese"));
+    hasErrors.push(checkViewErrors(regione, errorRegione, NomeCognomeRegionePattern, "Seleziona almeno una regione", "Seleziona almeno un paese"));
     hasErrors.push(checkViewErrors(email, errorEmail, emailPattern, "L'email è obbligatoria", "Inserisci un email valida"));
     hasErrors.push(checkViewErrors(password, errorPass, passwordPattern, "La password è obbligatoria", "La password deve contenere almeno un numero, almeno una lettera maiuscola e minuscola e almeno 8 o più caratteri"));
 
+    console.log(hasErrors);
 
     return !hasErrors.includes(true);
 

@@ -41,32 +41,15 @@ public class UserManagerLogin extends HttpServlet {
             check = (User) sessionManager.getAttribute("utente");
         }
 
-            List<Prodotto> wishlist;
-            List<CartaCredito> metodiPagamento;
-            Map<String, List<Carrello>> ordini;
-
             if(check != null){
 
-
-
-                wishlist = userDAO.getWishlistByEmail(check.getEmail());
-
-
-                ordini = userDAO.getOrdiniByMonth(check.getEmail());
-
-
-                metodiPagamento = userDAO.getMetodiPagamentoByEmail(check.getEmail());
-
-
-                sessionManager.setAttribute("wishlist", wishlist);
-                sessionManager.setAttribute("ordini", ordini);
-                sessionManager.setAttribute("carte", metodiPagamento);
-
+                caricaStrutturePerUtente(check.getEmail(), sessionManager);
 
                 dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
                 dispatcher.forward(req, resp);
 
             }else {
+
                 String email = req.getParameter("Email");
                 String password = req.getParameter("Password");
 
@@ -102,16 +85,10 @@ public class UserManagerLogin extends HttpServlet {
                         if(userDAO.checkLoginUser(email, tempUser.getPasswordHash())){ //check delle credenziali
 
                             User user = userDAO.doRetrieveByEmail(email);
-                            wishlist = userDAO.getWishlistByEmail(email);
-                            ordini = userDAO.getOrdiniByMonth(email);
-                            metodiPagamento = userDAO.getMetodiPagamentoByEmail(email);
-
                             sessionManager = new SessionManager(req, true);
 
+                            caricaStrutturePerUtente(email, sessionManager);
                             sessionManager.setAttribute("utente", user);
-                            sessionManager.setAttribute("wishlist", wishlist);
-                            sessionManager.setAttribute("ordini", ordini);
-                            sessionManager.setAttribute("carte", metodiPagamento);
 
                             dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
                             dispatcher.forward(req, resp);
@@ -137,5 +114,24 @@ public class UserManagerLogin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doGet(req, resp);
+    }
+
+    private void caricaStrutturePerUtente(String email, SessionManager sessionManager){
+
+        UserDAO userDAO = new UserDAO();
+
+        List<Prodotto> wishlist;
+        List<CartaCredito> metodiPagamento;
+        Map<String, List<Carrello>> ordini;
+
+
+        wishlist = userDAO.getWishlistByEmail(email);
+        ordini = userDAO.getOrdiniByMonth(email);
+        metodiPagamento = userDAO.getMetodiPagamentoByEmail(email);
+
+        sessionManager.setAttribute("wishlist", wishlist);
+        sessionManager.setAttribute("ordini", ordini);
+        sessionManager.setAttribute("carte", metodiPagamento);
+
     }
 }

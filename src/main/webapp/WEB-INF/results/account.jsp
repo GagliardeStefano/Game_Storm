@@ -11,7 +11,6 @@
 
     <c:if test="${empty utente}">
         <% response.sendRedirect("index.jsp"); %>
-
     </c:if>
 
     <%@ include file="../fragments/header.jsp"%>
@@ -25,8 +24,8 @@
                     <p class="nome-utente">${utente.nome}</p>
                 </div>
 
-                <div class="container-paese">
-                    <p>${utente.paese}</p>
+                <div class="container-regione">
+                    <p>${utente.regione}</p>
                 </div>
             </div>
         </div>
@@ -63,7 +62,7 @@
                                         </div>
                                         <div class="info-card">
                                             <p class="nome">${gioco.getNome()}</p>
-                                            <p class="prezzo">${gioco.getPrezzoScontato()}€</p>
+                                            <p class="prezzo"><fmt:formatNumber value="${gioco.getPrezzoScontato()}" type="number" minFractionDigits="2" maxFractionDigits="2"/>€</p>
                                         </div>
                                     </div>
                                     <div class="actions-card">
@@ -101,7 +100,7 @@
                                                 </div>
                                                 <div class="totale">
                                                     <h3>Totale</h3>
-                                                    <p>${ordine.totale}€</p>
+                                                    <p><fmt:formatNumber value="${ordine.totale}" type="number" minFractionDigits="2" maxFractionDigits="2"/>€</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -119,7 +118,7 @@
                                                             <p>key: ${prodottoComposto.key}</p>
                                                             <i class="ri-file-copy-2-line" title="copia"></i>
                                                         </div>
-                                                        <p class="prezzo hidden">${prodottoComposto.prezzo}€</p>
+                                                        <p class="prezzo hidden"><fmt:formatNumber value="${prodottoComposto.prezzo}" type="number" minFractionDigits="2" maxFractionDigits="2"/>€</p>
                                                     </div>
                                                 </div>
 
@@ -158,7 +157,7 @@
                             <% } %>
 
                             <c:forEach items="${carte}" var="carta">
-                                <div class="carta">
+                                <div id="carta${carta.id}" class="carta">
                                     <div class="info-container">
                                         <div class="info">
 
@@ -171,10 +170,10 @@
                                                 </div>
                                                 <div  class="data_scadenza"><p id="info-data">Data di scadenza: ${carta.data_scadenza}</p></div>
 
-                                                <form onsubmit="return checkValueAndSubmit(event, ${carta.id})" id="${carta.id}" method="post" class="hidden">
+                                                <form  onsubmit="return checkValueAndSubmit(event, ${carta.id})" id="${carta.id}" method="post" class="hidden">
                                                     <div>
-                                                        <label for="nome">Nome: </label>
-                                                        <input id="nome" type="text" name="nome" value="${carta.nome}">
+                                                        <label for="nome${carta.id}">Nome: </label>
+                                                        <input id="nome${carta.id}" type="text" name="nome" value="${carta.nome}">
                                                         <span id="error-nome" class="error-input">
                                                             <c:forEach items="${errori}" var="errore">
                                                                 <c:if test="${fn:containsIgnoreCase(errore, ' nome')}" >
@@ -185,8 +184,8 @@
                                                     </div>
 
                                                     <div>
-                                                        <label for="cognome">Cognome: </label>
-                                                        <input id="cognome" type="text" name="cognome" value="${carta.cognome}">
+                                                        <label for="cognome${carta.id}">Cognome: </label>
+                                                        <input id="cognome${carta.id}" type="text" name="cognome" value="${carta.cognome}">
                                                         <span id="error-cognome" class="error-input">
                                                             <c:forEach items="${errori}" var="errore">
                                                                 <c:if test="${fn:containsIgnoreCase(errore, 'cognome')}" >
@@ -197,8 +196,8 @@
                                                     </div>
 
                                                     <div>
-                                                        <label for="numero">Numero carta: </label>
-                                                        <input id="numero" maxlength="19" placeholder="nnnn nnnn nnnn nnnn" type="text" name="numero" value="${carta.numero}">
+                                                        <label for="numero${carta.id}">Numero carta: </label>
+                                                        <input id="numero${carta.id}" maxlength="19" placeholder="nnnn nnnn nnnn nnnn" type="text" name="numero" value="${carta.numero}">
                                                         <span id="error-numero" class="error-input">
                                                             <c:forEach items="${errori}" var="errore">
                                                                 <c:if test="${fn:containsIgnoreCase(errore, 'numero')}" >
@@ -209,8 +208,8 @@
                                                     </div>
 
                                                     <div>
-                                                        <label for="data">Data di scadenza: </label>
-                                                        <input id="data" maxlength="5" placeholder="MM/AA" type="text" name="data" value="${carta.data_scadenza}">
+                                                        <label for="data${carta.id}">Data di scadenza: </label>
+                                                        <input id="data${carta.id}" maxlength="5" placeholder="MM/AA" type="text" name="data" value="${carta.data_scadenza}">
                                                         <span id="error-data" class="error-input">
                                                             <c:forEach items="${errori}" var="errore">
                                                                 <c:if test="${fn:containsIgnoreCase(errore, 'data')}" >
@@ -221,8 +220,8 @@
                                                     </div>
 
                                                     <div>
-                                                        <label for="cvv">cvv: </label>
-                                                        <input id="cvv" maxlength="3" type="text" name="cvv" value="${carta.cvv}">
+                                                        <label for="cvv${carta.id}">cvv: </label>
+                                                        <input id="cvv${carta.id}" maxlength="3" type="text" name="cvv" value="${carta.cvv}">
                                                         <span id="error-cvv" class="error-input">
                                                             <c:forEach items="${errori}" var="errore">
                                                                 <c:if test="${fn:containsIgnoreCase(errore, 'CVV')}" >
@@ -240,7 +239,7 @@
 
                                         <div class="actions">
                                             <div onclick="modificaCarta(${carta.id})" class="modifica"><i title="modifca carta" class="ri-edit-2-line"></i></div>
-                                            <div class="elimina"><i title="Elimina dalla lista" class="ri-delete-bin-5-line"></i></div>
+                                            <div onclick="deleteCarta(${carta.id})" class="elimina"><i title="Elimina dalla lista" class="ri-delete-bin-5-line"></i></div>
                                         </div>
                                     </div>
                                 </div>
@@ -251,8 +250,60 @@
             </div>
 
             <!-- MODIFICA DATI -->
-            <div id="modifica-dati" style="display: none"></div>
+            <div id="modifica-dati" style="display: none">
+                <p onclick="abilitaModifica(this)" class="modifica">Abilita Modifica</p>
+                <form action="UpdateUser" method="post" onsubmit="return validateUpdateForm(event, this)" class="disabled">
+                    <div class="container-input-row">
+                        <div class="container-input">
+                            <label for="nome-utente">Nome:</label>
+                            <input id="nome-utente" type="text" name="nome" value="${utente.nome}" class="input" disabled>
+                            <span id="nome-utente-error" class="error-input"></span>
+                        </div>
 
+                        <div class="container-input">
+                            <label for="cognome-utente">Cognome:</label>
+                            <input id="cognome-utente" type="text" name="cognome" value="${utente.cognome}" class="input" disabled>
+                            <span id="cognome-utente-error" class="error-input"></span>
+                        </div>
+                    </div>
+
+                    <div class="container-input-row">
+                        <div class="container-input">
+                            <label for="email-utente">Email:</label>
+                            <input id="email-utente" type="email" name="email" value="${utente.email}" class="input" disabled>
+                            <span id="email-utente-error" class="error-input"></span>
+                        </div>
+
+                        <div class="container-input">
+                            <label for="pass-utente">Cambia password:</label>
+                            <input id="pass-utente" type="password" name="new-pass" value="${utente.password}" class="input" disabled>
+                            <span id="pass-utente-error" class="error-input"></span>
+                        </div>
+                    </div>
+
+                    <div class="container-input-row">
+                        <div class="container-input">
+                            <label for="regione-utente">Regione:</label>
+                            <select id="regione-utente"  name="regione" class="input" disabled>
+                                <option value="US" <c:if test="${utente.regione == 'US'}">selected</c:if>>America</option>
+                                <option value="EU" <c:if test="${utente.regione == 'EU'}">selected</c:if>>Europa</option>
+                                <option value="AS" <c:if test="${utente.regione == 'AS'}">selected</c:if>>Asia</option>
+                            </select>
+                            <span id="regione-utente-error" class="error-input"></span>
+                        </div>
+
+                        <div class="container-input">
+                            <label for="data-utente">Data di nascita:</label>
+                            <input id="data-utente" type="date" name="data" value="${utente.data}" class="input" disabled>
+                            <span id="data-utente-error" class="error-input"></span>
+                        </div>
+                    </div>
+
+                    <p class="success">Modifiche salvate</p>
+
+                    <input class="input" type="submit" value="Salva" disabled>
+                </form>
+            </div>
         </div>
     </div>
 

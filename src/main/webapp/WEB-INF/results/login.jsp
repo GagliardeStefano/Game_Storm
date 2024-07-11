@@ -103,17 +103,16 @@
                                 </span>
                             </div>
                             <div class="input-half">
-                                <label for="register-input-country" class="login-label">Paese</label>
-                                <select id="register-input-country"  name="Country" class="login-input">
+                                <label for="register-input-regione" class="login-label">Regione</label>
+                                <select id="register-input-regione"  name="Regione" class="login-input">
                                     <option value=""></option>
-                                    <option value="US">Stati Uniti</option>
+                                    <option value="US">America</option>
                                     <option value="EU">Europa</option>
                                     <option value="AS">Asia</option>
-                                    <option value="UR">Regno Unito</option>
                                 </select>
-                                <span id="reg-paese-error" class="error-input">
+                                <span id="reg-regione-error" class="error-input">
                                     <c:forEach items="${errori}" var="errore">
-                                        <c:if test="${fn: containsIgnoreCase(errore, 'paese')}">
+                                        <c:if test="${fn: containsIgnoreCase(errore, 'regione')}">
                                             ${errore}
                                         </c:if>
                                     </c:forEach>

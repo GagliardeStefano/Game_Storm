@@ -41,7 +41,7 @@
     width: 100%;
 }
 
-.container-paese{
+.container-regione{
     display: flex;
     justify-content: flex-start;
     font-size: 16px;
@@ -49,7 +49,7 @@
 
 
 .container-anagrafici p,
-.container-paese p{
+.container-regione p{
     margin-top: 0;
 }
 
@@ -62,16 +62,16 @@
 .options {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 80%;
-    padding: 0 20px;
     border-bottom: 1px solid white;
     flex-wrap: wrap;
 }
 
 .options .option{
+    text-align: center;
     list-style: none;
     flex: 1 1 100px;
-    text-align: center;
     display: block;
 }
 
@@ -126,7 +126,7 @@
     }
 
     .container-anagrafici,
-    .container-paese {
+    .container-regione {
         padding-left: 0;
         border: none;
     }
@@ -560,6 +560,7 @@
     display:flex;
     margin: 0.3em 0;
     flex-direction:column;
+    align-items: center;
 }
 
 #metodi-pagamento form div:last-child{
@@ -580,12 +581,6 @@
 #metodi-pagamento input[type="submit"] {
     cursor: pointer !important;
     padding: 4px;
-}
-
-
-.error-input{
-    display: block;
-    color: red;
 }
 
 #ordini-effettuati .hidden, #metodi-pagamento .hidden{
@@ -674,3 +669,97 @@
 }
 
 
+/*-- MODIFICA DATI */
+#modifica-dati{
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
+#modifica-dati .modifica{
+    cursor: pointer;
+}
+
+#modifica-dati .disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+#modifica-dati form{
+    display:flex;
+    flex-direction:column;
+    padding: 40px 0;
+}
+
+#modifica-dati .container-input-row{
+    display:flex;
+    gap:100px;
+    flex-wrap:wrap;
+}
+
+#modifica-dati .container-input{
+    display:flex;
+    flex-direction:column;
+    padding:20px;
+    flex: 0.5;
+}
+
+#modifica-dati form .input{
+    padding:10px;
+    border-radius:20px;
+    font-size:20px;
+    text-align:center;
+}
+
+#modifica-dati .input[type="submit"]{
+    cursor: pointer;
+    display: none;
+    width:40%;
+    margin:2em auto auto;
+}
+
+#modifica-dati .success{
+    display: none;
+    font-size: 22px;
+    text-align: center;
+    color: #00c300;
+}
+
+#modifica-dati label{
+    font-size:20px;
+}
+
+@media (max-width:952px){
+    #modifica-dati .container-input-row{
+        gap: 0;
+        flex-direction:column;
+    }
+    #modifica-dati .container-input{
+        display:flex;
+        padding:20px;
+    }
+    #modifica-dati label{
+        margin:auto;
+    }
+}
+@media (max-width:442px){
+    #modifica-dati label{
+        font-size:17px;
+    }
+    #modifica-dati .input{
+        font-size:17px;
+    }
+
+    #modifica-dati .modifica{
+        margin-top: 2em;
+    }
+}
+@media (max-width:355px){
+    #modifica-dati label{
+        font-size:14px;
+    }
+    #modifica-dati .input{
+        font-size:14px;
+
+    }
+}

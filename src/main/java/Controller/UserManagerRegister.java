@@ -62,10 +62,10 @@ public class UserManagerRegister extends HttpServlet {
             String nome = req.getParameter("Nome");
             String cognome = req.getParameter("Cognome");
             String data = req.getParameter("Data");
-            String paese = req.getParameter("Country");
+            String regione = req.getParameter("Regione");
 
             //controllo errori
-            validator.validateAll(nome, cognome, paese, email, password, data);
+            validator.validateAll(nome, cognome, regione, email, password, data);
 
             if (validator.hasErrors()){
 
@@ -86,7 +86,7 @@ public class UserManagerRegister extends HttpServlet {
 
                 }
 
-                User user = new User(nome, cognome, email, password, data, paese);
+                User user = new User(nome, cognome, email, password, data, regione);
                 user.setTipo(TipoUtente.Semplice);
                 try {
                     user.setPasswordHash();

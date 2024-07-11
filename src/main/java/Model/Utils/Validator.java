@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 public class Validator {
     private final List<String> errors;
 
-    private static final Pattern NOME_COGNOME_COUNTRY_PATTERN = Pattern.compile(".+");
+    private static final Pattern NOME_COGNOME_REGIONE_PATTERN = Pattern.compile(".+");
     private static final Pattern EMAIL_PATTERN = Pattern.compile("[a-z0-9._%+\\-]+@[a-z0-9.\\-]+\\.[a-z]{2,}");
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}");
     private static final Pattern DATA_NASCITA_PATTERN = Pattern.compile("(19[3-9][4-9]|19[4-9]\\d|200[0-6])-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])");
@@ -46,10 +46,10 @@ public class Validator {
         return true;
     }
 
-    public void validateAll(String nome, String cognome, String country, String email, String password, String dataNascita){
+    public void validateAll(String nome, String cognome, String regione, String email, String password, String dataNascita){
         asserString(nome, "Inserisci un nome");
         asserString(cognome, "Inserisci un cognome");
-        asserString(country, "Seleziona almeno un paese");
+        asserString(regione, "Seleziona almeno una regione");
         asserEmail(email, "Inserisci un email valida");
         asserPassword(password, "Deve contenere almeno un numero, almeno una lettera maiuscola e minuscola e almeno 8 o più caratteri");
         asserData(dataNascita, "Inserisci una data valida");
@@ -67,7 +67,7 @@ public class Validator {
     }
 
     public boolean asserString(String string, String msg){
-        return validate(string, NOME_COGNOME_COUNTRY_PATTERN, msg);
+        return validate(string, NOME_COGNOME_REGIONE_PATTERN, msg);
     }
 
     public boolean asserEmail(String string, String msg){

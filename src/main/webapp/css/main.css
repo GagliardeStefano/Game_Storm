@@ -61,3 +61,7 @@ ul {
     list-style: none;
 }
 
+.error-input{
+    display: block;
+    color: red;
+}

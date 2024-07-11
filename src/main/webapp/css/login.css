@@ -183,13 +183,6 @@ body{
     margin-top: 1.5rem;
 }
 
-.login-container .login-input-checkbox {
-    position: absolute;
-    top: .1rem;
-    left: 0;
-    margin: 0;
-}
-
 .login-container .login-submit {
     color: var(--scritte);
     font-size: 1rem;
@@ -224,7 +217,7 @@ body{
     width: 100%;
 }
 
-#register-input-country option{
+#register-input-regione option{
     background: var(--sfondo2);
 }
 

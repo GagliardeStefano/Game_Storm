@@ -9,17 +9,17 @@ import java.security.NoSuchAlgorithmException;
 
 public class User {
 
-    private String nome, cognome, email, password, passwordHash, data, foto, paese;
+    private String nome, cognome, email, password, passwordHash, data, foto, regione;
     private TipoUtente tipo;
 
     public User(){}
 
-    public User(String nome, String cognome, String email, String password, String data, String paese) {
+    public User(String nome, String cognome, String email, String password, String data, String regione) {
         this.nome = nome;
         this.cognome = cognome;
         this.email = email;
         this.password = password;
-        this.paese = paese;
+        this.regione = regione;
         this.data = data;
     }
 
@@ -47,8 +47,8 @@ public class User {
         this.password = password;
     }
 
-    public void setPaese(String paese) {
-        this.paese = paese;
+    public void setRegione(String regione) {
+        this.regione = regione;
     }
 
     public void setPasswordHash() throws NoSuchAlgorithmException {
@@ -99,7 +99,7 @@ public class User {
         return tipo;
     }
 
-    public String getPaese() {
-        return paese;
+    public String getRegione() {
+        return regione;
     }
 }

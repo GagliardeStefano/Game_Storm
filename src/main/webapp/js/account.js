@@ -258,6 +258,23 @@
 
     /*-- METODI DI PAGAMENTO --*/
 
+    function deleteCarta(id){
+        const xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function() {
+            if (this.readyState === 4 && this.status === 200) {
+                let card = document.getElementById('carta'+id);
+                card.style.transition = 'opacity 0.5s';
+                card.style.opacity = '0';
+                setTimeout(() => card.remove(), 500);
+            }
+        };
+
+        xhttp.open("POST", "UpdateUser", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("from=metodiRem&IdCarta=" + encodeURIComponent(id));
+    }
+
     function modificaCarta(id){
 
         const form = document.getElementById(id);
@@ -270,7 +287,7 @@
         form.classList.remove('hidden');
 
 
-        let dataInput = form.querySelector('#data');
+        let dataInput = form.querySelector('#data'+id);
         dataInput.addEventListener('input', function(event){
 
             let input = event.target;
@@ -289,7 +306,7 @@
 
         })
 
-        let numeroCarta = form.querySelector('#numero');
+        let numeroCarta = form.querySelector('#numero'+id);
         numeroCarta.addEventListener('input', function(event){
 
             let input = event.target;
@@ -311,7 +328,7 @@
 
         });
 
-        let cvv = form.querySelector('#cvv');
+        let cvv = form.querySelector('#cvv'+id);
         cvv.addEventListener('input', function(event){
 
             let input = event.target;
@@ -337,7 +354,7 @@
 
         event.preventDefault();
 
-        if (validateFormInputCard(form)){
+        if (validateFormInputCard(form, id)){
 
             const formData = new FormData(form);
             formData.append("from", "metodi");
@@ -373,23 +390,21 @@
         }
     }
 
-    function validateFormInputCard(form){
+    function validateFormInputCard(form, id){
 
-
-
-        const numero = form.querySelector('#numero');
+        const numero = form.querySelector('#numero'+id);
         let errorNumero = form.querySelector('#error-numero');
 
-        const data = form.querySelector('#data');
+        const data = form.querySelector('#data'+id);
         let errorData = form.querySelector('#error-data');
 
-        const cvv = form.querySelector('#cvv');
+        const cvv = form.querySelector('#cvv'+id);
         let errorCvv = form.querySelector('#error-cvv');
 
-        const nome = form.querySelector('#nome');
+        const nome = form.querySelector('#nome'+id);
         let errorNome = form.querySelector('#error-nome');
 
-        const cognome = form.querySelector('#cognome');
+        const cognome = form.querySelector('#cognome'+id);
         let errorCognome = form.querySelector('#error-cognome');
 
 
@@ -444,3 +459,115 @@
         }
 
     }
+
+
+    /*-- MODIFICA DATI --*/
+
+    function validateUpdateForm(event, form){
+
+        event.preventDefault();
+
+        const dati = new FormData(form);
+        dati.append("from", "modifica");
+
+        let params= "";
+        dati.forEach((value, key) => {
+            params += key+"="+value+"&";
+        })
+
+        let nome = form.querySelector('#nome-utente');
+        let cognome = form.querySelector('#cognome-utente');
+        let email = form.querySelector('#email-utente');
+        let pass = form.querySelector('#pass-utente');
+        let regione = form.querySelector('#regione-utente');
+        let data = form.querySelector('#data-utente');
+
+        let success = form.querySelector('.success');
+
+        if (validate() === true){
+
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+
+                    nome.value = dati.get("nome");
+                    cognome.value = dati.get("cognome");
+                    email.value = dati.get("email");
+                    pass.value = '';
+                    regione.value = dati.get("regione");
+                    data.value = dati.get("data");
+
+                    form.querySelector('.input[type="submit"]').style.display = 'none';
+
+                    success.style.display = 'block';
+                    setTimeout(() => {
+                        success.style.display = 'none';
+                    }, 3000);
+
+
+                    form.classList.add('disabled');
+                }
+            };
+
+            xhttp.open("POST", "UpdateUser", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send(params);
+
+        }
+    }
+
+    function validate(){
+        let hasErrors = [];
+
+        const NomeCognomeRegionePattern = /.+/;
+        const emailPattern = /[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}/;
+        const passwordPattern = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+        const dataPattern = /(19[3-9][4-9]|19[4-9]\d|200[0-6])-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])/;
+
+        const nome = document.getElementById('nome-utente');
+        const cognome = document.getElementById('cognome-utente');
+        const data = document.getElementById('data-utente');
+        const regione = document.getElementById('regione-utente');
+        const email = document.getElementById('email-utente');
+        const password = document.getElementById('pass-utente');
+
+        const errorNome = document.getElementById('nome-utente-error');
+        const errorCognome = document.getElementById('cognome-utente-error');
+        const errorData = document.getElementById('data-utente-error');
+        const errorRegione = document.getElementById('regione-utente-error');
+        const errorEmail = document.getElementById('email-utente-error');
+        const errorPass = document.getElementById('pass-utente-error');
+
+        hasErrors.push(checkErrorPattern(nome, errorNome, NomeCognomeRegionePattern, "Inserisci un nome"));
+        hasErrors.push(checkErrorPattern(cognome, errorCognome, NomeCognomeRegionePattern, "Inserisci un cognome"));
+        hasErrors.push(checkErrorPattern(data, errorData, dataPattern, "Devi essere almeno maggiorenne"));
+        hasErrors.push(checkErrorPattern(regione, errorRegione ,NomeCognomeRegionePattern, "Inserisci una regione"));
+        hasErrors.push(checkErrorPattern(email, errorEmail, emailPattern, "Inserisci un email valida"));
+
+        if (password.value.trim().length > 0){
+            hasErrors.push(checkErrorPattern(password, errorPass, passwordPattern, "La password deve contenere almeno un numero, almeno una lettera maiuscola e minuscola e almeno 8 o più caratteri"));
+        }
+
+        return !hasErrors.includes(true);
+
+    }
+
+    function abilitaModifica(button){
+
+        let form = button.nextElementSibling;
+
+        const inputs = form.querySelectorAll('.input');
+        const submitButton = form.querySelector('.input[type="submit"]');
+
+        form.classList.remove('disabled');
+
+        inputs.forEach(input => {
+            input.disabled = false;
+        });
+
+        submitButton.style.display = 'inline-block';
+        submitButton.disabled = false;
+
+    }
+
+
