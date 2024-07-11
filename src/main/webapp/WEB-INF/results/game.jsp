@@ -14,9 +14,8 @@
     <link rel="stylesheet" href="${context}/css/sezioni.css">
 </head>
 <body>
-<%@ include file="../fragments/header.jsp"%>
-
- <jsp:useBean id="prodotto" scope="request" type="Model.Prodotto" />
+    <%@ include file="../fragments/header.jsp"%>
+    <jsp:useBean id="prodotto" scope="request" type="Model.Prodotto" />
 
     <div class="main-container">
         <div class="card">
@@ -28,10 +27,10 @@
                 <h1 class="title">${prodotto.nome}</h1>
                 <div class="amount">
                     <div class="disc-div">
-                        <div class="original-price">${prodotto.prezzo}</div>
+                        <div class="original-price"><fmt:formatNumber value="${prodotto.prezzo}" type="number" minFractionDigits="2" maxFractionDigits="2"/></div>
                         <div class="discounted">-${prodotto.sconto}%</div>
                     </div>
-                    <div class="total">${prodotto.prezzoScontato}€</div>
+                    <div class="total"><fmt:formatNumber value="${prodotto.prezzoScontato}" type="number" minFractionDigits="2" maxFractionDigits="2"/>€</div>
                 </div>
 
                 <div class="actions">
@@ -72,14 +71,11 @@
             <div class="tags">
                 <h1>Tags</h1>
                 <div class="tag">
-                    <p>Action</p>
-                    <p>FPS</p>
-                    <p>OpenWorld</p>
-                    <p>Crime</p>
+                    <c:forEach items="${generi}" var="genere">
+                        <p>${genere}</p>
+                    </c:forEach>
                 </div>
-
             </div>
-
         </div>
         <div class="title-trailer">
             <h3>Trailer</h3>
@@ -88,88 +84,26 @@
             <iframe  src="${prodotto.trailer}" title="Grand Theft Auto VI" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
     </div>
-<div class="sezione simili">
-    <h1>Correlati</h1>
-    <div class="card-container trending">
-        <div class="card">
-            <div class="card-content">
-                <div class="card-image-container">
-                    <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
-                    <div class="scontato">-50%</div>
+    <div class="sezione simili">
+        <h1>Correlati</h1>
+        <jsp:useBean id="prodotti" scope="request" type="java.util.List"/>
+        <div class="card-container trending">
+            <c:forEach items="${prodotti}" var="correlato">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-image-container">
+                            <a href="${context}/CardManager?id=${correlato.id}"><img class="card__image" src="${context}${correlato.img}" alt=""></a>
+                            <div class="scontato">-${correlato.sconto}%</div>
+                        </div>
+                        <div class = "card-info">
+                            <h3 class="title">${correlato.nome}</h3>
+                            <p><fmt:formatNumber value="${correlato.prezzoScontato}" type="number" minFractionDigits="2" maxFractionDigits="2"/>€</p>
+                        </div>
+                    </div>
                 </div>
-                <div class = "card-info">
-                    <h3 class="title">Grand Theft Auto 6</h3>
-                    <p>0.00€</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-content">
-                <div class="card-image-container">
-                    <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
-                    <div class="scontato">-50%</div>
-                </div>
-                <div class = "card-info">
-                    <h3 class="title">GTA 6</h3>
-                    <p>0.00€</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-content">
-                <div class="card-image-container">
-                    <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
-                    <div class="scontato">-50%</div>
-                </div>
-                <div class = "card-info">
-                    <h3 class="title">GTA 6</h3>
-                    <p>0.00€</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-content">
-                <div class="card-image-container">
-                    <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
-                    <div class="scontato">-50%</div>
-                </div>
-                <div class = "card-info">
-                    <h3 class="title">GTA 6</h3>
-                    <p>0.00€</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-content">
-                <div class="card-image-container">
-                    <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
-                    <div class="scontato">-50%</div>
-                </div>
-                <div class = "card-info">
-                    <h3 class="title">GTA 6</h3>
-                    <p>0.00€</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-content">
-                <div class="card-image-container">
-                    <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
-                    <div class="scontato">-50%</div>
-                </div>
-                <div class = "card-info">
-                    <h3 class="title">GTA 6</h3>
-                    <p>0.00€</p>
-                </div>
-            </div>
+            </c:forEach>
         </div>
     </div>
-</div>
 
 
     <%@ include file="../fragments/footer.jsp"%>

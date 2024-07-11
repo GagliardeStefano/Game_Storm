@@ -46,7 +46,13 @@ public class CardManager extends HttpServlet {
             Prodotto prodotto = prodottoDAO.doRetrieveById(id);
 
             if(prodotto != null){
+
+                List<String> generi = prodottoDAO.getGeneriByIdProd(id);
+
                 req.setAttribute("prodotto",prodotto);
+                req.setAttribute("generi", generi);
+                List<Prodotto> prodotti=prodottoDAO.getCorrelati(generi,id);
+                req.setAttribute("prodotti",prodotti);
                 RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/results/game.jsp");
                 dispatcher.forward(req,resp);
             }

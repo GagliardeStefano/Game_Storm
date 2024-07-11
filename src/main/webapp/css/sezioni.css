@@ -11,7 +11,9 @@
     max-width: 100%;
     border :0;
 }
-
+.sezione .title{
+    max-width:80%;
+}
 .sezione .titolo {
     display: flex; /* Utilizziamo flexbox per allineare gli elementi */
     justify-content: space-between; /* Distribuiamo gli elementi lungo l'asse principale (orizzontale) */
