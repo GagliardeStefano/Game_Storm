@@ -18,66 +18,20 @@
         <main>
             <!-- CAROSELLO -->
             <section class="carousel">
+                <c:forEach items="${carosello}" var="carta">
+                    <div class="card expanded">
+                        <div class="card-content">
+                            <a href="${context}/CardManager?id=${carta.id}" class="disabled"><img src="${context}${carta.img}" alt="img1"></a>
+                            <div class="info">
+                                <h3 class="title">${carta.nome}</h3>
+                                <p><fmt:formatNumber value="${carta.prezzoScontato}" type="number" minFractionDigits="2" maxFractionDigits="2"/>€</p>
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
                 <!--CARD-->
-                <div class="card expanded">
-                    <div class="card-content">
-                        <a href="#" class="disabled"><img src="${context}/images/giochi/GTA6.jpg" alt="img1"></a>
-                        <div class="info">
-                            <h3 class="title">GTA 6</h3>
-                            <p>0.00€</p>
-                        </div>
-                    </div>
-                </div>
+
                 <!--FINE CARD-->
-                <div class="card">
-                    <div class="card-content">
-                        <a href="#" class="disabled"><img src="${context}/images/giochi/GTA6.jpg" alt="img1"></a>
-                        <div class="info">
-                            <h3 class="title">GTA 6</h3>
-                            <p>0.00€</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-content">
-                        <a href="#" class="disabled"><img src="${context}/images/giochi/GTA6.jpg" alt="img1"></a>
-                        <div class="info">
-                            <h3 class="title">GTA 6</h3>
-                            <p>0.00€</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-content">
-                        <a href="#" class="disabled"><img src="${context}/images/giochi/GTA6.jpg" alt="img1"></a>
-                        <div class="info">
-                            <h3 class="title">GTA 6</h3>
-                            <p>0.00€</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-content">
-                        <a href="#" class="disabled"><img src="${context}/images/giochi/GTA6.jpg" alt="img1"></a>
-                        <div class="info">
-                            <h3 class="title">GTA 6</h3>
-                            <p>0.00€</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-content">
-                        <a href="#" class="disabled"><img src="${context}/images/giochi/GTA6.jpg" alt="img1"></a>
-                        <div class="info">
-                            <h3 class="title">GTA 6</h3>
-                            <p>0.00€</p>
-                        </div>
-                    </div>
-                </div>
             </section>
             <!-- FINE CAROSELLO-->
 
@@ -87,83 +41,21 @@
                 <a href="${context}/SectionManager"><h5>Visualizza tutto ></h5></a>
             </div>
             <div class="card-container trending">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-image-container">
-                            <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
-                            <div class="scontato">-50%</div>
-                        </div>
-                        <div class = "card-info">
-                            <h3 class="title">Grand Theft Auto 6</h3>
-                            <p>0.00€</p>
+                <c:forEach items="${tendenze}" var="tendenza">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-image-container">
+                                <a href="${context}/CardManager?id=${tendenza.id}"><img class="card__image" src="${context}${tendenza.img}" alt=""></a>
+                                <div class="scontato">-${tendenza.sconto}%</div>
+                            </div>
+                            <div class = "card-info">
+                                <h3 class="title">${tendenza.nome}</h3>
+                                <p><fmt:formatNumber value="${tendenza.prezzoScontato}" type="number" minFractionDigits="2" maxFractionDigits="2"/>€</p>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </c:forEach>
 
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-image-container">
-                            <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
-                            <div class="scontato">-50%</div>
-                        </div>
-                        <div class = "card-info">
-                            <h3 class="title">GTA 6</h3>
-                            <p>0.00€</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-image-container">
-                            <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
-                            <div class="scontato">-50%</div>
-                        </div>
-                        <div class = "card-info">
-                            <h3 class="title">GTA 6</h3>
-                            <p>0.00€</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-image-container">
-                            <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
-                            <div class="scontato">-50%</div>
-                        </div>
-                        <div class = "card-info">
-                            <h3 class="title">GTA 6</h3>
-                            <p>0.00€</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-image-container">
-                            <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
-                            <div class="scontato">-50%</div>
-                        </div>
-                        <div class = "card-info">
-                            <h3 class="title">GTA 6</h3>
-                            <p>0.00€</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-image-container">
-                            <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
-                            <div class="scontato">-50%</div>
-                        </div>
-                        <div class = "card-info">
-                            <h3 class="title">GTA 6</h3>
-                            <p>0.00€</p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -173,60 +65,20 @@
                 <a href="${context}/SectionManager"><h5>Visualizza tutto ></h5></a>
             </div>
             <div class="card-container preorder">
-                <div class="card">
-                    <div class="card-content">
-                        <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
-                        <div class = "card-info">
-                            <h3 class="title">GTA 6</h3>
-                            <p>0.00€</p>
+                <c:forEach items="${preordini}" var="preordine">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-image-container">
+                                <a href="${context}/CardManager?id=${preordine.id}"><img class="card__image" src="${context}${preordine.img}" alt=""></a>
+                                <div class="scontato">-${preordine.sconto}%</div>
+                            </div>
+                            <div class = "card-info">
+                                <h3 class="title">${preordine.nome}</h3>
+                                <p><fmt:formatNumber value="${preordine.prezzoScontato}" type="number" minFractionDigits="2" maxFractionDigits="2"/>€</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="card">
-                    <div class="card-content">
-                        <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
-                        <div class = "card-info">
-                            <h3 class="title">GTA 6</h3>
-                            <p>0.00€</p>
-                        </div>
-                </div>
-                </div>
-                <div class="card">
-                    <div class="card-content">
-                        <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
-                        <div class = "card-info">
-                            <h3 class="title">GTA 6</h3>
-                            <p>0.00€</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-content">
-                        <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
-                        <div class = "card-info">
-                            <h3 class="title">GTA 6</h3>
-                            <p>0.00€</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-content">
-                        <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
-                        <div class = "card-info">
-                            <h3 class="title">GTA 6</h3>
-                            <p>0.00€</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-content">
-                        <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
-                        <div class = "card-info">
-                            <h3 class="title">GTA 6</h3>
-                            <p>0.00€</p>
-                        </div>
-                    </div>
-                </div>
+                </c:forEach>
             </div>
         </section>
 
@@ -236,60 +88,20 @@
                 <a href="${context}/SectionManager"><h5>Visualizza tutto ></h5></a>
             </div>
             <div class="card-container arrival">
-                <div class="card">
-                    <div class="card-content">
-                        <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
-                        <div class = "card-info">
-                            <h3 class="title">GTA 6</h3>
-                            <p>0.00€</p>
+                <c:forEach items="${prossimeUscite}" var="prossimaUscita">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-image-container">
+                                <a href="${context}/CardManager?id=${prossimaUscita.id}"><img class="card__image" src="${context}${prossimaUscita.img}" alt=""></a>
+                                <div class="scontato">-${prossimaUscita.sconto}%</div>
+                            </div>
+                            <div class = "card-info">
+                                <h3 class="title">${prossimaUscita.nome}</h3>
+                                <p><fmt:formatNumber value="${prossimaUscita.prezzoScontato}" type="number" minFractionDigits="2" maxFractionDigits="2"/>€</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="card">
-                    <div class="card-content">
-                        <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
-                        <div class = "card-info">
-                            <h3 class="title">GTA 6</h3>
-                            <p>0.00€</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-content">
-                        <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
-                        <div class = "card-info">
-                            <h3 class="title">GTA 6</h3>
-                            <p>0.00€</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-content">
-                        <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
-                        <div class = "card-info">
-                            <h3 class="title">GTA 6</h3>
-                            <p>0.00€</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-content">
-                        <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
-                        <div class = "card-info">
-                            <h3 class="title">GTA 6</h3>
-                            <p>0.00€</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-content">
-                        <img class="card__image" src="images/giochi/GTA6.jpg" alt="">
-                        <div class = "card-info">
-                            <h3 class="title">GTA 6</h3>
-                            <p>0.00€</p>
-                        </div>
-                    </div>
-                </div>
+                </c:forEach>
             </div>
         </section>
 

@@ -117,7 +117,93 @@ public class ProdottoDAO {
 
             while (rs.next()){
                 Prodotto prodotto=new Prodotto();
-                prodotto.setId(rs.getInt("ID_prodotto"));
+                prodotto.setId(rs.getInt("ID"));
+                prodotto.setDescrizione(rs.getString("descrizione"));
+                prodotto.setNome(rs.getString("nome"));
+                prodotto.setDataRilascio(rs.getDate("data_rilascio"));
+                prodotto.setPrezzo(rs.getDouble("prezzo"));
+                prodotto.setSconto(rs.getInt("sconto"));
+                prodotto.setImg(rs.getString("immagine"));
+                prodotto.setTrailer(rs.getString("trailer"));
+                prodotto.setPrezzoScontato();
+
+                prodottos.add(prodotto);
+            }
+
+            return prodottos;
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+    public List<Prodotto> getPreordini(){
+        try(Connection conn = ConPool.getConnection()){
+            List<Prodotto> prodottos=new ArrayList<>();
+
+            PreparedStatement ps = conn.prepareStatement("SELECT * \n" +
+                    "FROM prodotti \n" +
+                    "WHERE YEAR(data_rilascio) = YEAR(CURDATE()) \n" +
+                    "  AND data_rilascio > CURDATE() LIMIT 6");
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()){
+                Prodotto prodotto=new Prodotto();
+                prodotto.setId(rs.getInt("ID"));
+                prodotto.setDescrizione(rs.getString("descrizione"));
+                prodotto.setNome(rs.getString("nome"));
+                prodotto.setDataRilascio(rs.getDate("data_rilascio"));
+                prodotto.setPrezzo(rs.getDouble("prezzo"));
+                prodotto.setSconto(rs.getInt("sconto"));
+                prodotto.setImg(rs.getString("immagine"));
+                prodotto.setTrailer(rs.getString("trailer"));
+                prodotto.setPrezzoScontato();
+
+                prodottos.add(prodotto);
+            }
+
+            return prodottos;
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+    public List<Prodotto> getProssimeUscite(){
+        try(Connection conn = ConPool.getConnection()){
+            List<Prodotto> prodottos=new ArrayList<>();
+
+            PreparedStatement ps = conn.prepareStatement("SELECT * \n" +
+                    "FROM prodotti \n" +
+                    "WHERE YEAR(data_rilascio) > YEAR(CURDATE()) LIMIT 6");
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()){
+                Prodotto prodotto=new Prodotto();
+                prodotto.setId(rs.getInt("ID"));
+                prodotto.setDescrizione(rs.getString("descrizione"));
+                prodotto.setNome(rs.getString("nome"));
+                prodotto.setDataRilascio(rs.getDate("data_rilascio"));
+                prodotto.setPrezzo(rs.getDouble("prezzo"));
+                prodotto.setSconto(rs.getInt("sconto"));
+                prodotto.setImg(rs.getString("immagine"));
+                prodotto.setTrailer(rs.getString("trailer"));
+                prodotto.setPrezzoScontato();
+
+                prodottos.add(prodotto);
+            }
+
+            return prodottos;
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+    public List<Prodotto> getCarosello(){
+        try(Connection conn = ConPool.getConnection()){
+            List<Prodotto> prodottos=new ArrayList<>();
+
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM prodotti ORDER BY RAND() LIMIT 6;" );
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()){
+                Prodotto prodotto=new Prodotto();
+                prodotto.setId(rs.getInt("ID"));
                 prodotto.setDescrizione(rs.getString("descrizione"));
                 prodotto.setNome(rs.getString("nome"));
                 prodotto.setDataRilascio(rs.getDate("data_rilascio"));
