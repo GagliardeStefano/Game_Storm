@@ -493,7 +493,7 @@
 #metodi-pagamento .carta{
     display: flex;
     flex: 1 1 100%;
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid rgb(128, 128, 128);
     padding: 2em;
 }
 
@@ -689,6 +689,7 @@
     display:flex;
     flex-direction:column;
     padding: 40px 0;
+    width:60%
 }
 
 #modifica-dati .container-input-row{
@@ -709,6 +710,7 @@
     border-radius:20px;
     font-size:20px;
     text-align:center;
+    border:none;
 }
 
 #modifica-dati .input[type="submit"]{
@@ -716,6 +718,7 @@
     display: none;
     width:40%;
     margin:2em auto auto;
+    text-align:center;
 }
 
 #modifica-dati .success{
@@ -729,7 +732,16 @@
     font-size:20px;
 }
 
-@media (max-width:952px){
+#modifica-dati form span{
+    font-size:15px;
+    width:100%;
+
+}
+#modifica-dati form select{
+    width:auto;
+}
+
+@media (max-width:1360px){
     #modifica-dati .container-input-row{
         gap: 0;
         flex-direction:column;
@@ -741,8 +753,12 @@
     #modifica-dati label{
         margin:auto;
     }
+    #modifica-dati .input[type="submit"]{
+        width:70%;
+
+    }
 }
-@media (max-width:442px){
+@media (max-width:650px){
     #modifica-dati label{
         font-size:17px;
     }
@@ -752,6 +768,13 @@
 
     #modifica-dati .modifica{
         margin-top: 2em;
+    }
+    #modifica-dati form{
+        width:40%;
+        align-items:center;
+    }
+    #modifica-dati form select{
+        width:14em;
     }
 }
 @media (max-width:355px){
