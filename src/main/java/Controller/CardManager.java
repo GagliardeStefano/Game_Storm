@@ -28,7 +28,7 @@ public class CardManager extends HttpServlet {
         SessionManager sessionManager = new SessionManager(req,false);
         if(sessionManager.getSession() != null)
         {
-            User user = (User) sessionManager.getAttribute("utente");
+            User user = (User) sessionManager.getAttribute("user");
             if(user != null){
                 List<Prodotto> wishlist = userDAO.getWishlistByEmail(user.getEmail());
                 for (Prodotto p : wishlist){

@@ -15,6 +15,7 @@
 .container-img-utente {
     padding: 10px;
     flex: 1 1 100px;
+    cursor: pointer;
 }
 
 .img-utente {
@@ -32,6 +33,48 @@
     flex-direction: column;
     border-left: 1px solid #fff;
     width: 9em;
+}
+
+.dati-main-utente .logout{
+    border-bottom: 1px solid red;
+    padding: 0.5em 0 0;
+    cursor: pointer;
+}
+.avatar-selection {
+    display: none;
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background-color: #fff;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.avatar-option {
+    display: inline-block;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.avatar-option img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    transition: transform 0.3s;
+}
+
+.avatar-option img:hover {
+    transform: scale(1.2);
+}
+
+@media (max-width: 600px) {
+    .avatar-option img {
+        width: 40px;
+        height: 40px;
+    }
 }
 
 .container-anagrafici {
@@ -758,11 +801,12 @@
 
     }
 }
+
 @media (max-width:650px){
     #modifica-dati label{
         font-size:17px;
     }
-    #modifica-dati .input{
+    #modifica-dati form .input{
         font-size:17px;
     }
 
@@ -781,7 +825,7 @@
     #modifica-dati label{
         font-size:14px;
     }
-    #modifica-dati .input{
+    #modifica-dati form .input{
         font-size:14px;
 
     }

@@ -35,7 +35,7 @@
 
                 <div class="actions">
                     <c:choose>
-                        <c:when test="${empty utente}">
+                        <c:when test="${empty user}">
                             <div class="favourite tooltip">
                                 <i id="mex-heart" class="ri-chat-heart-line"></i>
                                 <span class="tooltiptext" >Accedi per aggiungerlo ai preferiti</span>

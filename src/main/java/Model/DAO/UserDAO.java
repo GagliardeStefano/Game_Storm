@@ -8,6 +8,7 @@ import Model.User;
 import Model.Utils.ConPool;
 import Model.Utils.ProdottoComposto;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
@@ -18,7 +19,7 @@ public class UserDAO {
     public boolean doSave(User user) {
         try(Connection conn = ConPool.getConnection()){
 
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO utente(email, nome, cognome, regione, data_nascita, password_hash, tipo) VALUES (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO utente(email, nome, cognome, regione, data_nascita, password_hash, tipo, foto) VALUES (?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getNome());
             ps.setString(3, user.getCognome());
@@ -26,8 +27,24 @@ public class UserDAO {
             ps.setString(5, user.getData());
             ps.setString(6, user.getPasswordHash());
             ps.setString(7, user.getTipo().name());
+            ps.setString(8, user.getFoto());
 
             return ps.executeUpdate() != -1;
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void changeAvatar(String email, String path){
+        try(Connection conn = ConPool.getConnection()){
+
+            PreparedStatement ps = conn.prepareStatement("UPDATE utente SET foto = ? WHERE email=?");
+
+            ps.setString(1, path);
+            ps.setString(2, email);
+
+            ps.executeUpdate();
 
         }catch (SQLException e){
             throw new RuntimeException(e);
@@ -58,7 +75,7 @@ public class UserDAO {
 
             return null;
 
-        }catch (SQLException e){
+        }catch (SQLException | NoSuchAlgorithmException e){
             throw new RuntimeException(e);
         }
     }
@@ -383,8 +400,6 @@ public class UserDAO {
 
         try(Connection conn = ConPool.getConnection()){
 
-            System.out.println(passHash);
-
             PreparedStatement ps = conn.prepareStatement("UPDATE utente " +
                     "SET email = ?, nome = ?, cognome = ?, regione = ?, data_nascita = ?, password_hash = ?" +
                     "WHERE email = ?");
@@ -420,8 +435,6 @@ public class UserDAO {
             ps.setString(4, regione);
             ps.setString(5, data);
             ps.setString(6, email);
-
-            System.out.println(ps.executeUpdate());
 
         }catch (SQLException e){
             throw new RuntimeException(e);

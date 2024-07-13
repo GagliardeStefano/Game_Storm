@@ -10,6 +10,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -31,11 +32,13 @@ public class UserUpdateManager extends HttpServlet {
 
         UserDAO userDAO = new UserDAO();
         SessionManager sm = new SessionManager(req, false);
+        Validator validator = new Validator();
 
         if (sm.getSession() != null){
-            if(sm.getAttribute("utente") != null){
+            if(sm.getAttribute("user") != null){
 
-                User user = (User) sm.getAttribute("utente");
+                User user = (User) sm.getAttribute("user");
+
                 String from = req.getParameter("from");
 
                 if (from != null){
@@ -89,8 +92,6 @@ public class UserUpdateManager extends HttpServlet {
 
                         case "metodi":
 
-                            Validator validator = new Validator();
-
                             String idCarta = req.getParameter("IdCarta");
                             String numero = req.getParameter("numero");
                             String data = req.getParameter("data");
@@ -124,12 +125,17 @@ public class UserUpdateManager extends HttpServlet {
                             String newEmail = req.getParameter("email");
                             String newRegione = req.getParameter("regione");
                             String newData = req.getParameter("data");
-
                             String newPassword = req.getParameter("new-pass");
 
                             if (!newPassword.isEmpty()){
 
-                                System.out.println(newPassword);
+                                validator.validateAll(newNome, newCognome, newRegione, newEmail, newPassword, newData);
+
+                                if (validator.hasErrors()){
+                                    req.setAttribute("errori", validator.getErrors());
+                                    req.getRequestDispatcher("WEB-INF/results/account.jsp").forward(req, resp);
+                                }
+
 
                                 User temp = new User();
                                 temp.setPassword(newPassword);
@@ -139,17 +145,39 @@ public class UserUpdateManager extends HttpServlet {
                                     throw new RuntimeException(e);
                                 }
 
-                                System.out.println(temp.getPasswordHash());
-                                System.out.println(user.getEmail());
-
                                 userDAO.updateUser(newNome, newCognome, newRegione, newEmail, newData, temp.getPasswordHash(), user.getEmail());
 
                             }else {
+
+
+                                validator.validateAll(newNome, newCognome, newRegione, newEmail, user.getPassword(), newData);
+
+                                if (validator.hasErrors()){
+                                    req.setAttribute("errori", validator.getErrors());
+                                    req.getRequestDispatcher("WEB-INF/results/account.jsp").forward(req, resp);
+                                }
+
                                 userDAO.updateUser(newNome, newCognome, newRegione, newEmail, newData, user.getEmail());
                             }
 
-                            user.setEmail(newEmail);
-                            sm.setAttribute("utente", user);
+                            user = userDAO.doRetrieveByEmail(newEmail);
+                            sm.setAttribute("user", user);
+                            break;
+
+                        case "changeAvatar":
+
+                            System.out.println("change");
+                            String newPath = req.getParameter("path");
+                            System.out.println(newPath);
+                            userDAO.changeAvatar(user.getEmail(), newPath);
+
+                            user = userDAO.doRetrieveByEmail(user.getEmail());
+                            sm.setAttribute("user", user);
+                            break;
+
+                        case "logout":
+                            sm.getSession().invalidate();
+                            req.getRequestDispatcher("index.jsp").forward(req, resp);
                             break;
                     }
                 }

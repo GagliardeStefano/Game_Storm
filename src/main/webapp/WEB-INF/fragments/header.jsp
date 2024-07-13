@@ -23,7 +23,7 @@
                         <li><a><span class="num">0</span><i class="ri-shopping-cart-2-line"></i></a></li>
                         <li>
                             <a href="${context}/UserManager">
-                                <c:if test="${utente != null}">
+                                <c:if test="${user != null}">
                                     <span class="account-active"></span>
                                 </c:if>
                                 <i class="ri-user-line"></i>

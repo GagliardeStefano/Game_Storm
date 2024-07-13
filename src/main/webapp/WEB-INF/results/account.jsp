@@ -9,7 +9,7 @@
 <body>
 
 
-    <c:if test="${empty utente}">
+    <c:if test="${empty user}">
         <% response.sendRedirect("index.jsp"); %>
     </c:if>
 
@@ -17,16 +17,68 @@
 
     <div class="container-utente">
         <div class="container-info-utente">
-            <div class="container-img-utente"> <img class="img-utente" src="${context}/images/socialLogo/gitlab.png" alt="foto" /> </div>
+            <div title="cambia avatar" onclick="changeAvatar()" class="container-img-utente"><img class="img-utente" src="${context}${user.foto}" alt="account-avatar" id="account-avatar" /></div>
+
+            <div class="avatar-selection" id="avatar-selection">
+
+                <div class="avatar-option" data-avatar="avatar0.png">
+                    <img src="${context}/images/avatar/avatar0.png" alt="Avatar 0">
+                </div>
+
+                <div class="avatar-option" data-avatar="avatar1.png">
+                    <img src="${context}/images/avatar/avatar1.png" alt="Avatar 1">
+                </div>
+
+                <div class="avatar-option" data-avatar="avatar2.png">
+                    <img src="${context}/images/avatar/avatar2.png" alt="Avatar 2">
+                </div>
+
+                <div class="avatar-option" data-avatar="avatar3.png">
+                    <img src="${context}/images/avatar/avatar3.png" alt="Avatar 3">
+                </div>
+
+                <div class="avatar-option" data-avatar="avatar4.png">
+                    <img src="${context}/images/avatar/avatar4.png" alt="Avatar 4">
+                </div>
+
+                <div class="avatar-option" data-avatar="avatar5.png">
+                    <img src="${context}/images/avatar/avatar5.png" alt="Avatar 5">
+                </div>
+
+                <div class="avatar-option" data-avatar="avatar6.png">
+                    <img src="${context}/images/avatar/avatar6.png" alt="Avatar 6">
+                </div>
+
+                <div class="avatar-option" data-avatar="avatar7.png">
+                    <img src="${context}/images/avatar/avatar7.png" alt="Avatar 7">
+                </div>
+
+                <div class="avatar-option" data-avatar="avatar8.png">
+                    <img src="${context}/images/avatar/avatar8.png" alt="Avatar 8">
+                </div>
+
+                <div class="avatar-option" data-avatar="avatar9.png">
+                    <img src="${context}/images/avatar/avatar9.png" alt="Avatar 9">
+                </div>
+
+            </div>
+
+
             <div class="dati-main-utente">
                 <div class="container-anagrafici">
-                    <p class="cognome-utente">${utente.cognome}</p>
-                    <p class="nome-utente">${utente.nome}</p>
+                    <p class="cognome-utente">${user.cognome}</p>
+                    <p class="nome-utente">${user.nome}</p>
                 </div>
 
                 <div class="container-regione">
-                    <p>${utente.regione}</p>
+                    <p>${user.regione}</p>
                 </div>
+
+                <a href="${context}/UpdateUser?from=logout">
+                    <div class="logout">
+                        <p>Logout</p>
+                    </div>
+                </a>
             </div>
         </div>
         <div class="container-option">
@@ -252,32 +304,56 @@
             <!-- MODIFICA DATI -->
             <div id="modifica-dati" style="display: none">
                 <p onclick="abilitaModifica(this)" class="modifica">Abilita Modifica</p>
-                <form action="UpdateUser" method="post" onsubmit="return validateUpdateForm(event, this)" class="disabled">
+                <form action="UpdateUser?from=modifica" method="post" onsubmit="return validateUpdateForm(event, this)" class="disabled">
                     <div class="container-input-row">
                         <div class="container-input">
                             <label for="nome-utente">Nome:</label>
-                            <input id="nome-utente" type="text" name="nome" value="${utente.nome}" class="input" disabled>
-                            <span id="nome-utente-error" class="error-input"></span>
+                            <input id="nome-utente" type="text" name="nome" value="${user.nome}" class="input" disabled>
+                            <span id="nome-utente-error" class="error-input">
+                                <c:forEach items="${errori}" var="errore">
+                                    <c:if test="${fn:containsIgnoreCase(errore, ' nome')}" >
+                                        ${errore}
+                                    </c:if>
+                                </c:forEach>
+                            </span>
                         </div>
 
                         <div class="container-input">
                             <label for="cognome-utente">Cognome:</label>
-                            <input id="cognome-utente" type="text" name="cognome" value="${utente.cognome}" class="input" disabled>
-                            <span id="cognome-utente-error" class="error-input"></span>
+                            <input id="cognome-utente" type="text" name="cognome" value="${user.cognome}" class="input" disabled>
+                            <span id="cognome-utente-error" class="error-input">
+                                <c:forEach items="${errori}" var="errore">
+                                    <c:if test="${fn:containsIgnoreCase(errore, 'cognome')}" >
+                                        ${errore}
+                                    </c:if>
+                                </c:forEach>
+                            </span>
                         </div>
                     </div>
 
                     <div class="container-input-row">
                         <div class="container-input">
                             <label for="email-utente">Email:</label>
-                            <input id="email-utente" type="email" name="email" value="${utente.email}" class="input" disabled>
-                            <span id="email-utente-error" class="error-input"></span>
+                            <input id="email-utente" type="email" name="email" value="${user.email}" class="input" disabled>
+                            <span id="email-utente-error" class="error-input">
+                                <c:forEach items="${errori}" var="errore">
+                                    <c:if test="${fn:containsIgnoreCase(errore, 'email')}" >
+                                        ${errore}
+                                    </c:if>
+                                </c:forEach>
+                            </span>
                         </div>
 
                         <div class="container-input">
                             <label for="pass-utente">Cambia password:</label>
-                            <input id="pass-utente" type="password" name="new-pass" value="${utente.password}" class="input" disabled>
-                            <span id="pass-utente-error" class="error-input"></span>
+                            <input id="pass-utente" type="password" name="new-pass" placeholder="Inserisci se vuoi cambiare" class="input" disabled>
+                            <span id="pass-utente-error" class="error-input">
+                                <c:forEach items="${errori}" var="errore">
+                                    <c:if test="${fn:containsIgnoreCase(errore, '8')}" >
+                                        ${errore}
+                                    </c:if>
+                                </c:forEach>
+                            </span>
                         </div>
                     </div>
 
@@ -285,17 +361,29 @@
                         <div class="container-input">
                             <label for="regione-utente">Regione:</label>
                             <select id="regione-utente"  name="regione" class="input" disabled>
-                                <option value="US" <c:if test="${utente.regione == 'US'}">selected</c:if>>America</option>
-                                <option value="EU" <c:if test="${utente.regione == 'EU'}">selected</c:if>>Europa</option>
-                                <option value="AS" <c:if test="${utente.regione == 'AS'}">selected</c:if>>Asia</option>
+                                <option value="US" <c:if test="${user.regione == 'US'}">selected</c:if>>America</option>
+                                <option value="EU" <c:if test="${user.regione == 'EU'}">selected</c:if>>Europa</option>
+                                <option value="AS" <c:if test="${user.regione == 'AS'}">selected</c:if>>Asia</option>
                             </select>
-                            <span id="regione-utente-error" class="error-input"></span>
+                            <span id="regione-utente-error" class="error-input">
+                                <c:forEach items="${errori}" var="errore">
+                                    <c:if test="${fn:containsIgnoreCase(errore, 'regione')}" >
+                                        ${errore}
+                                    </c:if>
+                                </c:forEach>
+                            </span>
                         </div>
 
                         <div class="container-input">
                             <label for="data-utente">Data di nascita:</label>
-                            <input id="data-utente" type="date" name="data" value="${utente.data}" class="input" disabled>
-                            <span id="data-utente-error" class="error-input"></span>
+                            <input id="data-utente" type="date" name="data" value="${user.data}" class="input" disabled>
+                            <span id="data-utente-error" class="error-input">
+                                <c:forEach items="${errori}" var="errore">
+                                    <c:if test="${fn:containsIgnoreCase(errore, 'data')}" >
+                                        ${errore}
+                                    </c:if>
+                                </c:forEach>
+                            </span>
                         </div>
                     </div>
 

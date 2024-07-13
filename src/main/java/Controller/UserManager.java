@@ -3,6 +3,7 @@ package Controller;
 import Model.Carrello;
 import Model.CartaCredito;
 import Model.DAO.UserDAO;
+import Model.Enum.TipoUtente;
 import Model.Prodotto;
 import Model.User;
 import jakarta.servlet.RequestDispatcher;
@@ -33,30 +34,39 @@ public class UserManager extends HttpServlet {
 
         }else {//esiste sessione
 
-            if (sessionManager.getAttribute("utente") == null){//non esiste utente
+            if (sessionManager.getAttribute("user") == null){
+                //non esiste utente e admin
                 dispatcher = req.getRequestDispatcher("WEB-INF/results/login.jsp");
             }else {
 
-                User user = (User) sessionManager.getAttribute("utente");
-                String email = user.getEmail();
+                User user = (User) sessionManager.getAttribute("user");
 
-                List<Prodotto> wishlist;
-                List<CartaCredito> metodiPagamento;
-                Map<String, List<Carrello>> ordini;
+                if (user.getTipo() == TipoUtente.Semplice){
 
-                wishlist = userDAO.getWishlistByEmail(email);
-                ordini = userDAO.getOrdiniByMonth(email);
-                metodiPagamento = userDAO.getMetodiPagamentoByEmail(email);
+                    String email = user.getEmail();
 
-                sessionManager.setAttribute("ordini", ordini);
-                sessionManager.setAttribute("carte", metodiPagamento);
-                sessionManager.setAttribute("wishlist", wishlist);
+                    List<Prodotto> wishlist;
+                    List<CartaCredito> metodiPagamento;
+                    Map<String, List<Carrello>> ordini;
 
-                dispatcher = req.getRequestDispatcher("WEB-INF/results/account.jsp");
+                    wishlist = userDAO.getWishlistByEmail(email);
+                    ordini = userDAO.getOrdiniByMonth(email);
+                    metodiPagamento = userDAO.getMetodiPagamentoByEmail(email);
+
+                    sessionManager.setAttribute("ordini", ordini);
+                    sessionManager.setAttribute("carte", metodiPagamento);
+                    sessionManager.setAttribute("wishlist", wishlist);
+
+                    dispatcher = req.getRequestDispatcher("WEB-INF/results/account.jsp");
+
+                }else{
+                    dispatcher = req.getRequestDispatcher("WEB-INF/results/admin.jsp");
+                }
             }
         }
 
         dispatcher.forward(req, resp);
+
     }
 
     @Override

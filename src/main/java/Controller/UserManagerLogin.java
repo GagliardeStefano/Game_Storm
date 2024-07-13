@@ -3,6 +3,7 @@ package Controller;
 import Model.Carrello;
 import Model.CartaCredito;
 import Model.DAO.UserDAO;
+import Model.Enum.TipoUtente;
 import Model.Prodotto;
 import Model.User;
 import Model.Utils.Validator;
@@ -33,20 +34,29 @@ public class UserManagerLogin extends HttpServlet {
 
         RequestDispatcher dispatcher;
 
-        /*TODO vedere il perchè se invio l'url non si vede nulla*/
-
         if (sessionManager.getSession() == null){
             req.getRequestDispatcher("/WEB-INF/results/login.jsp").forward(req, resp);
         }else {
-            check = (User) sessionManager.getAttribute("utente");
+            check = (User) sessionManager.getAttribute("user");
+
         }
 
             if(check != null){
 
-                caricaStrutturePerUtente(check.getEmail(), sessionManager);
+                switch (check.getTipo()){
+                    case Semplice:
+                        caricaStrutturePerUtente(check.getEmail(), sessionManager);
 
-                dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
-                dispatcher.forward(req, resp);
+                        dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
+                        dispatcher.forward(req, resp);
+                        break;
+
+                    case Admin1:
+                    case Admin2:
+                        dispatcher = req.getRequestDispatcher("/WEB-INF/results/admin.jsp");
+                        dispatcher.forward(req, resp);
+                        break;
+                }
 
             }else {
 
@@ -85,13 +95,24 @@ public class UserManagerLogin extends HttpServlet {
                         if(userDAO.checkLoginUser(email, tempUser.getPasswordHash())){ //check delle credenziali
 
                             User user = userDAO.doRetrieveByEmail(email);
+                            user.setPassword(password);
                             sessionManager = new SessionManager(req, true);
 
-                            caricaStrutturePerUtente(email, sessionManager);
-                            sessionManager.setAttribute("utente", user);
+                            switch (user.getTipo()){
+                                case Semplice:
+                                    caricaStrutturePerUtente(email, sessionManager);
+                                    sessionManager.setAttribute("user", user);
+                                    dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
+                                    dispatcher.forward(req, resp);
+                                    break;
+                                case Admin1:
+                                case Admin2:
+                                    sessionManager.setAttribute("user", user);
+                                    dispatcher = req.getRequestDispatcher("/WEB-INF/results/admin.jsp");
+                                    dispatcher.forward(req, resp);
+                                    break;
 
-                            dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
-                            dispatcher.forward(req, resp);
+                            }
 
                         }else {
 

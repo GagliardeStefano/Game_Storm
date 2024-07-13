@@ -75,6 +75,41 @@
         });
     }
 
+    function changeAvatar(){
+        const accountAvatar = document.getElementById("account-avatar");
+        const avatarSelection = document.getElementById("avatar-selection");
+
+
+        avatarSelection.style.display = avatarSelection.style.display === "block" ? "none" : "block";
+
+
+        const avatarOptions = document.querySelectorAll(".avatar-option");
+
+        avatarOptions.forEach(option => {
+            option.addEventListener("click", function() {
+
+                const newAvatar = option.getAttribute("data-avatar");
+                let srcAvatar = `/GameStorm_war/images/avatar/${newAvatar}`;
+
+                console.log(srcAvatar);
+
+                let xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState === 4 && this.status === 200) {
+
+                        accountAvatar.src = srcAvatar;
+                        avatarSelection.style.display = "none";
+
+                    }
+                };
+
+                xhttp.open("POST", "UpdateUser", true);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send("from=changeAvatar&path=" + encodeURIComponent(srcAvatar.replace("/GameStorm_war", "")));
+            });
+        });
+    }
+
     /*-- WISHLIST --*/
         const deleteButtons = document.querySelectorAll('.ri-delete-bin-5-line');
         const addButtons = document.querySelectorAll('.ri-shopping-cart-2-line');
@@ -569,5 +604,3 @@
         submitButton.disabled = false;
 
     }
-
-

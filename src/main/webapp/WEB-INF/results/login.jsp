@@ -1,7 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<% if( request.getAttribute("errori") != null){%>
-    <jsp:useBean id="errori" scope="request" type="java.util.List"/>
-<%}%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -57,7 +54,7 @@
                             </c:forEach>
                         </span>
 
-                        <button class="login-submit">Accedi</button>
+                        <button type="submit" class="login-submit">Accedi</button>
                     </form>
 
                     <!--REGISTRAZIONE-->
@@ -150,7 +147,7 @@
                             </div>
                         </div>
 
-                        <button class="login-submit">Registrati</button>
+                        <button type="submit" class="login-submit">Registrati</button>
                     </form>
 
                 </div>

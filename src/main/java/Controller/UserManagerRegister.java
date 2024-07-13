@@ -32,7 +32,7 @@ public class UserManagerRegister extends HttpServlet {
         if (sessionManager.getSession() == null){
             req.getRequestDispatcher("/WEB-INF/results/login.jsp").forward(req, resp);
         }else {
-            check = (User) sessionManager.getAttribute("utente");
+            check = (User) sessionManager.getAttribute("user");
         }
 
         List<Prodotto> wishlist;
@@ -93,13 +93,14 @@ public class UserManagerRegister extends HttpServlet {
                 } catch (NoSuchAlgorithmException e) {
                     throw new RuntimeException(e);
                 }
+                user.setFoto("/images/avatar/avatar0.png");
 
 
                 if (userDAO.doSave(user)){//salvo utente nel DB
 
                     //salvo nella sessione
                     sessionManager = new SessionManager(req, true);
-                    sessionManager.setAttribute("utente", user);
+                    sessionManager.setAttribute("user", user);
 
                     dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
                     dispatcher.forward(req, resp);
