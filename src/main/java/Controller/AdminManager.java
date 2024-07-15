@@ -30,7 +30,7 @@ public class AdminManager extends HttpServlet {
 
             if (check.getTipo() == TipoUtente.Admin1 || check.getTipo() == TipoUtente.Admin2){
 
-                int numCarrelli = dao.getNumTotByTable("carrello");
+                int numCarrelli = dao.getNumTotCarrelli();
                 getServletContext().setAttribute("totCarrelli", numCarrelli);
 
                 int numUtenti = dao.getNumTotByTable("utente");
@@ -80,6 +80,9 @@ public class AdminManager extends HttpServlet {
                     break;
                 case "carrello":
                     records = dao.getCarrelli();
+                    break;
+                case "genere":
+                    records = dao.getGeneri();
                     break;
             }
 

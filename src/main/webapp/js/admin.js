@@ -44,7 +44,7 @@ function displayTable(){
 
 function getTable(element){
 
-    switch (element.innerHTML){
+    switch (element){
         case 'Prodotti':
             tabella = "prodotti";
             break;
@@ -78,6 +78,19 @@ function getTable(element){
 
 }
 
+/* TODO creare queste funziono */
+
+function aggiungiEntita(){
+
+}
+
+function eliminaEntita(){
+
+}
+
+function modificaEntita(){
+
+}
 
 function printTable(response) {
     let tableBody = document.getElementById('tableBody');
@@ -107,6 +120,7 @@ function printTable(response) {
 
                 // Verifica se il valore è una stringa che contiene tag <img>
                 if (typeof value === 'string' && value.startsWith('<img')) {
+
                     // Controlla la chiave associata al valore
                     if (key === 'immagini_giochi') {
                             cell.classList.add('img-listgames');
@@ -122,33 +136,42 @@ function printTable(response) {
 
                     cell.innerHTML = value; // Inserisce il contenuto HTML nella cella
 
-                }else if (key === "sconto"){
+                }else{
+                    switch (key){
+                        case "sconto":
+                            cell.innerHTML = value+"%";
+                            break;
 
-                    cell.innerHTML = value+"%";
+                        case "prezzo":
+                        case "totale":
+                            cell.innerHTML = value+"€";
+                            break;
 
-                }else if (key === "prezzo" || key === "totale") {
+                        case "prezzi_giochi":
+                            let values1 = value.split(" / ");
+                            values1.forEach((subValue, index) => {
+                                if (index === values1.length - 1) {
+                                    cell.innerHTML += subValue + "€"; // Aggiunge € all'ultimo elemento
+                                } else {
+                                    cell.innerHTML += subValue + "€ / ";
+                                }
+                            });
+                            break;
 
-                    cell.innerHTML = value+"€";
+                        case "sconti_giochi":
+                            let values2 = value.split(" / ");
+                            values2.forEach((subValue, index) => {
+                                if (index === values2.length - 1) {
+                                    cell.innerHTML += subValue + "%"; // Aggiunge % all'ultimo elemento
+                                } else {
+                                    cell.innerHTML += subValue + "% / ";
+                                }
+                            });
+                            break;
 
-                }else if(key === "prezzi_giochi"){
-                    console.log(value);
-                    let Values = value.split(", ");
-                    Values.forEach(subValue => {
-                        subValue += "€, ";
-                        cell.innerHTML += subValue;
-                    })
-                }else if(key === "sconti_giochi"){
-                    console.log(value);
-                    let Values = value.split(", ");
-                    Values.forEach(subValue => {
-                        subValue += "%, ";
-                        cell.innerHTML += subValue;
-                    })
+                        default: cell.innerHTML = value; break;
+                    }
                 }
-                else {
-                    cell.innerHTML = value;
-                }
-
 
             });
         });

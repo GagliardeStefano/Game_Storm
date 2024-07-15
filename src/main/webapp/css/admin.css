@@ -65,6 +65,10 @@
     gap: 40px;
 }
 
+#dashboard > :not(:nth-last-child(-n+2)) {
+    cursor: pointer;
+}
+
 #dashboard .row{
     display: flex;
     width: 100%;

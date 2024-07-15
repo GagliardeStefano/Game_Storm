@@ -91,7 +91,6 @@
                 const newAvatar = option.getAttribute("data-avatar");
                 let srcAvatar = `/GameStorm_war/images/avatar/${newAvatar}`;
 
-                console.log(srcAvatar);
 
                 let xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
