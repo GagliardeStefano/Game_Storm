@@ -59,11 +59,8 @@ public class User {
         this.passwordHash = String.format("%032x", new BigInteger(1, md.digest()));
     }
 
-    public void setPasswordHash(String passwordChiaro) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("SHA-1");
-        md.reset();
-        md.update(passwordChiaro.getBytes(StandardCharsets.UTF_8));
-        this.passwordHash = String.format("%032x", new BigInteger(1, md.digest()));
+    public void setPasswordHash(String passwordhashata) throws NoSuchAlgorithmException {
+        this.passwordHash = passwordhashata;
     }
 
     public void setTipo(TipoUtente tipo) {

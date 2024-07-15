@@ -166,9 +166,9 @@ public class UserUpdateManager extends HttpServlet {
 
                         case "changeAvatar":
 
-                            System.out.println("change");
+
                             String newPath = req.getParameter("path");
-                            System.out.println(newPath);
+
                             userDAO.changeAvatar(user.getEmail(), newPath);
 
                             user = userDAO.doRetrieveByEmail(user.getEmail());

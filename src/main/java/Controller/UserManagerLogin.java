@@ -15,6 +15,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
@@ -105,11 +107,11 @@ public class UserManagerLogin extends HttpServlet {
                                     dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
                                     dispatcher.forward(req, resp);
                                     break;
+
                                 case Admin1:
                                 case Admin2:
                                     sessionManager.setAttribute("user", user);
-                                    dispatcher = req.getRequestDispatcher("/WEB-INF/results/admin.jsp");
-                                    dispatcher.forward(req, resp);
+                                    resp.sendRedirect("http://localhost:8080/GameStorm_war/AdminManager");
                                     break;
 
                             }

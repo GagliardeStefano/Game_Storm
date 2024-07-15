@@ -60,7 +60,7 @@ public class UserManager extends HttpServlet {
                     dispatcher = req.getRequestDispatcher("WEB-INF/results/account.jsp");
 
                 }else{
-                    dispatcher = req.getRequestDispatcher("WEB-INF/results/admin.jsp");
+                    dispatcher = req.getRequestDispatcher("/AdminManager");
                 }
             }
         }
