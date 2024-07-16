@@ -18,8 +18,8 @@
         <main>
             <!-- CAROSELLO -->
             <section class="carousel">
-                <c:forEach items="${carosello}" var="carta">
-                    <div class="card expanded">
+                <c:forEach items="${carosello}" var="carta" varStatus="status">
+                    <div class="card ${status.first ? 'expanded' : ''}">
                         <div class="card-content">
                             <a href="${context}/CardManager?id=${carta.id}" class="disabled"><img src="${context}${carta.img}" alt="img1"></a>
                             <div class="info">
