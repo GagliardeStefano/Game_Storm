@@ -21,7 +21,7 @@
             <a onclick="getTable(this.innerHTML)" class="action">Generi</a>
             <a onclick="getTable(this.innerHTML)" class="action">Utenti</a>
             <a onclick="getTable(this.innerHTML)" class="action">Carrelli</a>
-            <a onclick="getTable(this.innerHTML)" class="action">Ordini effettuati</a>
+            <a onclick="getTable(this.innerHTML)" class="action">Ordini</a>
         </div>
         <a href="${context}/UpdateUser?from=logout" class="action">Logout<i class="ri-logout-box-line"></i></a>
     </div>
@@ -38,7 +38,7 @@
                 <p>${totUtenti}</p>
             </div>
             <div onclick="getTable('Ordini effettuati')" class="element">
-                <h2>Ordini Effettuati</h2>
+                <h2>Ordini</h2>
                 <p>${totOrdini}</p>
             </div>
 
