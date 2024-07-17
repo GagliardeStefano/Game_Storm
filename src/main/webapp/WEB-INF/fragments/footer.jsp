@@ -9,25 +9,16 @@
 
             <div class="footer-section links">
                 <h2>Quick Links</h2>
-                <a href="index.jsp">Home</a><br>
-                <a href="#privacy">Privacy Policy</a><br>
-                <a href="#terms">Terms of Service</a><br>
+                <a role="link" href="index.jsp">Home</a><br>
             </div>
 
             <!--TODO scegliere a che pagine conducono i link-->
             <div class = "footer-section social">
                 <h2>Follow Us</h2>
                 <div class="logo-container">
-                    <a href="https://linkedin.com" target="_blank" class="logo-container linkedin" >
-                        <img class="social-logo linkedin" src="images/socialLogo/linkedin.png" alt="Linkedin">
-                    </a>
 
-                    <a href="https://instagram.com" target="_blank" class="logo-container instagram">
-                        <img class="social-logo instagram" src="images/socialLogo/instagram.png"  alt="Instagram">
-                    </a>
-
-                    <a href="https://gitlab.com/g4660/tsw_progetti/tsw23_24/izzo-gagliarde-nunziata_pj" target="_blank" class="logo-container gitlab">
-                        <img class="social-logo gitlab" src="images/socialLogo/gitlab.png" alt="GitLab">
+                    <a role="link" href="https://gitlab.com/g4660/tsw_progetti/tsw23_24/izzo-gagliarde-nunziata_pj" target="_blank" class="logo-container gitlab">
+                        <img class="social-logo gitlab" src="${context}/images/socialLogo/gitlab.png" alt="GitLab">
                     </a>
                 </div>
             </div>
