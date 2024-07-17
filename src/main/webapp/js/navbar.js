@@ -11,7 +11,6 @@ closeTrigger.addEventListener('click', function(){
     giveClass.classList.remove('showmenu');
 });
 
-const searchTrigger = document.querySelector('#search');
-searchTrigger.addEventListener('click', function() {
+function showSearchBar() {
     giveClass.classList.toggle('show-search-bar');
-});
+}

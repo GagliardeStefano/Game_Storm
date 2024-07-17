@@ -107,8 +107,12 @@ header .middle, header .right ul li:not(:nth-child(1), :nth-child(2), :nth-child
     padding: 10px;
 }
 
+.search-bar label{
+    width: 50%;
+}
+
 .search-bar input[type="search"] {
-    width: 80%;
+    width: 100%;
     padding: 10px;
     border: 1px solid var(--scritte);
     border-radius: 4px;

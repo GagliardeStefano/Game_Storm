@@ -15,11 +15,11 @@ else if (param === "r"){ //reg
     hiddenErrors(errosLogin);
 }
 
-loginTab.addEventListener('click', function() {
+loginTab.childNodes[0].addEventListener('click', function() {
     showLogin();
 });
 
-registerTab.addEventListener('click', function() {
+registerTab.childNodes[0].addEventListener('click', function() {
     showRegister();
 });
 

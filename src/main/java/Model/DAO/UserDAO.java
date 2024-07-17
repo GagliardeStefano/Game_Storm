@@ -423,8 +423,6 @@ public class UserDAO {
 
         try(Connection conn = ConPool.getConnection()){
 
-
-
             PreparedStatement ps = conn.prepareStatement("UPDATE utente " +
                     "SET email = ?, nome = ?, cognome = ?, regione = ?, data_nascita = ?" +
                     "WHERE email = ?");
@@ -435,6 +433,8 @@ public class UserDAO {
             ps.setString(4, regione);
             ps.setString(5, data);
             ps.setString(6, email);
+
+            ps.executeUpdate();
 
         }catch (SQLException e){
             throw new RuntimeException(e);
