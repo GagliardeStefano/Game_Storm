@@ -1,0 +1,175 @@
+
+#main-page .cart-page{
+    display:flex;
+    justify-content:center;
+    gap:10em;
+    padding:20px;
+}
+#main-page .img-item{
+    display:flex;
+}
+#main-page .cart-page img{
+    width:300px;
+    padding:20px;
+
+}
+#main-page .cart-item {
+    display:flex;
+    background: #0f487d;
+    border-radius:5px;
+    flex-wrap:wrap;
+}
+#main-page .side-cart{
+    display:flex;
+    flex-direction:column;
+    margin-left:1em;
+    margin-right:5em;
+    justify-content:space-between;
+    padding:20px;
+}
+#main-page .prezzo{
+    font-size:25px;
+    align-content:center;
+    padding:20px;
+}
+#main-page .side-cart h1{
+
+}
+#main-page .action-cart{
+    display:flex;
+    gap:3em;
+    font-size:25px;
+}
+#main-page .cart{
+    display:flex;
+    flex-direction:column;
+    gap:2em;
+}
+#main-page .fake-riepilogo{
+
+    width:20%;
+
+}
+#main-page .riepilogo{
+    display:flex;
+    flex-direction:column;
+    gap:2em;
+    background: #0f487d;
+    height:17em;
+    width:20em;
+    align-items:center;
+    padding:20px;
+    border-radius:5px;
+    margin-top:3.3em;
+    font-size:20px;
+    position:sticky ;
+    bottom:50%;
+    top:14%;
+    flex:1 1 100%;
+
+}
+#main-page .prezzo-ufficiale {
+    display:flex;
+    justify-content:space-between;
+    width:100%;
+
+
+}
+#main-page .sconto {
+    display:flex;
+    justify-content:space-between;
+    width:100%;
+
+}
+#main-page .prezzo-finale {
+    display:flex;
+    justify-content:space-between;
+    width:100%;
+
+
+}
+#main-page .pagamento-button{
+    background: var(--sfondo2);
+    border-radius:5px;
+    width:100%;
+    text-align:center;
+    padding:5px;
+}
+
+@media (max-width:1400px){
+
+    #main-page .cart-page{
+        flex-direction:column;
+        align-items:center;
+
+    }
+    #main-page .riepilogo{
+        margin-top:0;
+        margin-bottom:5em;
+
+    }
+    #main-page .fake-riepilogo{
+        display:flex;
+        width:50%;
+
+    }
+}
+@media (max-width:1000px){
+    #main-page .fake-riepilogo{
+        width:70%;
+
+    }
+
+}
+
+
+@media (max-width:600px){
+    #main-page .cart-item{
+        flex-direction:column;
+
+    }
+    #main-page .side-cart{
+        text-align:center;
+        gap:30px;
+        width:90%
+    }
+    #main-page .action-cart{
+        justify-content:center
+    }
+    #main-page .prezzo{
+        text-align:center;
+        width:100%
+    }
+
+}
+@media (max-width:450px){
+    #main-page .prezzo-ufficiale{
+        flex-direction:column;
+        text-align:center;
+        gap:20px;
+    }
+    #main-page .sconto{
+        flex-direction:column;
+        text-align:center;
+        gap:20px;
+    }
+    #main-page .prezzo-finale{
+        flex-direction:column;
+        text-align:center;
+        gap:20px;
+    }
+    #main-page .riepilogo{
+        height:70%;
+
+    }
+    #main-page .fake-riepilogo{
+        width:100%;
+
+    }
+    #main-page .side-cart{
+        margin:0;
+        width:100%;
+    }
+}
+
+
