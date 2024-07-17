@@ -144,6 +144,7 @@
 }
 
 .table-actions button {
+    cursor: pointer;
     margin: 0 10px;
 }
 
@@ -212,6 +213,8 @@ th {
     .actions .action {
         flex: 1;
         border-bottom: 0;
+        justify-content: center;
+        gap: 20px;
     }
 
     .actions .action:hover {
@@ -228,6 +231,7 @@ th {
     }
 
 }
+
 @media (max-width:650px){
     .action{
         font-size:15px;

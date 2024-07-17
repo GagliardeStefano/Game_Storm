@@ -1,5 +1,7 @@
 let table = document.getElementById('table');
 let dashboard = document.getElementById('dashboard');
+const searchBar = document.getElementById('searchBar');
+
 let tabella;
 
 
@@ -57,7 +59,7 @@ function getTable(element){
         case 'Carrelli':
             tabella = "carrello";
             break;
-        case 'Ordini effettuati':
+        case 'Ordini':
             tabella = "ordini";
             break;
     }
@@ -81,7 +83,10 @@ function getTable(element){
 /* TODO creare queste funziono */
 
 function aggiungiEntita(){
+    switch (tabella){
+        case "prodotti":
 
+    }
 }
 
 function eliminaEntita(){
@@ -99,9 +104,9 @@ function printTable(response) {
 
     nomeTabella.innerText = tabella;
 
-    tableHead.innerHTML = '';
 
-    if (response.records.length > 0) {
+    if (response.records != null) {
+        tableHead.innerHTML = '';
         const columns = Object.keys(response.records[0]);
 
         const headerRow = tableHead.insertRow();
@@ -175,6 +180,46 @@ function printTable(response) {
 
             });
         });
+    }else{
+        document.getElementById('tableBody').innerHTML = '';
     }
 }
+
+
+searchBar.addEventListener('keyup', function(event){
+
+    const query = searchBar.value.trim();
+
+    if (event.key === 'Escape') {
+        searchBar.value = '';
+        document.getElementById('tableBody').innerHTML = '';
+    }
+
+    if (query){
+        performSearch(query);
+    }else {
+        document.getElementById('tableBody').innerHTML = '';
+    }
+
+});
+
+function performSearch(query) {
+    const xhr = new XMLHttpRequest();
+
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const data = JSON.parse(xhr.responseText);
+            printTable(data);
+        }
+    };
+
+    xhr.open('GET', `search?q=${encodeURIComponent(query)}&t=`+encodeURIComponent(tabella), true);
+    xhr.onerror = function() {
+        console.error('Error:', xhr.statusText);
+    };
+    xhr.send();
+}
+
+
 

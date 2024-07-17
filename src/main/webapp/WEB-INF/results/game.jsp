@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="${context}/css/sezioni.css">
 </head>
 <body>
-    <%@ include file="../fragments/header.jsp"%>
+    <%@ include file="../fragments/navbar.jsp"%>
     <jsp:useBean id="prodotto" scope="request" type="Model.Prodotto" />
 
     <div class="main-container">
@@ -92,7 +92,7 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="card-image-container">
-                            <a href="${context}/CardManager?id=${correlato.id}"><img class="card__image" src="${context}${correlato.img}" alt=""></a>
+                            <a role="link" href="${context}/CardManager?id=${correlato.id}"><img class="card__image" src="${context}${correlato.img}" alt="${correlato.nome}"></a>
                             <div class="scontato">-${correlato.sconto}%</div>
                         </div>
                         <div class = "card-info">
@@ -107,6 +107,7 @@
 
 
     <%@ include file="../fragments/footer.jsp"%>
+    <script src="${context}/js/navbar.js"></script>
     <script src="${context}/js/sezioni.js"></script>
     <script src="${context}/js/game.js"></script>
 </body>

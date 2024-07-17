@@ -5,6 +5,27 @@ import java.util.*;
 
 public class AdminDAO {
 
+    public List<String> getAllGeneri(){
+        try(Connection conn = ConPool.getConnection()) {
+
+            List<String> out = new ArrayList<>();
+
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM genere");
+            ps.executeQuery();
+
+            ResultSet rs = ps.getResultSet();
+
+            while(rs.next()) {
+                out.add(rs.getString(2));
+            }
+
+            return out;
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public int getNumTotByTable(String tabella){
 
         try(Connection conn = ConPool.getConnection()) {
@@ -136,6 +157,28 @@ public class AdminDAO {
         }
     }
 
+    public List<Map<String, Object>> getProdottiWhere(String nome){
+        try (Connection conn = ConPool.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT prodotti.descrizione, prodotti.nome, prodotti.data_rilascio, prodotti.prezzo, prodotti.sconto, prodotti.immagine, " +
+                            "GROUP_CONCAT(genere.nome_genere ORDER BY genere.nome_genere SEPARATOR ' / ') as generi " +
+                            "FROM prodotti " +
+                            "JOIN prodotto_genere ON prodotti.ID = prodotto_genere.ID_prodotto " +
+                            "JOIN genere ON prodotto_genere.ID_genere = genere.ID " +
+                            "WHERE prodotti.nome LIKE ?" +
+                            "GROUP BY prodotti.ID, prodotti.descrizione, prodotti.nome, prodotti.data_rilascio, prodotti.prezzo, prodotti.sconto, prodotti.immagine"
+            );
+
+            ps.setString(1, "%" + nome + "%" );
+
+            ResultSet rs = ps.executeQuery();
+            return createRecords(rs);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public List<Map<String, Object>> getUtenti(){
 
         try (Connection conn = ConPool.getConnection()) {
@@ -148,6 +191,29 @@ public class AdminDAO {
                             "LEFT JOIN pagamenti ON pagamenti.email_utente = utente.email " +
                             "GROUP BY utente.email, utente.nome, utente.cognome, utente.regione, utente.data_nascita, utente.tipo, utente.foto"
             );
+
+            ResultSet rs = ps.executeQuery();
+            return createRecords(rs);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Map<String, Object>> getUtentiWhere(String email){
+        try (Connection conn = ConPool.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT utente.email, utente.nome, utente.cognome, utente.regione, utente.data_nascita, utente.tipo, utente.foto, " +
+                            "COUNT(ordini.email_utente) as numero_di_ordini, " +
+                            "COUNT(DISTINCT pagamenti.ID) as numero_carte_di_credito " +
+                            "FROM utente " +
+                            "LEFT JOIN ordini ON utente.email = ordini.email_utente " +
+                            "LEFT JOIN pagamenti ON pagamenti.email_utente = utente.email " +
+                            "WHERE utente.email LIKE ?" +
+                            "GROUP BY utente.email, utente.nome, utente.cognome, utente.regione, utente.data_nascita, utente.tipo, utente.foto"
+            );
+
+            ps.setString(1, "%" + email + "%" );
 
             ResultSet rs = ps.executeQuery();
             return createRecords(rs);
@@ -170,6 +236,30 @@ public class AdminDAO {
                             "JOIN prodotti ON prodotti.ID = ordini.ID_prodotto " +
                             "GROUP BY ordini.email_utente, ordini.data_acquisto"
             );
+
+            ResultSet rs = ps.executeQuery();
+            return createRecords(rs);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Map<String, Object>> getOridiniEffettautiWhere(String email){
+        try (Connection conn = ConPool.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT ordini.email_utente, ordini.data_acquisto, " +
+                            "GROUP_CONCAT(prodotti.nome ORDER BY prodotti.nome SEPARATOR ' / ') AS nomi_giochi, " +
+                            "GROUP_CONCAT(ordini.prezzo_prodotto ORDER BY prodotti.nome SEPARATOR ' / ') AS prezzi_giochi, " +
+                            "GROUP_CONCAT(ordini.key_prodotto ORDER BY prodotti.nome SEPARATOR ' / ') AS chiavi_giochi, " +
+                            "ROUND(SUM(ordini.prezzo_prodotto), 2) AS totale " +
+                            "FROM ordini " +
+                            "JOIN prodotti ON prodotti.ID = ordini.ID_prodotto " +
+                            "WHERE ordini.email_utente LIKE ?" +
+                            "GROUP BY ordini.email_utente, ordini.data_acquisto"
+            );
+
+            ps.setString(1, "%" + email + "%" );
 
             ResultSet rs = ps.executeQuery();
             return createRecords(rs);
@@ -202,6 +292,31 @@ public class AdminDAO {
         }
     }
 
+    public List<Map<String, Object>> getCarrelliWhere(String email){
+        try (Connection conn = ConPool.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT carrello.email_utente," +
+                            "GROUP_CONCAT(prodotti.nome ORDER BY prodotti.nome SEPARATOR ' / ') AS nomi_giochi, " +
+                            "GROUP_CONCAT(prodotti.immagine ORDER BY prodotti.nome SEPARATOR ', ') AS immagini_giochi, "+
+                            "GROUP_CONCAT(prodotti.prezzo ORDER BY prodotti.nome SEPARATOR ' / ') AS prezzi_giochi, "+
+                            "GROUP_CONCAT(prodotti.sconto ORDER BY prodotti.nome SEPARATOR ' / ') AS sconti_giochi, "+
+                            "ROUND(SUM(prodotti.prezzo * (1 - prodotti.sconto / 100)), 2) AS totale "+
+                            "FROM carrello "+
+                            "JOIN prodotti ON carrello.ID_prodotto = prodotti.ID " +
+                            "WHERE carrello.email_utente LIKE ?"+
+                            "GROUP BY carrello.email_utente"
+            );
+
+            ps.setString(1, "%" + email + "%" );
+
+            ResultSet rs = ps.executeQuery();
+            return createRecords(rs);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public List<Map<String, Object>> getGeneri(){
         try (Connection conn = ConPool.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(
@@ -214,6 +329,30 @@ public class AdminDAO {
                             "JOIN prodotti ON prodotto_genere.ID_prodotto = prodotti.ID " +
                             "GROUP BY genere.nome_genere"
             );
+
+            ResultSet rs = ps.executeQuery();
+            return createRecords(rs);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Map<String, Object>> getGeneriWhere(String nome){
+        try (Connection conn = ConPool.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT genere.nome_genere AS genere, " +
+                            "GROUP_CONCAT(prodotti.nome ORDER BY prodotti.nome SEPARATOR ' / ') AS nomi_giochi, " +
+                            "GROUP_CONCAT(prodotti.immagine ORDER BY prodotti.nome SEPARATOR ', ') AS immagini_giochi, " +
+                            "COUNT(*) AS totali " +
+                            "FROM genere " +
+                            "JOIN prodotto_genere ON prodotto_genere.ID_genere = genere.ID " +
+                            "JOIN prodotti ON prodotto_genere.ID_prodotto = prodotti.ID " +
+                            "WHERE genere.nome_genere LIKE ?" +
+                            "GROUP BY genere.nome_genere"
+            );
+
+            ps.setString(1, "%" + nome + "%" );
 
             ResultSet rs = ps.executeQuery();
             return createRecords(rs);

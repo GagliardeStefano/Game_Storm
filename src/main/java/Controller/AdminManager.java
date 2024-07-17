@@ -48,6 +48,8 @@ public class AdminManager extends HttpServlet {
                 double guadagno = dao.getGuadagno();
                 getServletContext().setAttribute("totGuadagno", guadagno);
 
+                List<String> generi = dao.getAllGeneri();
+                getServletContext().setAttribute("generi", generi);
 
 
                 rd = req.getRequestDispatcher("/WEB-INF/results/admin.jsp");

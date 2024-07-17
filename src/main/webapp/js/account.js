@@ -16,9 +16,9 @@
     hiddenSection(sectionMetPagamento);
     hiddenSection(sectionModifica);
 
-    wishlist.addEventListener('click', function(){
-        this.classList.add('active');
-        deactivateOtherElements(this);
+    wishlist.childNodes[0].addEventListener('click', function(){
+        wishlist.classList.add('active');
+        deactivateOtherElements(wishlist);
 
         showSection(sectionWishlist);
         hiddenSection(sectionOrdini);
@@ -26,9 +26,10 @@
         hiddenSection(sectionModifica);
     });
 
-    ordiniEffettuati.addEventListener('click', function(){
-        this.classList.add('active');
-        deactivateOtherElements(this);
+    ordiniEffettuati.childNodes[0].addEventListener('click', function(){
+
+        ordiniEffettuati.classList.add('active');
+        deactivateOtherElements(ordiniEffettuati);
 
         showSection(sectionOrdini);
         hiddenSection(sectionWishlist);
@@ -37,9 +38,9 @@
 
     });
 
-    metodiPagamento.addEventListener('click', function(){
-        this.classList.add('active');
-        deactivateOtherElements(this);
+    metodiPagamento.childNodes[0].addEventListener('click', function(){
+        metodiPagamento.classList.add('active');
+        deactivateOtherElements(metodiPagamento);
 
         showSection(sectionMetPagamento);
         hiddenSection(sectionWishlist);
@@ -47,9 +48,9 @@
         hiddenSection(sectionModifica);
     });
 
-    modificaDati.addEventListener('click', function(){
-        this.classList.add('active');
-        deactivateOtherElements(this);
+    modificaDati.childNodes[0].addEventListener('click', function(){
+        modificaDati.classList.add('active');
+        deactivateOtherElements(modificaDati);
 
         showSection(sectionModifica);
         hiddenSection(sectionWishlist);
@@ -238,25 +239,29 @@
             element.addEventListener('click', function() {
 
                 let text = element.previousElementSibling.textContent.replace(" ","").split(":")[1];
-                navigator.clipboard.writeText(text).then(function(){
-
-                    element.classList.remove('ri-file-copy-2-line');
-                    element.classList.add('ri-check-line');
-                    element.style.color = 'lime';
-
-                    setTimeout(() => {
-                        element.classList.remove('ri-check-line');
-                        element.classList.add('ri-file-copy-2-line');
-                        element.style.color = 'unset';
-
-                    }, 3000);
-
-                });
+                CopyKeyOnClipboard(text, element);
             })
         });
     }
 
-    ordiniEffettuati.addEventListener('click', function(){
+    function CopyKeyOnClipboard(text, icon){
+        navigator.clipboard.writeText(text).then(function(){
+
+            icon.classList.remove('ri-file-copy-2-line');
+            icon.classList.add('ri-check-line');
+            icon.style.color = 'lime';
+
+            setTimeout(() => {
+                icon.classList.remove('ri-check-line');
+                icon.classList.add('ri-file-copy-2-line');
+                icon.style.color = 'unset';
+
+            }, 3000);
+
+        });
+    }
+
+    ordiniEffettuati.childNodes[0].addEventListener('click', function(){
 
         const lessButtons = document.querySelectorAll('.mostra-meno');
 
@@ -265,30 +270,33 @@
         lessButtons.forEach(function(button) {
             button.addEventListener('click', function() {
 
-                this.style.display = 'none';
-
-                const container = button.previousElementSibling;
-
-                container.querySelectorAll('.hidden').forEach(function(hiddenElement) {
-                    hiddenElement.style.display = 'none';
-                });
-
-                const more = container.querySelector('.game.more');
-                more.style.display = 'flex';
-
-                let otherGameSibling = more.nextElementSibling;
-
-                while (otherGameSibling) {
-                    if (otherGameSibling.classList.contains('game')) {
-                        otherGameSibling.remove();
-                    }
-                    otherGameSibling = otherGameSibling.nextElementSibling;
-                }
+                showLess(button);
 
             });
         });
     });
 
+    function showLess(button){
+        button.style.display = 'none';
+
+        const container = button.previousElementSibling;
+
+        container.querySelectorAll('.hidden').forEach(function(hiddenElement) {
+            hiddenElement.style.display = 'none';
+        });
+
+        const more = container.querySelector('.game.more');
+        more.style.display = 'flex';
+
+        let otherGameSibling = more.nextElementSibling;
+
+        while (otherGameSibling) {
+            if (otherGameSibling.classList.contains('game')) {
+                otherGameSibling.remove();
+            }
+            otherGameSibling = otherGameSibling.nextElementSibling;
+        }
+    }
 
     /*-- METODI DI PAGAMENTO --*/
 
