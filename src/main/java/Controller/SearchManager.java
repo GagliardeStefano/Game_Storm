@@ -29,6 +29,7 @@ public class SearchManager extends HttpServlet {
 
         String query = req.getParameter("q");
         String table = req.getParameter("t");
+
         if (query == null || query.trim().isEmpty()) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
@@ -73,26 +74,6 @@ public class SearchManager extends HttpServlet {
         PrintWriter out = resp.getWriter();
         out.print(jsonString);
         out.flush();
-
-/*
-        JSONArray jsonRecords = new JSONArray();
-        for (Map<String, Object> record : records) {
-            JSONObject jsonRecord = new JSONObject();
-            for (Map.Entry<String, Object> entry : record.entrySet()) {
-                jsonRecord.put(entry.getKey(), entry.getValue());
-            }
-            jsonRecords.add(jsonRecord);
-        }
-
-        resp.setContentType("application/json");
-        PrintWriter out = resp.getWriter();
-        out.print(jsonRecords.toJSONString());
-        out.flush();*/
-
-
-//        List<Prodotto> result = prodottoDAO.searchProducts(query);
-//        req.setAttribute("result",result);
-//        req.getRequestDispatcher("/WEB-INF/results/result.jsp");
 
 
     }

@@ -21,13 +21,14 @@
     padding: 30px 30px 0 30px;
     margin: 0 auto;
     width: 100%;
+    cursor: default;
 }
 
 .sezione .card-container {
     display: grid;
     margin: 0 auto;
     max-width: 100%;
-    grid-template-columns: repeat(3, minmax(200px, auto));
+    grid-template-columns: repeat(3, minmax(200px, 400px));
     grid-auto-rows: auto;
     gap: 30px;
     padding: 30px;
@@ -41,9 +42,10 @@
 .sezione .card__image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: fill;
     display: block;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .sezione .card-content{
@@ -94,9 +96,15 @@
 
 
 
-@media only screen and (max-width: 1000px) {
+@media (max-width: 1000px) {
     .sezione .card-container {
-        grid-template-columns: repeat(2, minmax(100px, 1fr));
+        grid-template-columns: repeat(2, minmax(120px, 1fr));
+    }
+}
+
+@media (min-width: 1700px){
+    .sezione .card-container {
+        grid-template-columns: repeat(3, minmax(200px, 1200px));
     }
 }
 
@@ -133,7 +141,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        object-fit: cover;
+        object-fit: fill;
     }
 }
 

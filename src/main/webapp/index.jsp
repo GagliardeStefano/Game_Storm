@@ -34,23 +34,40 @@
 
     <section class="sezione trending">
         <div class="titolo trending">
-            <h2>In tendenza</h2>
-            <a role="link" href="${context}/SectionManager"><h5>Visualizza tutto ></h5></a>
+            <h2>In Tendenza</h2>
+            <a role="link" href="${context}/CategoriaManager"><h4>Visualizza tutto ></h4></a>
         </div>
         <div class="card-container trending">
-            <c:forEach items="${tendenze}" var="tendenza">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-image-container">
-                            <a role="link" href="${context}/CardManager?id=${tendenza.id}"><img class="card__image" src="${context}${tendenza.img}" alt="${tendenza.nome}"></a>
-                            <div class="scontato">-${tendenza.sconto}%</div>
+            <c:forEach items="${tendenze}" var="gioco" >
+                <c:choose>
+                    <c:when test="${gioco.sconto > 0}">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-image-container">
+                                    <a href="${context}/CardManager?id=${gioco.id}"><img class="card__image" src="${context}${gioco.img}" alt=""></a>
+                                    <div class="scontato">-${gioco.sconto}%</div>
+                                </div>
+                                <div class = "card-info">
+                                    <h3 class="title">${gioco.nome}</h3>
+                                    <p><fmt:formatNumber value="${gioco.prezzoScontato}" type="number" minFractionDigits="2" maxFractionDigits="2"/>€</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class = "card-info">
-                            <h3 class="title">${tendenza.nome}</h3>
-                            <p><fmt:formatNumber value="${tendenza.prezzoScontato}" type="number" minFractionDigits="2" maxFractionDigits="2"/>€</p>
-                        </div>
+                    </c:when>
+                    <c:otherwise>
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-image-container">
+                        <a href="${context}/CardManager?id=${gioco.id}"><img class="card__image" src="${context}${gioco.img}" alt=""></a>
+                    </div>
+                    <div class = "card-info">
+                        <h3 class="title">${gioco.nome}</h3>
+                        <p><fmt:formatNumber value="${gioco.prezzoScontato}" type="number" minFractionDigits="2" maxFractionDigits="2"/>€</p>
                     </div>
                 </div>
+            </div>
+        </c:otherwise>
+                </c:choose>
             </c:forEach>
 
         </div>
@@ -59,22 +76,39 @@
     <section class="sezione preorder">
         <div class="titolo preorder">
             <h2>Preordini</h2>
-            <a role="link" href="${context}/SectionManager"><h5>Visualizza tutto ></h5></a>
+            <a role="link" href="${context}/CategoriaManager"><h4>Visualizza tutto ></h4></a>
         </div>
         <div class="card-container preorder">
-            <c:forEach items="${preordini}" var="preordine">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-image-container">
-                            <a role="link" href="${context}/CardManager?id=${preordine.id}"><img class="card__image" src="${context}${preordine.img}" alt="${preordine.nome}"></a>
-                            <div class="scontato">-${preordine.sconto}%</div>
+            <c:forEach items="${preordini}" var="gioco" >
+                <c:choose>
+                    <c:when test="${gioco.sconto > 0}">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-image-container">
+                                    <a href="${context}/CardManager?id=${gioco.id}"><img class="card__image" src="${context}${gioco.img}" alt=""></a>
+                                    <div class="scontato">-${gioco.sconto}%</div>
+                                </div>
+                                <div class = "card-info">
+                                    <h3 class="title">${gioco.nome}</h3>
+                                    <p><fmt:formatNumber value="${gioco.prezzoScontato}" type="number" minFractionDigits="2" maxFractionDigits="2"/>€</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class = "card-info">
-                            <h3 class="title">${preordine.nome}</h3>
-                            <p><fmt:formatNumber value="${preordine.prezzoScontato}" type="number" minFractionDigits="2" maxFractionDigits="2"/>€</p>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-image-container">
+                                    <a href="${context}/CardManager?id=${gioco.id}"><img class="card__image" src="${context}${gioco.img}" alt=""></a>
+                                </div>
+                                <div class = "card-info">
+                                    <h3 class="title">${gioco.nome}</h3>
+                                    <p><fmt:formatNumber value="${gioco.prezzoScontato}" type="number" minFractionDigits="2" maxFractionDigits="2"/>€</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    </c:otherwise>
+                </c:choose>
             </c:forEach>
         </div>
     </section>
@@ -82,22 +116,39 @@
     <section class="sezione arrival">
         <div class="titolo arrival">
             <h2>Prossime Uscite</h2>
-            <a role="link" href="${context}/SectionManager"><h5>Visualizza tutto ></h5></a>
+            <a role="link" href="${context}/CategoriaManager"><h4>Visualizza tutto ></h4></a>
         </div>
         <div class="card-container arrival">
-            <c:forEach items="${prossimeUscite}" var="prossimaUscita">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-image-container">
-                            <a role="link" href="${context}/CardManager?id=${prossimaUscita.id}"><img class="card__image" src="${context}${prossimaUscita.img}" alt="${prossimaUscita.nome}"></a>
-                            <div class="scontato">-${prossimaUscita.sconto}%</div>
+            <c:forEach items="${prossimeUscite  }" var="gioco" >
+                <c:choose>
+                    <c:when test="${gioco.sconto > 0}">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-image-container">
+                                    <a href="${context}/CardManager?id=${gioco.id}"><img class="card__image" src="${context}${gioco.img}" alt=""></a>
+                                    <div class="scontato">-${gioco.sconto}%</div>
+                                </div>
+                                <div class = "card-info">
+                                    <h3 class="title">${gioco.nome}</h3>
+                                    <p><fmt:formatNumber value="${gioco.prezzoScontato}" type="number" minFractionDigits="2" maxFractionDigits="2"/>€</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class = "card-info">
-                            <h3 class="title">${prossimaUscita.nome}</h3>
-                            <p><fmt:formatNumber value="${prossimaUscita.prezzoScontato}" type="number" minFractionDigits="2" maxFractionDigits="2"/>€</p>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-image-container">
+                                    <a href="${context}/CardManager?id=${gioco.id}"><img class="card__image" src="${context}${gioco.img}" alt=""></a>
+                                </div>
+                                <div class = "card-info">
+                                    <h3 class="title">${gioco.nome}</h3>
+                                    <p><fmt:formatNumber value="${gioco.prezzoScontato}" type="number" minFractionDigits="2" maxFractionDigits="2"/>€</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    </c:otherwise>
+                </c:choose>
             </c:forEach>
         </div>
     </section>

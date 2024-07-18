@@ -145,9 +145,13 @@
     let titoli = document.querySelectorAll('.sezione .titolo h2');
     for (let i = 0; i < link.length; i++) {
         link[i].addEventListener('click', (e) => {
-            console.log(titoli[i].textContent);
-            link[i].href += "?type=" + titoli[i].textContent.replace(" ","-");
-            console.log(link[i].href.toString());
+            if(!link[i].href.includes("categoria"))
+                link[i].href += "?categoria=" + titoli[i].textContent.replace(" ","-");
+            else{
+                const index = link[i].href.indexOf("categoria=");
+                link[i].href = link[i].substring(0, index) + titoli[i].textContent.replace(" ","-");
+
+            }
 
         })
     }

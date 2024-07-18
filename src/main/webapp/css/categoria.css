@@ -1,0 +1,158 @@
+/*TODO posizionare le card in colonne da 2 quando schermo diventa piccolo*/
+.filtri{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:50px 0 30px;
+    width:100%;
+    gap:10px;
+
+}
+
+.gruppo1{
+    width:40%;
+    display: flex;
+    justify-content:space-around;
+    flex-wrap:wrap;
+}
+
+.genere-container, .ordine-container{
+    position: relative;
+    display: inline-block;
+}
+
+.overlay-genere, .overlay-ordine{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    color: white;
+    font-size: 20px;
+}
+
+.filtro{
+    height:50px;
+    padding:5px;
+    font-size:17px;
+}
+
+.gruppo2{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+}
+
+.reset{
+    border-left: 1px white solid;
+    padding:5px;
+    cursor:pointer;
+}
+
+.prezzo{
+    display: flex;
+    justify-content:end;
+    gap:10px;
+    align-items: center;
+    height:50px;
+    font-size:25px;
+}
+
+.range{
+    display: flex;
+    width:75px;
+    height:50px;
+    text-align:center;
+    font-size:20px;
+}
+
+.filtro, .range{
+    background-color: var(--sfondo);
+    border-radius: 5px;
+    color: white;
+    border: 1px solid white;
+}
+.mostraAltroText{
+    margin-bottom:50px;
+    font-size:20px;
+    font-weight:bold;
+    cursor: pointer;
+}
+.noGame{
+    grid-column:1 / -1; /* Occupa tutte le colonne */
+    display:flex;
+    justify-content:center;
+    font-size:25px;
+    margin-bottom:159px;
+    cursor: default;
+}
+
+@media only screen and (max-width: 360px) {
+    .noGame {
+        font-size: 15px;
+    }
+}
+@media (max-width:500px){
+    .filtri{
+        display:flex;
+        flex-direction:column;
+        margin: 50px auto 0;
+        gap:30px;
+    }
+    .gruppo1{
+        width:100%;
+        justify-content:center;
+        align-items:center;
+        gap:10px;
+    }
+
+    .filtro{
+        height:40px;
+    }
+
+    .prezzo{
+        height:40px;
+        width:100%;
+        justify-content:center;
+    }
+
+    .range{
+        width:60px;
+        height:40px;
+    }
+
+    .overlay-genere, .overlay-ordine{
+        font-size: 15px;
+    }
+}
+
+
+@media (min-width:501px) and (max-width:1230px){
+    .filtri{
+        display:flex;
+        flex-direction:column;
+        margin: 50px auto 0;
+        gap:30px;
+    }
+    .gruppo1{
+        width:100%;
+        justify-content:center;
+        align-items:center;
+        gap:10px;
+    }
+    .prezzo{
+        width:100%;
+        justify-content:center;
+    }
+}
+
+@media (max-width: 430px){
+    .sezione .card-container {
+        grid-template-columns: repeat(2, minmax(120px, 1fr));
+    }
+}
