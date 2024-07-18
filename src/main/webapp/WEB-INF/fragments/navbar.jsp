@@ -10,17 +10,23 @@
                     <nav>
                         <ul>
                             <li><a role="link" href="${context}/index.jsp">Home</a></li>
-                            <li><a role="link" href="#">In Tendenza</a></li>
-                            <li><a role="link" href="#">Preordini</a></li>
-                            <li><a role="link" href="#">Prossime Uscite</a></li>
-                            <li><a role="link" href="#">Contatti</a></li>
+                            <li><a role="link" href="${context}/CategoriaManager?categoria=In-Tendenza">In Tendenza</a></li>
+                            <li><a role="link" href="${context}/CategoriaManager?categoria=Preordini">Preordini</a></li>
+                            <li><a role="link" href="${context}/CategoriaManager?categoria=Prossime-Uscite">Prossime Uscite</a></li>
+                            <li><a role="link" href="#footer">Contatti</a></li>
                         </ul>
                     </nav>
                 </div>
                 <div class="right">
                     <ul>
                         <li><i role="button" tabindex="0" id="search" onclick="showSearchBar()" class="ri-search-line" aria-label="search"></i></li>
-                        <li><a role="link" href="#"><span class="num">0</span><i class="ri-shopping-cart-2-line"></i></a></li>
+                        <li><a role="link" href="${context}/CartManager"><span class="num">
+                            <c:choose>
+                            <c:when test="${not empty sessionScope.carrello}">
+                                <c:out value="${sessionScope.carrello.prodotti.size()}"/>
+                            </c:when>
+                            <c:otherwise>0</c:otherwise>
+                        </c:choose></span><i class="ri-shopping-cart-2-line"></i></a></li>
                         <li>
                             <a role="link" href="${context}/UserManager">
                                 <c:if test="${user != null}">
@@ -50,10 +56,10 @@
                 <div class="top">
                     <ul>
                         <li><a role="link" href="${context}/index.jsp">Home</a></li>
-                        <li><a role="link" href="#">In Tendenza</a></li>
-                        <li><a role="link" href="#">Preordini</a></li>
-                        <li><a role="link" href="#">Prossime Uscite</a></li>
-                        <li><a role="link" href="#">Contatti</a></li>
+                        <li><a role="link" href="${context}/CategoriaManager?categoria=In-Tendenza">In Tendenza</a></li>
+                        <li><a role="link" href="${context}/CategoriaManager?categoria=Preordini">Preordini</a></li>
+                        <li><a role="link" href="${context}/CategoriaManager?categoria=Prossime-Uscite">Prossime Uscite</a></li>
+                        <li><a role="link" href="#footer">Contatti</a></li>
                         <div class="search">
                             <i class="ri-search-line"></i>
                             <form action="">
@@ -73,3 +79,4 @@
     </nav>
     <div class="overlay"></div>
 </div>
+<script src="${context}/js/carrello.js"></script>

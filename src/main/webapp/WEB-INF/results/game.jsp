@@ -56,7 +56,7 @@
                     </c:choose>
 
 
-                    <div class="cart">
+                    <div class="cart" onclick="addToCart(${prodotto.id})">
                         <i class="ri-shopping-cart-2-line"></i>
                         <span>Aggiungi al carello</span>
                     </div>
