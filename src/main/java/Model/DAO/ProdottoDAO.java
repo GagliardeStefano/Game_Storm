@@ -12,9 +12,8 @@ import java.util.List;
 import java.util.Random;
 
 public class ProdottoDAO {
-    public ProdottoDAO(){
+    public ProdottoDAO(){}
 
-    }
     public Prodotto doRetrieveById(String id){
         try(Connection conn = ConPool.getConnection()){
 
@@ -217,6 +216,37 @@ public class ProdottoDAO {
             }
 
             return prodottos;
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Prodotto getProdByName(String nome){
+        try(Connection conn = ConPool.getConnection()){
+
+            PreparedStatement ps = conn.prepareStatement("select * from Prodotti where nome=?");
+            ps.setString(1, nome);
+
+
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+
+                Prodotto prodotto=new Prodotto();
+                prodotto.setId(rs.getInt("ID"));
+                prodotto.setDescrizione(rs.getString("descrizione"));
+                prodotto.setNome(rs.getString("nome"));
+                prodotto.setDataRilascio(rs.getDate("data_rilascio"));
+                prodotto.setPrezzo(rs.getDouble("prezzo"));
+                prodotto.setSconto(rs.getInt("sconto"));
+                prodotto.setImg(rs.getString("immagine"));
+                prodotto.setTrailer(rs.getString("trailer"));
+                prodotto.setPrezzoScontato();
+
+                return prodotto;
+            }
+            return null;
+
+
         }catch (SQLException e){
             throw new RuntimeException(e);
         }

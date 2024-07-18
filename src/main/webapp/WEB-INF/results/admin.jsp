@@ -82,62 +82,116 @@
             </div>
         </div>
 
-        <div style="display: none" id="form-table-action">
+        <div id="form-table-action">
             <div id="prodotti-form-add">
-                <form id="addProdotti">
+                <form action="/jj" method="post" onsubmit="return checkFormAdmin(event, this)" id="addProdotto">
 
                     <label for="addNome">Nome</label>
                     <input type="text" name="nome" id="addNome" />
                     <label class="error-input"></label>
 
                     <label for="addDesc">Descrizione</label>
-                    <input type="text" name="descrizione" id="addDesc" />
+                    <textarea name="descrizione" id="addDesc"></textarea>
                     <label class="error-input"></label>
 
-                    <label for="addData"></label>
+                    <label for="addData">Data di rilascio</label>
                     <input type="date" name="data" id="addData" />
-                    <label class="error-input"></label>
+                    <label class="error-input" ></label>
 
-                    <label for="addPrezzo"></label>
-                    <input type="number" name="prezzo" id="addPrezzo" />
+                    <label for="addPrezzo">Prezzo (€)</label>
+                    <input type="text" name="prezzo" id="addPrezzo" />
                     <label class="error-input"></label>
 
                     <label for="addSconto">Sconto (%)</label>
-                    <input type="number" name="sconto" id="addSconto" />
-                    <label class="error-input"></label>
-
-                    <label for="addImg">Immagine</label>
-                    <input type="image" name="immagine" id="addImg" />
+                    <input type="text" name="sconto" id="addSconto" />
                     <label class="error-input"></label>
 
                     <label>Generi</label>
                     <c:forEach items="${generi}" var="genere">
-                        <input id="${genere}" name="${genere}" value="${genere}">
-                        <label for="${genere}"></label>
+                        <input id="${genere}" type="checkbox" name="genere" value="${genere}">
+                        <label for="${genere}">${genere}</label><br>
                     </c:forEach>
                     <label class="error-input"></label>
 
+                    <label for="addImg">Immagine</label>
+                    <input type="url" id="addImg" name="urlImg" accept="image/*" />
+                    <label class="error-input"></label>
 
+                    <label for="addTrailer">Trailer</label>
+                    <input type="url" id="addTrailer" name="urlTrailer" />
+                    <label class="error-input"></label>
 
+                    <input type="reset" value="Reset">
+                    <input type="submit" value="Salva">
+
+                    <label id="error-general">
+                        <c:forEach items="${errori}" var="errore">
+                            <c:if test="${fn:containsIgnoreCase(errore, 'presente')}">
+                                ${errore}
+                            </c:if>
+                        </c:forEach>
+                    </label>
                 </form>
             </div>
 
             <div id="user-form-add">
+                <form action="" method="post" onsubmit="return checkFormAdmin(this)" id="addUser">
 
+                    <label for="addEmail">Email</label>
+                    <input type="email" name="email" id="addEmail" />
+                    <label class="error-input"></label>
+
+                    <label for="addNomeUser">Nome</label>
+                    <input type="text" name="nome" id="addNomeUser" />
+                    <label class="error-input"></label>
+
+                    <label for="addCognome">Cognome</label>
+                    <input type="text" name="cognome" id="addCognome" />
+                    <label class="error-input" ></label>
+
+                    <label for="addRegione">Regione</label>
+                    <select name="regione" id="addRegione">
+                        <option value="" aria-label="Seleziona regione">Seleziona</option>
+                        <option value="US" aria-label="America">America</option>
+                        <option value="EU" aria-label="Europa">Europa</option>
+                        <option value="AS" aria-label="Asia">Asia</option>
+                    </select>
+                    <label class="error-input"></label>
+
+                    <label for="addDataUser">Data di nascita</label>
+                    <input type="date" name="data" id="addDataUser" />
+                    <label class="error-input"></label>
+
+                    <label for="addPass">Password</label>
+                    <input type="password" name="password" id="addPass" />
+                    <label class="error-input"></label>
+
+                    <input type="reset" value="Reset">
+                    <input type="submit" value="Salva">
+
+                </form>
             </div>
 
             <div id="genere-form-add">
+                <form action="" method="post" onsubmit="return checkFormAdmin(this)" id="addGenere">
+                    <label for="addGenereSingolo">Genere</label>
+                    <input type="text" name="genere" id="addGenereSingolo" />
+                    <label class="error-input" id="errorGenereSingolo"></label>
 
+                    <label>Giochi</label>
+                    <c:forEach items="${nomiGiochi}" var="nome">
+                        <br>
+                        <input id="${nome}" type="checkbox" name="${nome}" value="${nome}">
+                        <label for="${nome}">${nome}</label>
+                    </c:forEach>
+                    <label class="error-input" id="errorGenereGame"></label>
+
+
+                    <input type="reset" value="Reset">
+                    <input type="submit" value="Salva">
+                </form>
             </div>
-
-            <div id="carrello-form-add">
-
-            </div>
-
-            <div id="ordini-form-add">
-
-            </div>
-
+            <!--
             <div id="prodotti-form-delete">
 
             </div>
@@ -150,13 +204,6 @@
 
             </div>
 
-            <div id="carrello-form-delete">
-
-            </div>
-
-            <div id="ordini-form-delete">
-
-            </div>
 
             <div id="prodotti-form-modify">
 
@@ -168,15 +215,8 @@
 
             <div id="genere-form-modify">
 
-            </div>
+            </div>-->
 
-            <div id="carrello-form-modify">
-
-            </div>
-
-            <div id="ordini-form-modify">
-
-            </div>
         </div>
     </div>
 </div>

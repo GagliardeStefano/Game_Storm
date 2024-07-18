@@ -76,25 +76,28 @@ function getTable(element){
 
     xhttp.open("POST", "AdminManager", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("tabella="+tabella);
+    xhttp.send("from=showTable&tabella="+tabella);
 
 }
 
-/* TODO creare queste funziono */
+/* TODO creare queste funzioni */
+/*FORMS*/
 
 function aggiungiEntita(){
+    table.style.display = 'none';
     switch (tabella){
         case "prodotti":
+            document.getElementById("prodotti-form-add").style.display = 'flex';
 
     }
 }
 
 function eliminaEntita(){
-
+    table.style.display = 'none';
 }
 
 function modificaEntita(){
-
+    table.style.display = 'none';
 }
 
 function printTable(response) {
@@ -221,5 +224,103 @@ function performSearch(query) {
     xhr.send();
 }
 
+function checkFormAdmin(event, form) {
 
+
+    event.preventDefault();
+    let inputs = new FormData(form);
+
+    if(NoErrorForm(form, inputs)){
+
+        inputs.append("from", form.id);
+
+        let params= "";
+        inputs.forEach((value, key) => {
+            params += key+"="+value+"&";
+        });
+
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState === 4 && xhttp.status === 200) {
+                console.log("ok");
+            }
+        }
+
+        xhttp.open('POST', 'AdminManager', true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send(params);
+
+    }
+}
+
+function NoErrorForm(form, inputs){
+
+    let hasErrors = [];
+
+    inputs.forEach((value, key) => {
+
+        let inputElement = form.querySelector(`[name="${key}"]`);
+        if (inputElement) {
+
+            let errorElement = inputElement.nextElementSibling;
+            let inputType = inputElement.type;
+
+            if ( (inputType === 'text' || inputType === 'textarea') && !validateText(value)) {
+
+                if (key === "prezzo" || key === "sconto"){
+
+                    if (!validateNumber(value)){
+                        hasErrors.push(true);
+                        errorElement.innerHTML = "Inserisci un numero";
+                    }
+
+                }else {
+                    hasErrors.push(true);
+                    errorElement.innerHTML = "Inserisci un valore";
+                }
+
+            }
+            else if (inputType === 'date' && value === "") {
+                hasErrors.push(true);
+                errorElement.innerHTML = "Inserisci una data di rilascio";
+            }
+            else if (inputType === 'password' && !validatePassword(value)) {
+                hasErrors.push(true);
+                errorElement.innerHTML = "La password deve contenere almeno un numero, almeno una lettera maiuscola e minuscola e almeno 8 o più caratteri";
+            }
+            else if (inputType === 'email' && !validateEmail(value)) {
+                hasErrors.push(true);
+                errorElement.innerHTML = "Inserisci un email valida";
+            }
+            else if (inputType !== 'checkbox') {
+                errorElement.innerHTML = "";
+            }
+
+        }
+    });
+
+    return !hasErrors.includes(true);
+
+}
+
+function validateEmail(email) {
+    const re = /[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}/;
+    return re.test(email);
+}
+
+function validatePassword(password){
+    const re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+    return re.test(password);
+}
+
+function validateText(text){
+    const re = /.+/;
+    return re.test(text);
+}
+
+function validateNumber(number){
+    const num = parseFloat(number);
+    return !isNaN(num);
+}
 

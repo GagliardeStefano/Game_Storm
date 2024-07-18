@@ -127,6 +127,8 @@ public class UserUpdateManager extends HttpServlet {
                             String newData = req.getParameter("data");
                             String newPassword = req.getParameter("new-pass");
 
+                            String password = user.getPassword();
+
                             if (!newPassword.isEmpty()){
 
                                 validator.validateAll(newNome, newCognome, newRegione, newEmail, newPassword, newData);
@@ -134,23 +136,24 @@ public class UserUpdateManager extends HttpServlet {
                                 if (validator.hasErrors()){
                                     req.setAttribute("errori", validator.getErrors());
                                     req.getRequestDispatcher("WEB-INF/results/account.jsp").forward(req, resp);
+                                }else {
+
+                                    User temp = new User();
+                                    temp.setPassword(newPassword);
+                                    try {
+                                        temp.setPasswordHash();
+                                    } catch (NoSuchAlgorithmException e) {
+                                        throw new RuntimeException(e);
+                                    }
+
+                                    userDAO.updateUser(newNome, newCognome, newRegione, newEmail, newData, temp.getPasswordHash(), user.getEmail());
+
                                 }
-
-
-                                User temp = new User();
-                                temp.setPassword(newPassword);
-                                try {
-                                    temp.setPasswordHash();
-                                } catch (NoSuchAlgorithmException e) {
-                                    throw new RuntimeException(e);
-                                }
-
-                                userDAO.updateUser(newNome, newCognome, newRegione, newEmail, newData, temp.getPasswordHash(), user.getEmail());
 
                             }else {
 
-
-                                validator.validateAll(newNome, newCognome, newRegione, newEmail, user.getPassword(), newData);
+                                /*TODO check password null*/
+                                validator.validateAll(newNome, newCognome, newRegione, newEmail, password, newData);
 
                                 if (validator.hasErrors()){
                                     req.setAttribute("errori", validator.getErrors());
@@ -161,6 +164,7 @@ public class UserUpdateManager extends HttpServlet {
                             }
 
                             user = userDAO.doRetrieveByEmail(newEmail);
+                            user.setPassword(password);
                             sm.setAttribute("user", user);
                             break;
 

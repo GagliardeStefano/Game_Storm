@@ -1,5 +1,7 @@
 package Model.Utils;
 
+import Model.Prodotto;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,7 +39,7 @@ public class Validator {
         this.errors.addAll(errors);
     }
 
-    private boolean addErros(boolean condition, String error){
+    public boolean addError(boolean condition, String error){
 
         if(!condition){
             this.errors.add(error);
@@ -63,7 +65,7 @@ public class Validator {
     private boolean validate(String string, Pattern pattern, String msg){
 
         boolean condition = pattern.matcher(string).matches();
-        return addErros(condition, msg);
+        return addError(condition, msg);
     }
 
     public boolean asserString(String string, String msg){
@@ -108,7 +110,7 @@ public class Validator {
         LocalDate expiry = LocalDate.of(year, month, 1).withDayOfMonth(LocalDate.of(year, month, 1).lengthOfMonth());
 
         if (expiry.isBefore(today)) {
-            addErros(true, msg);
+            addError(true, msg);
             return false;
         }
         return true;
@@ -126,4 +128,7 @@ public class Validator {
         return validate(cognome, NOME_COGNOME_CARTA_PATTERN, msg);
     }
 
+    public void validateGame(Prodotto prodotto){
+        /*TODO validare i giochi */
+    }
 }

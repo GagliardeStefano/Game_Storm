@@ -504,7 +504,6 @@
 
 
     /*-- MODIFICA DATI --*/
-
     function validateUpdateForm(event, form){
 
         event.preventDefault();
@@ -527,6 +526,7 @@
         let success = form.querySelector('.success');
 
         if (validate() === true){
+
 
             let xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {

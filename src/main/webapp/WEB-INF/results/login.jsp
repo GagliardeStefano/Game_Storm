@@ -93,7 +93,7 @@
                     <div class="input-half">
                         <label for="register-input-regione" class="login-label">Regione</label>
                         <select id="register-input-regione" name="Regione" class="login-input" aria-label="Regione" >
-                            <option value="" aria-label="Seleziona la tua regione">Seleziona</option>
+                            <option value="" aria-label="Seleziona regione">Seleziona</option>
                             <option value="US" aria-label="America">America</option>
                             <option value="EU" aria-label="Europa">Europa</option>
                             <option value="AS" aria-label="Asia">Asia</option>

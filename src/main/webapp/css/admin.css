@@ -237,6 +237,7 @@ th {
         font-size:15px;
     }
 }
+
 @media(max-width:500px){
     .action{
         display:flex;
@@ -258,7 +259,8 @@ th {
     .table-actions{
         flex-direction:column;
     }
+}
 
-
-
+#form-table-action > div{
+    display: none;
 }

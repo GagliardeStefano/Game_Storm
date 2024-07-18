@@ -1,6 +1,9 @@
 package Model.DAO;
+import Model.Prodotto;
 import Model.Utils.ConPool;
 import java.sql.*;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class AdminDAO {
@@ -362,6 +365,108 @@ public class AdminDAO {
         }
     }
 
+    public List<String> getAllNameGames(){
+
+        try(Connection conn = ConPool.getConnection()) {
+
+            List<String> out = new ArrayList<>();
+
+            PreparedStatement ps = conn.prepareStatement("SELECT nome FROM prodotti");
+            ps.executeQuery();
+
+            ResultSet rs = ps.getResultSet();
+
+            while(rs.next()) {
+                out.add(rs.getString("nome"));
+            }
+
+            return out;
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public boolean existGame(String nome){
+
+        try(Connection conn = ConPool.getConnection()) {
+
+            PreparedStatement ps = conn.prepareStatement("SELECT nome FROM prodotti WHERE nome = ?");
+            ps.setString(1, nome);
+
+            ResultSet rs = ps.executeQuery();
+
+            return rs.next();
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void addNewGame(Prodotto prodotto){
+        try(Connection conn = ConPool.getConnection()) {
+
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO " +
+                    "prodotti(descrizione, nome, data_rilascio, prezzo, sconto, immagine, trailer) " +
+                    "VALUES (?,?,?,?,?,?,?)");
+
+            ps.setString(1, prodotto.getDescrizione());
+            ps.setString(2, prodotto.getNome());
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDate = dateFormat.format(prodotto.getDataRilascio());
+            ps.setDate(3, Date.valueOf(formattedDate));
+
+            ps.setDouble(4, prodotto.getPrezzo());
+            ps.setInt(5, prodotto.getSconto());
+            ps.setString(6, prodotto.getImg());
+            ps.setString(7, prodotto.getTrailer());
+
+            ps.executeUpdate();
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void addGeneriAtProdById(String idGame, List<String> generi){
+        try(Connection conn = ConPool.getConnection()) {
+
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO prodotto_genere (ID_prodotto, ID_genere) VALUES (?, ?)");
+
+            for (String genere : generi) {
+                // Eseguire una query per recuperare l'ID del genere dal nome
+                int idGenere = getIdGenereFromNome(genere); // Implementa questa funzione
+
+                // Inserire l'associazione nella tabella gioco_genere
+                ps.setString(1, idGame);
+                ps.setInt(2, idGenere);
+                ps.executeUpdate();
+            }
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private int getIdGenereFromNome(String genere) {
+        try(Connection conn = ConPool.getConnection()) {
+
+            PreparedStatement ps = conn.prepareStatement("SELECT ID FROM genere WHERE nome_genere = ?");
+
+            ps.setString(1, genere);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("ID");
+                }
+            }
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
 
 
 }
