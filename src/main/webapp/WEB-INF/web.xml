@@ -9,4 +9,15 @@
             <param-name>home</param-name>
             <param-value>/index.jsp</param-value>
         </context-param>
+
+        <error-page>
+            <error-code>404</error-code>
+            <location>/WEB-INF/errors/404.jsp</location>
+        </error-page>
+
+        <error-page>
+            <exception-type>java.lang.Throwable</exception-type>
+            <location>/WEB-INF/errors/error.jsp</location>
+        </error-page>
+
 </web-app>
