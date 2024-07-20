@@ -1,7 +1,8 @@
 
 
     function updateFavourite(id){
-        let tag = document.getElementById('heart');
+        let containerHeart = document.getElementById(id);
+        let tag = containerHeart.querySelector('#heart');
         let param;
         if (tag.classList.contains('ri-heart-fill')){
             param = "idRem";
@@ -17,8 +18,10 @@
                 if (tag.classList.contains('ri-heart-fill')) {
                     tag.classList.add('ri-heart-line');
                     tag.classList.remove('ri-heart-fill');
+                    tag.classList.remove('fill');
                 } else {
                     tag.classList.add('ri-heart-fill');
+                    tag.classList.add('fill');
                     tag.classList.remove('ri-heart-line');
                 }
             }

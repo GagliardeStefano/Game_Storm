@@ -54,14 +54,14 @@ function updateCartCount() {
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            const cartCount = parseInt(this.responseText, 10);
-            document.querySelector('.num').textContent = cartCount;
+            document.querySelector('.num').textContent = parseInt(this.responseText, 10);
         }
     };
     xhttp.open("POST", "CartManager", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("action=cartCount");
 }
+
 function addToCart(id)
 {
     let param="add";
@@ -71,7 +71,6 @@ function addToCart(id)
     xhttp.onreadystatechange = function (){
         if(this.readyState === 4 && this.status === 200){
             updateCartCount();
-
         }
     }
     xhttp.open("POST", "CartManager", true);

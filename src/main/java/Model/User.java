@@ -14,15 +14,6 @@ public class User {
 
     public User(){}
 
-    public User(String nome, String cognome, String email, String password, String data, String regione) {
-        this.nome = nome;
-        this.cognome = cognome;
-        this.email = email;
-        this.password = password;
-        this.regione = regione;
-        this.data = data;
-    }
-
     public void setNome(String nome) {
         this.nome = nome;
     }

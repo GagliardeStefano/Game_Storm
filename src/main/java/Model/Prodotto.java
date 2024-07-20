@@ -12,7 +12,6 @@ public class Prodotto {
     private double prezzo;
     private int sconto;
     private double prezzoScontato;
-    private int disponibilita;
     private String img;
     private String trailer;
 
@@ -80,14 +79,6 @@ public class Prodotto {
 
     public void setPrezzoScontato() {
         this.prezzoScontato = this.getPrezzo() - ((this.getPrezzo()*this.getSconto())/100);
-    }
-
-    public int getDisponibilita() {
-        return disponibilita;
-    }
-
-    public void setDisponibilita(int disponibilita) {
-        this.disponibilita = disponibilita;
     }
 
     public String getImg() {

@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Carrello;
 import Model.DAO.UserDAO;
 import Model.User;
 import Model.Utils.ProdottoComposto;
@@ -10,13 +11,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
@@ -152,7 +148,6 @@ public class UserUpdateManager extends HttpServlet {
 
                             }else {
 
-                                /*TODO check password null*/
                                 validator.validateAll(newNome, newCognome, newRegione, newEmail, password, newData);
 
                                 if (validator.hasErrors()){
@@ -180,8 +175,20 @@ public class UserUpdateManager extends HttpServlet {
                             break;
 
                         case "logout":
+                            Carrello carrello = (Carrello) sm.getAttribute("carrello");
+                            List<String> listaIdProdotti = new ArrayList<>();
+
+                            if (carrello != null){
+                                for (ProdottoComposto prodottoComposto : carrello.getProdotti()) {
+                                    listaIdProdotti.add( String.valueOf(prodottoComposto.getProdotto().getId()));
+                                }
+
+                                userDAO.deleteCartByEmail(((User) sm.getAttribute("user")).getEmail());
+                                userDAO.saveCartOfUser(((User) sm.getAttribute("user")).getEmail(), listaIdProdotti);
+                            }
+
                             sm.getSession().invalidate();
-                            req.getRequestDispatcher("index.jsp").forward(req, resp);
+                            resp.sendRedirect("index.jsp");
                             break;
                     }
                 }

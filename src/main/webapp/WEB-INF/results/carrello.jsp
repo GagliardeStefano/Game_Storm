@@ -49,9 +49,15 @@
                                     </div>
                                 </c:when>
                                 <c:otherwise>
-                                    <div class="favourite" onclick="updateFavourite(${prodotto.id})">
+                                    <c:set var="isFavorite" value="false" />
+                                    <c:forEach items="${wishlist}" var="preferito">
+                                        <c:if test="${preferito.id == gioco.prodotto.id}">
+                                            <c:set var="isFavorite" value="true" />
+                                        </c:if>
+                                    </c:forEach>
+                                    <div class="favourite" id="${gioco.prodotto.id}" onclick="updateFavourite(${gioco.prodotto.id})">
                                         <c:choose>
-                                            <c:when test="${preferito}">
+                                            <c:when test="${isFavorite}">
                                                 <i id="heart" class="ri-heart-fill fill" ></i>
                                             </c:when>
                                             <c:otherwise>

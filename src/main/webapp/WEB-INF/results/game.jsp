@@ -42,7 +42,7 @@
                             </div>
                         </c:when>
                         <c:otherwise>
-                            <div class="favourite" onclick="updateFavourite(${prodotto.id})">
+                            <div class="favourite" id="${prodotto.id}" onclick="updateFavourite(${prodotto.id})">
                                 <c:choose>
                                     <c:when test="${preferito}">
                                         <i id="heart" class="ri-heart-fill fill" ></i>

@@ -100,7 +100,7 @@
                     <c:otherwise>
 
                         <div class="actions">
-                            <p tabindex="0"  role="button" aria-label="EliminaTutti" onclick="deleteAllFromDb()" id="delete-all" class="delete-all">Elimina tutti</p>
+                            <p tabindex="0"  role="button" aria-label="EliminaTutti" onclick="deleteAllFromDb()" id="delete-all" class="delete-all">Rimuovi tutti</p>
                             <p tabindex="0"  role="button" aria-label="AggiungiTutti" onclick="addAllToCart()" id="add-all" class="add-all">Aggiungi tutti al carrello</p>
                         </div>
 
@@ -118,8 +118,8 @@
                                         </div>
                                     </div>
                                     <div class="actions-card">
-                                        <a tabindex="0" role="button" aria-label="aggiungi"><i title="Aggiungi al carrello" class="ri-shopping-cart-2-line"></i></a>
-                                        <a tabindex="0" onclick="deleteFromDb(${gioco.getId()}, this)" role="button" aria-label="elimina"><i title="Elimina dai preferiti" class="ri-delete-bin-5-line"></i></a>
+                                        <a tabindex="0" id="${gioco.getId()}" role="button" aria-label="aggiungi" onclick="addToCart(${gioco.getId()})"><i title="Aggiungi al carrello" class="ri-shopping-cart-2-line"></i></a>
+                                        <a tabindex="0" role="button" aria-label="elimina" onclick="deleteFromDb(${gioco.getId()}, this)" ><i title="Elimina dai preferiti" class="ri-delete-bin-5-line"></i></a>
                                     </div>
                                 </div>
                             </c:forEach>
@@ -213,7 +213,7 @@
                                     <div class="info-container">
                                         <div class="info">
 
-                                            <img src="${context}/images/carteCredito/${carta.tipo}.png" alt="Carta di credito"/>
+                                           <!-- <img src="${context}/images/carteCredito/${carta.tipo}.png" alt="Carta di credito"/> -->
 
                                             <div class="container-main-info">
                                                 <div class="info-main">
@@ -400,6 +400,7 @@
 
     <script src="${context}/js/navbar.js"></script>
     <script src="${context}/js/account.js"></script>
+    <script src="${context}/js/carrello.js"></script>
 
 </body>
 </html>

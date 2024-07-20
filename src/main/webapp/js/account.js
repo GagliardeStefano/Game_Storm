@@ -113,7 +113,7 @@
     /*-- WISHLIST --*/
         const deleteButtons = document.querySelectorAll('.ri-delete-bin-5-line');
         const addButtons = document.querySelectorAll('.ri-shopping-cart-2-line');
-        const addAll = document.getElementById('add-all');
+
 
         function deleteFromDb(id, element){
 
@@ -167,11 +167,10 @@
         }
 
         function addAllToCart(){
-            addAll.addEventListener('click', function(){
-                addButtons.forEach(button => {
-                    /*TODO aggiunta nel carrello*/
-                });
-            });
+            addButtons.forEach(button => {
+                let container = button.closest('a');
+                addToCart(container.id);
+            })
         }
 
 

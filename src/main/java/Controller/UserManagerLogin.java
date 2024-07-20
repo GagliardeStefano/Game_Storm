@@ -3,7 +3,6 @@ package Controller;
 import Model.Carrello;
 import Model.CartaCredito;
 import Model.DAO.UserDAO;
-import Model.Enum.TipoUtente;
 import Model.Prodotto;
 import Model.User;
 import Model.Utils.Validator;
@@ -15,8 +14,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
@@ -146,15 +143,17 @@ public class UserManagerLogin extends HttpServlet {
         List<Prodotto> wishlist;
         List<CartaCredito> metodiPagamento;
         Map<String, List<Carrello>> ordini;
+        Carrello carrello;
 
 
         wishlist = userDAO.getWishlistByEmail(email);
         ordini = userDAO.getOrdiniByMonth(email);
         metodiPagamento = userDAO.getMetodiPagamentoByEmail(email);
+        carrello = userDAO.getCartByEmail(email);
 
         sessionManager.setAttribute("wishlist", wishlist);
         sessionManager.setAttribute("ordini", ordini);
         sessionManager.setAttribute("carte", metodiPagamento);
-
+        sessionManager.setAttribute("carrello", carrello);
     }
 }

@@ -38,6 +38,7 @@ public class UserManagerRegister extends HttpServlet {
         List<Prodotto> wishlist;
         Map<String, List<Carrello>> ordini;
         List<CartaCredito> metodiPagamento;
+        Carrello carrello;
         Validator validator = new Validator();
         UserDAO userDAO = new UserDAO();
         RequestDispatcher dispatcher;
@@ -47,10 +48,12 @@ public class UserManagerRegister extends HttpServlet {
             wishlist = userDAO.getWishlistByEmail(check.getEmail());
             ordini = userDAO.getOrdiniByMonth(check.getEmail());
             metodiPagamento = userDAO.getMetodiPagamentoByEmail(check.getEmail());
+            carrello = userDAO.getCartByEmail(check.getEmail());
 
             sessionManager.setAttribute("wishlist", wishlist);
             sessionManager.setAttribute("ordini", ordini);
             sessionManager.setAttribute("carte", metodiPagamento);
+            sessionManager.setAttribute("carrello", carrello);
 
             dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
             dispatcher.forward(req, resp);
@@ -86,7 +89,13 @@ public class UserManagerRegister extends HttpServlet {
 
                 }
 
-                User user = new User(nome, cognome, email, password, data, regione);
+                User user = new User();
+                user.setNome(nome);
+                user.setCognome(cognome);
+                user.setEmail(email);
+                user.setPassword(password);
+                user.setData(data);
+                user.setRegione(regione);
                 user.setTipo(TipoUtente.Semplice);
                 try {
                     user.setPasswordHash();

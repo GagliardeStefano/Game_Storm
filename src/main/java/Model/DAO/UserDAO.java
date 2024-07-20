@@ -442,7 +442,74 @@ public class UserDAO {
     }
 
 
+    public void saveCartOfUser(String email, List<String> idsGame) {
+        try(Connection conn = ConPool.getConnection()){
+
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO carrello VALUES (?,?)");
+
+            for (String gameId : idsGame) {
+                ps.setString(1, email);
+                ps.setString(2, gameId);
+                ps.addBatch(); // Use addBatch for batch processing
+            }
+            ps.executeBatch(); // Execute the batch
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteCartByEmail(String email){
+        try(Connection conn = ConPool.getConnection()){
+
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM carrello WHERE email_utente = ?");
+
+            ps.setString(1, email);
+
+            ps.executeUpdate();
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Carrello getCartByEmail(String email){
+        try(Connection conn = ConPool.getConnection()){
+
+            PreparedStatement ps = conn.prepareStatement("SELECT carrello.email_utente, carrello.ID_prodotto, prodotti.nome, prodotti.data_rilascio, prodotti.prezzo, prodotti.sconto, prodotti.immagine " +
+                    "FROM carrello " +
+                    "LEFT JOIN prodotti ON prodotti.ID = carrello.ID_prodotto " +
+                    "WHERE carrello.email_utente = ? ");
+
+            ps.setString(1, email);
+
+            ResultSet rs = ps.executeQuery();
+
+            Carrello carrello = new Carrello();
+            carrello.setEmail(email);
+
+            while (rs.next()){
+                Prodotto prodotto = new Prodotto();
+
+                prodotto.setId(rs.getInt("ID_prodotto"));
+                prodotto.setNome(rs.getString("nome"));
+                prodotto.setDataRilascio(rs.getDate("data_rilascio"));
+                prodotto.setPrezzo(rs.getDouble("prezzo"));
+                prodotto.setSconto(rs.getInt("sconto"));
+                prodotto.setPrezzoScontato();
+                prodotto.setImg(rs.getString("immagine"));
 
 
+                ProdottoComposto prodottoComposto = new ProdottoComposto();
+                prodottoComposto.setProdotto(prodotto);
 
+                carrello.addProdotto(prodottoComposto);
+            }
+
+            return carrello;
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
 }

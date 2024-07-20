@@ -10,7 +10,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,24 +20,15 @@ public class CardManager extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         String id = req.getParameter("id");
+
         ProdottoDAO prodottoDAO = new ProdottoDAO();
-        boolean preferito = false;
-        UserDAO userDAO = new UserDAO();
         SessionManager sessionManager = new SessionManager(req,false);
+
         if(sessionManager.getSession() != null)
         {
-            User user = (User) sessionManager.getAttribute("user");
-            if(user != null){
-                List<Prodotto> wishlist = userDAO.getWishlistByEmail(user.getEmail());
-                for (Prodotto p : wishlist){
-                    if(p.getId() == Integer.parseInt(id)){
-                        preferito = true;
-                        req.setAttribute("preferito",preferito);
-                        break;
-                    }
-                }
-            }
+            checkIfFavorite(sessionManager, id, req);
         }
 
         if(id.matches("\\d+")){
@@ -64,5 +54,20 @@ public class CardManager extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doGet(req,resp);
+    }
+
+    public void checkIfFavorite(SessionManager sessionManager, String id, HttpServletRequest request){
+
+        UserDAO userDAO = new UserDAO();
+        User user = (User) sessionManager.getAttribute("user");
+        if(user != null){
+            List<Prodotto> wishlist = userDAO.getWishlistByEmail(user.getEmail());
+            for (Prodotto p : wishlist){
+                if(p.getId() == Integer.parseInt(id)){
+                    request.setAttribute("preferito", true);
+                    break;
+                }
+            }
+        }
     }
 }

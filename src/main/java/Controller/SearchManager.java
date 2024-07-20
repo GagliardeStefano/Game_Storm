@@ -1,14 +1,10 @@
 package Controller;
 
 import Model.DAO.AdminDAO;
-import Model.DAO.ProdottoDAO;
-import Model.Prodotto;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
@@ -21,8 +17,8 @@ import java.util.Map;
 @WebServlet(name = "SearchManager", value = "/search")
 public class SearchManager extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ProdottoDAO prodottoDAO = new ProdottoDAO();
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
         AdminDAO adminDAO = new AdminDAO();
         List<Map<String, Object>> records = new ArrayList<>();
 
