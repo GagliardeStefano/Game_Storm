@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public class Validator {
     private final List<String> errors;
 
-    private static final Pattern NOME_COGNOME_REGIONE_PATTERN = Pattern.compile(".+");
+    private static final Pattern TEXT_PATTERN = Pattern.compile(".+");
     private static final Pattern EMAIL_PATTERN = Pattern.compile("[a-z0-9._%+\\-]+@[a-z0-9.\\-]+\\.[a-z]{2,}");
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}");
     private static final Pattern DATA_NASCITA_PATTERN = Pattern.compile("(19[3-9][4-9]|19[4-9]\\d|200[0-6])-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])");
@@ -22,6 +22,9 @@ public class Validator {
     private static final Pattern CVV_CARTA_PATTERN = Pattern.compile("\\d{3}");
     private static final Pattern NOME_COGNOME_CARTA_PATTERN = Pattern.compile("[a-zA-Z\\s]+");
 
+    private static  final Pattern DATA_RILASCIO_PATTERN = Pattern.compile("(19|20)\\d\\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])");
+    private static final Pattern URL_PATTERN = Pattern.compile("(http|https)://[^\\s/$.?#].\\S*");
+    private static final Pattern NUMBER_PATTERN = Pattern.compile("\\d+(\\.\\d+)?");
 
     public Validator(){
         this.errors = new ArrayList<>();
@@ -43,6 +46,7 @@ public class Validator {
 
         if(!condition){
             this.errors.add(error);
+            System.out.println("error: "+error);
             return false;
         }
         return true;
@@ -62,28 +66,6 @@ public class Validator {
         asserPassword(password, "Deve contenere almeno un numero, almeno una lettera maiuscola e minuscola e almeno 8 o più caratteri");
     }
 
-    private boolean validate(String string, Pattern pattern, String msg){
-
-        boolean condition = pattern.matcher(string).matches();
-        return addError(condition, msg);
-    }
-
-    public boolean asserString(String string, String msg){
-        return validate(string, NOME_COGNOME_REGIONE_PATTERN, msg);
-    }
-
-    public boolean asserEmail(String string, String msg){
-        return validate(string, EMAIL_PATTERN, msg);
-    }
-
-    public boolean asserPassword(String string, String msg){
-        return validate(string, PASSWORD_PATTERN, msg);
-    }
-
-    public boolean asserData(String string, String msg){
-        return validate(string, DATA_NASCITA_PATTERN, msg);
-    }
-
     public void validateCarta(String numero, String data, String cvv, String nome, String cognome){
         asserNumeroCarta(numero, "Il numero della carta deve essere composto da 16 cifre.");
         asserDataCarta(data, "La data di scadenza deve essere nel formato MM/AA.");
@@ -93,15 +75,75 @@ public class Validator {
         asserCognomeCarta(cognome, "Il cognome del titolare deve contenere solo lettere e spazi.");
     }
 
-    public boolean asserNumeroCarta(String numero, String msg){
-        return validate(numero, NUMERO_CARTA_PATTERN, msg);
+    public void validateGame(String nome, String descrizione, String data, double prezzo, int sconto, String[] generi, String urlImg, String urlTrailer){
+        asserString(nome, "Inserisci un nome");
+        asserString(descrizione, "Inserisci una descrizione");
+        asserDataGame(data, "Inserisci una data di rilascio valida");
+        asserNumberGame(prezzo, "Inserisci un prezzo");
+        asserNumberGame(sconto, "Inserisci uno sconto");
+        asserListe(generi, "Seleziona almeno un genere");
+        asserUrl(urlTrailer, "Inserisci un urlImg valido");
+        asserUrl(urlImg, "Inserisci un urlTrailer valido");
     }
 
-    public boolean asserDataCarta(String data, String msg){
-        return validate(data, DATA_SCADENZA_CARTA_PATTERN, msg);
+    public void validateNewGenere(String genere, String[] giochi){
+        asserString(genere, "Inserisci un valore");
+        asserListe(giochi, "Seleziona almeno un gioco");
     }
 
-    public boolean asserDataPassataCarta(String data, String msg){
+
+
+    /*-- FUNZIONI PRIVATE --*/
+
+    private void validate(String string, Pattern pattern, String msg){
+        addError( pattern.matcher(string).matches(), msg);
+    }
+
+    private void asserDataGame(String data, String msg) {
+        validate(data, DATA_RILASCIO_PATTERN, msg);
+    }
+
+    private void asserUrl(String trailer, String msg) {
+        validate(trailer, URL_PATTERN, msg);
+    }
+
+    private void asserNumberGame(double num, String msg) {
+        validate(String.valueOf(num), NUMBER_PATTERN, msg);
+    }
+
+    private void asserListe(String[] generi, String msg) {
+
+       if(generi == null){
+           System.out.println("non ha elementi");
+           addError(false, msg);
+       }
+    }
+
+    private void asserString(String string, String msg){
+        validate(string, TEXT_PATTERN, msg);
+    }
+
+    private void asserEmail(String string, String msg){
+         validate(string, EMAIL_PATTERN, msg);
+    }
+
+    private void asserPassword(String string, String msg){
+         validate(string, PASSWORD_PATTERN, msg);
+    }
+
+    private void asserData(String string, String msg){
+         validate(string, DATA_NASCITA_PATTERN, msg);
+    }
+
+    private void asserNumeroCarta(String numero, String msg){
+         validate(numero, NUMERO_CARTA_PATTERN, msg);
+    }
+
+    private void asserDataCarta(String data, String msg){
+         validate(data, DATA_SCADENZA_CARTA_PATTERN, msg);
+    }
+
+    private void asserDataPassataCarta(String data, String msg){
         LocalDate today = LocalDate.now();
         int month = Integer.parseInt(data.split("/")[0]);
         int year = Integer.parseInt("20" + data.split("/")[1]);
@@ -111,24 +153,19 @@ public class Validator {
 
         if (expiry.isBefore(today)) {
             addError(true, msg);
-            return false;
         }
-        return true;
+
     }
 
-    public boolean asserCvvCarta(String cvv, String msg) {
-        return validate(cvv, CVV_CARTA_PATTERN, msg);
+    private void asserCvvCarta(String cvv, String msg) {
+         validate(cvv, CVV_CARTA_PATTERN, msg);
     }
 
-    public boolean asserNomeCarta(String nome, String msg){
-        return validate(nome, NOME_COGNOME_CARTA_PATTERN, msg);
+    private void asserNomeCarta(String nome, String msg){
+         validate(nome, NOME_COGNOME_CARTA_PATTERN, msg);
     }
 
-    public boolean asserCognomeCarta(String cognome, String msg){
-        return validate(cognome, NOME_COGNOME_CARTA_PATTERN, msg);
-    }
-
-    public void validateGame(Prodotto prodotto){
-        /*TODO validare i giochi */
+    private void asserCognomeCarta(String cognome, String msg){
+         validate(cognome, NOME_COGNOME_CARTA_PATTERN, msg);
     }
 }

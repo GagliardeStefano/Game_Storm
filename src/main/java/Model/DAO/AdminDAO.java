@@ -436,8 +436,8 @@ public class AdminDAO {
             PreparedStatement ps = conn.prepareStatement("INSERT INTO prodotto_genere (ID_prodotto, ID_genere) VALUES (?, ?)");
 
             for (String genere : generi) {
-                // Eseguire una query per recuperare l'ID del genere dal nome
-                int idGenere = getIdGenereFromNome(genere); // Implementa questa funzione
+                //query per recuperare l'ID del genere dal nome
+                int idGenere = getIdGenereFromNome(genere);
 
                 // Inserire l'associazione nella tabella gioco_genere
                 ps.setString(1, idGame);
@@ -466,6 +466,89 @@ public class AdminDAO {
             throw new RuntimeException(e);
         }
         return 0;
+    }
+
+    public void addNewGenere(String newGenere){
+        try(Connection conn = ConPool.getConnection()) {
+
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO genere(nome_genere) VALUES (?)");
+            ps.setString(1, newGenere);
+
+            ps.executeUpdate();
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int getIdByGenere(String newGenere){
+        try(Connection conn = ConPool.getConnection()) {
+
+            PreparedStatement ps = conn.prepareStatement("SELECT ID FROM genere WHERE nome_genere = ?");
+            ps.setString(1, newGenere);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("ID");
+            }
+
+            return 0;
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void addGamesAtGenereById(String idGenere, String[] giochi){
+        try(Connection conn = ConPool.getConnection()) {
+
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO prodotto_genere (ID_prodotto, ID_genere) VALUES (?, ?)");
+
+            for (String nomi : giochi) {
+                //query per recuperare l'ID del genere dal nome
+                String idGame = getIdByNameGame(nomi);
+
+                // Inserire l'associazione nella tabella gioco_genere
+                ps.setString(1, idGame);
+                ps.setInt(2, Integer.parseInt(idGenere));
+                ps.executeUpdate();
+            }
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String getIdByNameGame(String nome){
+        try(Connection conn = ConPool.getConnection()) {
+
+            PreparedStatement ps = conn.prepareStatement("SELECT ID FROM prodotti WHERE nome = ?");
+            ps.setString(1, nome);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()){
+                return rs.getString("ID");
+            }
+
+            return null;
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean genereAlreadyExists(String genere){
+        try(Connection conn = ConPool.getConnection()) {
+
+            PreparedStatement ps = conn.prepareStatement("SELECT nome_genere FROM genere WHERE nome_genere = ?");
+            ps.setString(1, genere);
+
+            return ps.executeQuery().next();
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

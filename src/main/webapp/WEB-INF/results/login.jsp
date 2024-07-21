@@ -59,7 +59,7 @@
                         <input id="register-input-nome" name="Nome" class="login-input" type="text" aria-label="Nome" autocomplete="given-name"  />
                         <span id="reg-nome-error" class="error-input">
                                 <c:forEach items="${errori}" var="errore">
-                                    <c:if test="${fn:containsIgnoreCase(errore, 'nome')}">
+                                    <c:if test="${fn:containsIgnoreCase(errore, ' nome')}">
                                         ${errore}
                                     </c:if>
                                 </c:forEach>

@@ -186,6 +186,15 @@ th {
     background-color: var(--sfondo4);
 }
 
+.scroll-box {
+    width: 300px; /* Larghezza del contenitore */
+    height: 200px; /* Altezza del contenitore */
+    overflow-y: scroll; /* Abilita lo scorrimento verticale */
+    border: 1px solid #ccc; /* Bordo per evidenziare il contenitore */
+    padding: 10px; /* Spaziatura interna del contenitore */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ombreggiatura per l'effetto visivo */
+}
+
 @media (max-width: 1500px) {
     .page {
         flex-direction: column;

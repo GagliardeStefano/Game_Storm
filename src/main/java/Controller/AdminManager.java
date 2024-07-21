@@ -2,6 +2,7 @@ package Controller;
 
 import Model.DAO.AdminDAO;
 import Model.DAO.ProdottoDAO;
+import Model.DAO.UserDAO;
 import Model.Enum.TipoUtente;
 import Model.Prodotto;
 import Model.User;
@@ -14,12 +15,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -27,10 +24,6 @@ import java.util.List;
 
 @WebServlet(name = "Admin", value = "/AdminManager")
 public class AdminManager extends HttpServlet {
-
-    private static final String DESTINATION_FILE = "/images/giochi/";
-    private static final int WIDTH_IMG = 728;
-    private static final int HEIGHT_IMG = 453;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -91,33 +84,7 @@ public class AdminManager extends HttpServlet {
                 String tabella = req.getParameter("tabella");
 
                 if (!tabella.isEmpty()) {
-                    List<Map<String, Object>> records = new ArrayList<>();
-                    switch (tabella) {
-                        case "prodotti":
-                            records = dao.getProdotti();
-                            break;
-
-                        case "utente":
-                            records = dao.getUtenti();
-                            break;
-
-                        case "ordini":
-                            records = dao.getOridiniEffettauti();
-                            break;
-                        case "carrello":
-                            records = dao.getCarrelli();
-                            break;
-                        case "genere":
-                            records = dao.getGeneri();
-                            break;
-                    }
-
-                    JSONObject jsonResponse = new JSONObject();
-                    jsonResponse.put("records", records);   // Aggiungi i record
-
-                    // Converti l'oggetto JSON in una stringa
-                    String jsonString = jsonResponse.toJSONString();
-
+                    String jsonString = getJSONString(tabella, dao);
 
                     // Imposta il tipo di contenuto della risposta come JSON
                     resp.setContentType("application/json");
@@ -133,94 +100,177 @@ public class AdminManager extends HttpServlet {
 
                 String nome = req.getParameter("nome");
                 String descrizione = req.getParameter("descrizione");
-
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date data;
-                try {
-                    data = dateFormat.parse(req.getParameter("data"));
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
-
-                String prezzo = req.getParameter("prezzo");
-                String sconto = req.getParameter("sconto");
-
+                String dataProd = req.getParameter("dataRilascio");
+                double prezzo = Double.parseDouble(req.getParameter("prezzo"));
+                int sconto = Integer.parseInt(req.getParameter("sconto"));
                 String urlImg = req.getParameter("urlImg");
-                String img = downloadImage(urlImg, nome, getServletContext());
-
                 String urlTrailer = req.getParameter("urlTrailer");
-                List<String> generi = List.of(req.getParameterValues("genere"));
+                String[] generi = req.getParameterValues("genere");
 
                 if (dao.existGame(nome)){
 
-                    validator.addError(true, "Gioco già presente");
-
+                    validator.addError(false, "Gioco già presente");
                     req.setAttribute("errori", validator.getErrors());
-                    dispatcher = req.getRequestDispatcher("/WEB-INF/results/admin.jsp");
-                    dispatcher.forward(req, resp);
 
                 }else {
-                    Prodotto prodotto = new Prodotto();
 
-                    prodotto.setNome(nome);
-                    prodotto.setDescrizione(descrizione);
-                    prodotto.setDataRilascio(data);
-                    prodotto.setPrezzo(Double.parseDouble(prezzo));
-                    prodotto.setSconto(Integer.parseInt(sconto));
-                    prodotto.setPrezzoScontato();
-                    prodotto.setImg(img);
-                    prodotto.setTrailer(urlTrailer);
-
-                    validator.validateGame(prodotto);
+                    validator = new Validator();
+                    validator.validateGame(nome, descrizione, dataProd, prezzo, sconto, generi, urlImg, urlTrailer);
 
                     if (validator.hasErrors()){
                         req.setAttribute("errori", validator.getErrors());
-                        dispatcher = req.getRequestDispatcher("/WEB-INF/results/admin.jsp");
-                        dispatcher.forward(req, resp);
                     }else {
+
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        Date data;
+                        try {
+                            data = dateFormat.parse(dataProd);
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                        Prodotto prodotto = new Prodotto();
+
+                        prodotto.setNome(nome);
+                        prodotto.setDescrizione(descrizione);
+                        prodotto.setDataRilascio(data);
+                        prodotto.setPrezzo(prezzo);
+                        prodotto.setSconto(sconto);
+                        prodotto.setPrezzoScontato();
+                        prodotto.setImg("/images/giochi/"+nome.replace(" ", "")+".jpg");
+                        prodotto.setTrailer(urlTrailer);
+                        prodotto.downloadImage(urlImg, nome, getServletContext());
 
                         dao.addNewGame(prodotto);
                         Prodotto gioco = prodottoDAO.getProdByName(nome);
-                        dao.addGeneriAtProdById(String.valueOf(gioco.getId()), generi);
+                        dao.addGeneriAtProdById(String.valueOf(gioco.getId()), List.of(generi));
 
+                        /*NON è un errore, solo per informare*/
+                        validator.addError(false, "Gioco aggiunto");
+                        req.setAttribute("errori", validator.getErrors());
                     }
-
                 }
 
+                req.setAttribute("type", "addProdotto");
+                dispatcher = req.getRequestDispatcher("/WEB-INF/results/admin.jsp");
+                dispatcher.forward(req, resp);
+                break;
+
+            case "addUser":
+
+                String email = req.getParameter("email");
+                String password = req.getParameter("password");
+                String nomeUser = req.getParameter("nome");
+                String cognome = req.getParameter("cognome");
+                String data = req.getParameter("dataNascita");
+                String regione = req.getParameter("regione");
+                String tipo = req.getParameter("tipo");
+
+                validator = new Validator();
+                validator.validateAll(nomeUser, cognome, regione, email, password, data);
+
+                if (validator.hasErrors() && ( !tipo.equals("Semplice") && !tipo.equals("Admin1") && !tipo.equals("Admin2"))){
+                    validator.addError(false, "Seleziona un tipo");
+                    req.setAttribute("errori", validator.getErrors());
+                }else {
+
+                    UserDAO userDAO = new UserDAO();
+
+                    if (userDAO.emailAlreadyExists(email)){
+                        System.out.println("utente già presente");
+                        validator = new Validator();
+                        validator.addError(false, "Utente già presente");
+                        req.setAttribute("errori", validator.getErrors());
+                    }else {
+                        User user = new User();
+
+                        user.setNome(nomeUser);
+                        user.setCognome(cognome);
+                        user.setEmail(email);
+                        user.setPassword(password);
+                        try {
+                            user.setPasswordHash();
+                        } catch (NoSuchAlgorithmException e) {
+                            throw new RuntimeException(e);
+                        }
+                        user.setData(data);
+                        user.setRegione(regione);
+                        user.setTipo(TipoUtente.valueOf(tipo));
+                        user.setFoto("/images/avatar/avatar0.png");
+
+                        userDAO.doSave(user);
+
+                        /*NON è un errore, solo per informare*/
+                        validator.addError(false,"Utente aggiunto");
+                        req.setAttribute("errori", validator.getErrors());
+                    }
+                }
+
+                req.setAttribute("type", "addUser");
+                dispatcher = req.getRequestDispatcher("/WEB-INF/results/admin.jsp");
+                dispatcher.forward(req, resp);
+
+                break;
+
+            case "addGenere":
+
+                String newGenere = req.getParameter("genere");
+                String[] giochi = req.getParameterValues("listGames");
+
+                validator.validateNewGenere(newGenere, giochi);
+
+                if (validator.hasErrors()){
+                    req.setAttribute("errori", validator.getErrors());
+                }else {
+                    if (dao.genereAlreadyExists(newGenere)){
+                        validator.addError(false, "Genere già presente");
+                        req.setAttribute("errori", validator.getErrors());
+                    }else {
+                        dao.addNewGenere(newGenere);
+
+                        String idGenere = String.valueOf(dao.getIdByGenere(newGenere));
+                        dao.addGamesAtGenereById(idGenere, giochi);
+
+                        /*NON è un errore, solo per informare*/
+                        validator.addError(false,"Genere aggiunto");
+                        req.setAttribute("errori", validator.getErrors());
+                    }
+                }
+
+                req.setAttribute("type", "addGenere");
+                dispatcher = req.getRequestDispatcher("/WEB-INF/results/admin.jsp");
+                dispatcher.forward(req, resp);
                 break;
         }
     }
 
-    public String downloadImage(String urlString, String imageName, ServletContext servletContext) throws IOException {
-        URL url = new URL(urlString);
-        BufferedImage originalImage = ImageIO.read(url);
+    private static String getJSONString(String tabella, AdminDAO dao) {
+        List<Map<String, Object>> records = new ArrayList<>();
+        switch (tabella) {
+            case "prodotti":
+                records = dao.getProdotti();
+                break;
 
-        // Ridimensiona l'immagine
-        Image resizedImage = originalImage.getScaledInstance(WIDTH_IMG, HEIGHT_IMG, Image.SCALE_SMOOTH);
-        BufferedImage bufferedResizedImage = new BufferedImage(WIDTH_IMG, HEIGHT_IMG, BufferedImage.TYPE_INT_RGB);
+            case "utente":
+                records = dao.getUtenti();
+                break;
 
-        Graphics2D g2d = bufferedResizedImage.createGraphics();
-        g2d.drawImage(resizedImage, 0, 0, null);
-        g2d.dispose();
+            case "ordini":
+                records = dao.getOridiniEffettauti();
+                break;
+            case "carrello":
+                records = dao.getCarrelli();
+                break;
+            case "genere":
+                records = dao.getGeneri();
+                break;
+        }
 
-        // Ottiene il percorso reale della directory di destinazione
-        String destinationPath = servletContext.getRealPath("/images/giochi/");
-        File outputDir = new File(destinationPath);
+        JSONObject jsonResponse = new JSONObject();
+        jsonResponse.put("records", records);   // Aggiungi i record
 
-        // Assicurati che la directory esista
-        /*if (!outputDir.exists()) {
-            outputDir.mkdirs();  // Crea le directory se non esistono
-        }*/
-
-        // Costruisci il nome del file
-        String fileName = imageName.replace(" ", "") + ".jpg";
-        File outputFile = new File(outputDir, fileName);
-
-        // Salva l'immagine ridimensionata
-        ImageIO.write(bufferedResizedImage, "jpg", outputFile);
-
-        // Restituisce il percorso relativo del file salvato
-        return "/images/giochi/" + fileName;
+        // Converti l'oggetto JSON in una stringa
+        return jsonResponse.toJSONString();
     }
 
 }

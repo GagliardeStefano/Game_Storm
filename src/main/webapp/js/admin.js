@@ -1,13 +1,36 @@
 let table = document.getElementById('table');
 let dashboard = document.getElementById('dashboard');
 const searchBar = document.getElementById('searchBar');
+let addRecordButton = document.getElementById('add-record');
+let deleteRecordButton = document.getElementById('delete-record');
+let updateRecordButton = document.getElementById('edit-record');
+let allForm = document.getElementById('form-table-action').querySelectorAll('#form-table-action > div');
+let typeReq = document.getElementById('type').innerHTML;
+let tabellaScelta;
+let dropdownContainer = document.querySelector('.dropdown-container');
 
-let tabella;
-
+switch (typeReq){
+    case "addProdotto":
+        hiddenDashboard();
+        hiddenTable();
+        tabellaScelta = "prodotti";
+        showFormById('addProdotto', true);
+        break;
+    case "addUser":
+        hiddenDashboard();
+        hiddenTable();
+        tabellaScelta = "utente";
+        showFormById('addUser', true);
+        break;
+    case "addGenere":
+        hiddenDashboard();
+        hiddenTable();
+        tabellaScelta = "genere";
+        showFormById('addGenere', true);
+        break;
+}
 
 table.style.display = 'none';
-
-let dropdownContainer = document.querySelector('.dropdown-container');
 
 // Funzione per mostrare/nascondere il dropdown-container
 function displayContainer() {
@@ -18,6 +41,26 @@ function displayContainer() {
     } else {
         dropdownContainer.style.display = 'block'; // Mostra il dropdown-container se è nascosto
     }
+}
+
+function hiddenForms(){
+    document.getElementById('form-table-action').style.display = 'none';
+}
+
+function showForms(){
+    document.getElementById('form-table-action').style.display = 'block';
+}
+
+function hiddenButtons(){
+    addRecordButton.style.display = 'none';
+    deleteRecordButton.style.display = 'none';
+    updateRecordButton.style.display = 'none';
+}
+
+function showButtons(){
+    addRecordButton.style.display = 'block';
+    deleteRecordButton.style.display = 'block';
+    updateRecordButton.style.display = 'block';
 }
 
 // Aggiungi un evento di click a tutti gli elementi con classe 'action'
@@ -35,33 +78,49 @@ actionElements.forEach(function(element) {
 });
 
 function displayDashboard(){
-    table.style.display = 'none';
     dashboard.style.display = 'flex';
+    hiddenTable();
+    hiddenForms();
+}
+
+function hiddenDashboard(){
+    dashboard.style.display = 'none';
 }
 
 function displayTable(){
-    dashboard.style.display = 'none';
     table.style.display = 'block';
+    hiddenDashboard();
+    hiddenForms();
+}
+
+function hiddenTable(){
+    table.style.display = 'none';
 }
 
 function getTable(element){
 
     switch (element){
         case 'Prodotti':
-            tabella = "prodotti";
+            tabellaScelta = "prodotti";
             break;
         case 'Generi':
-            tabella = "genere";
+            tabellaScelta = "genere";
             break;
         case 'Utenti':
-            tabella = "utente";
+            tabellaScelta = "utente";
             break;
         case 'Carrelli':
-            tabella = "carrello";
+            tabellaScelta = "carrello";
             break;
         case 'Ordini':
-            tabella = "ordini";
+            tabellaScelta = "ordini";
             break;
+    }
+
+    if (tabellaScelta === "prodotti" || tabellaScelta === "genere" || tabellaScelta === "utente"){
+        showButtons();
+    }else {
+        hiddenButtons();
     }
 
     let xhttp = new XMLHttpRequest();
@@ -76,36 +135,17 @@ function getTable(element){
 
     xhttp.open("POST", "AdminManager", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("from=showTable&tabella="+tabella);
+    xhttp.send("from=showTable&tabella="+tabellaScelta);
 
 }
 
-/* TODO creare queste funzioni */
-/*FORMS*/
-
-function aggiungiEntita(){
-    table.style.display = 'none';
-    switch (tabella){
-        case "prodotti":
-            document.getElementById("prodotti-form-add").style.display = 'flex';
-
-    }
-}
-
-function eliminaEntita(){
-    table.style.display = 'none';
-}
-
-function modificaEntita(){
-    table.style.display = 'none';
-}
 
 function printTable(response) {
     let tableBody = document.getElementById('tableBody');
     let tableHead = document.getElementById('tableHead');
     let nomeTabella = document.getElementById('nomeTabella');
 
-    nomeTabella.innerText = tabella;
+    nomeTabella.innerText = tabellaScelta;
 
 
     if (response.records != null) {
@@ -131,7 +171,7 @@ function printTable(response) {
 
                     // Controlla la chiave associata al valore
                     if (key === 'immagini_giochi') {
-                            cell.classList.add('img-listgames');
+                        cell.classList.add('img-listgames');
 
                     }else if(key === 'immagine' || key === 'foto') {
 
@@ -189,6 +229,52 @@ function printTable(response) {
 }
 
 
+
+/*FORMS*/
+function showFormById(id, from){
+    allForm.forEach(form => {
+        form.style.display = 'none';
+    })
+
+    let container = document.getElementById(id);
+    container.querySelectorAll('.error-input').forEach(element => {
+        element.innerHTML = "";
+    });
+
+    container.style.display = 'flex';
+
+    if (from === false){
+        container.querySelector('.mex-general').style.display = 'none';
+    }
+
+}
+
+function aggiungiEntita(){
+    table.style.display = 'none';
+    showForms();
+    switch (tabellaScelta){
+        case "prodotti":
+            showFormById('addProdotto', false);
+            break;
+        case "utente":
+            showFormById('addUser', false);
+            break;
+        case "genere":
+            showFormById('addGenere', false);
+            break;
+
+    }
+}
+
+function eliminaEntita(){
+    table.style.display = 'none';
+}
+
+function modificaEntita(){
+    table.style.display = 'none';
+}
+
+
 searchBar.addEventListener('keyup', function(event){
 
     const query = searchBar.value.trim();
@@ -217,41 +303,20 @@ function performSearch(query) {
         }
     };
 
-    xhr.open('GET', `search?q=${encodeURIComponent(query)}&t=`+encodeURIComponent(tabella), true);
+    xhr.open('GET', `search?q=${encodeURIComponent(query)}&t=`+encodeURIComponent(tabellaScelta), true);
     xhr.onerror = function() {
         console.error('Error:', xhr.statusText);
     };
     xhr.send();
 }
 
-function checkFormAdmin(event, form) {
+function checkFormAdmin(form) {
 
-
-    event.preventDefault();
+    document.getElementById('mexProd-general').innerHTML = "";
     let inputs = new FormData(form);
+    console.log("dentro");
+    return NoErrorForm(form, inputs) === true;
 
-    if(NoErrorForm(form, inputs)){
-
-        inputs.append("from", form.id);
-
-        let params= "";
-        inputs.forEach((value, key) => {
-            params += key+"="+value+"&";
-        });
-
-
-        let xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (xhttp.readyState === 4 && xhttp.status === 200) {
-                console.log("ok");
-            }
-        }
-
-        xhttp.open('POST', 'AdminManager', true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send(params);
-
-    }
 }
 
 function NoErrorForm(form, inputs){
@@ -261,47 +326,108 @@ function NoErrorForm(form, inputs){
     inputs.forEach((value, key) => {
 
         let inputElement = form.querySelector(`[name="${key}"]`);
-        if (inputElement) {
 
-            let errorElement = inputElement.nextElementSibling;
-            let inputType = inputElement.type;
+        if (key !== "from"){
+            if (inputElement) {
 
-            if ( (inputType === 'text' || inputType === 'textarea') && !validateText(value)) {
+                let errorElement = inputElement.nextElementSibling;
+                errorElement.innerHTML = "";
+                let inputType = inputElement.type;
+
+                console.log("tabella scelta: "+tabellaScelta);
+                if(tabellaScelta === "prodotti"){
+
+                    if(!validateGeneri(form)){
+                        hasErrors.push(true);
+                        document.getElementById("error-generi").innerHTML = "Selezionane almeno un genere";
+                    }else {
+                        document.getElementById("error-generi").innerHTML = "";
+                    }
+
+                }
+                else if (tabellaScelta === "genere"){
+
+                    if (!validateCheckGames(form)){
+                        hasErrors.push(true);
+                        document.getElementById("error-giochi-selezionati").innerHTML = "Selezionane almeno un gioco";
+                    }else {
+                        document.getElementById("error-giochi-selezionati").innerHTML = "";
+                    }
+
+                } else if(tabellaScelta === "utente"){
+                    if (!validateTipoUser(form)){
+                        hasErrors.push(true);
+                        document.getElementById("error-tipo-user").innerHTML = "Selezionane un solo tipo";
+                    }else {
+                        document.getElementById("error-tipo-user").innerHTML = "";
+                    }
+                }
+
 
                 if (key === "prezzo" || key === "sconto"){
 
                     if (!validateNumber(value)){
                         hasErrors.push(true);
                         errorElement.innerHTML = "Inserisci un numero";
+                    }else {
+                        errorElement.innerHTML = "";
                     }
 
-                }else {
+                }
+                else if ( (inputType === 'text' || inputType === 'textarea') && !validateText(value)) {
+
                     hasErrors.push(true);
                     errorElement.innerHTML = "Inserisci un valore";
+
+                }
+                else if (inputType === 'date') {
+
+                    console.log("key: "+key)
+                    if(key === "dataNascita" && !validateDataNascita(value)){
+                        console.log("dentro data user");
+                        hasErrors.push(true);
+                        errorElement.innerHTML = "Deve essere almeno maggiorenne";
+
+                    }else if (key === "dataRilascio" && !validateDateGame(value)){
+                        hasErrors.push(true);
+                        errorElement.innerHTML = "Inserisci una data valida";
+                    }else {
+                        errorElement.innerHTML = "";
+                    }
+
+                }
+                else if (inputType === 'password' && !validatePassword(value)) {
+                    hasErrors.push(true);
+                    errorElement.innerHTML = "La password deve contenere almeno un numero, almeno una lettera maiuscola e minuscola e almeno 8 o più caratteri";
+                }
+                else if (inputType === 'email' && !validateEmail(value)) {
+                    hasErrors.push(true);
+                    errorElement.innerHTML = "Inserisci un email valida";
+                }
+                else if (inputType === 'url' && !validateUrl(value)) {
+                    hasErrors.push(true);
+                    errorElement.innerHTML = "Inserisci un url valido";
+                }
+                else if(key === 'regione' && inputElement.value === ""){
+                    hasErrors.push(true);
+                    errorElement.innerHTML = "Fai una scelta";
+                }
+                else {
+                    errorElement.innerHTML = "";
                 }
 
             }
-            else if (inputType === 'date' && value === "") {
-                hasErrors.push(true);
-                errorElement.innerHTML = "Inserisci una data di rilascio";
-            }
-            else if (inputType === 'password' && !validatePassword(value)) {
-                hasErrors.push(true);
-                errorElement.innerHTML = "La password deve contenere almeno un numero, almeno una lettera maiuscola e minuscola e almeno 8 o più caratteri";
-            }
-            else if (inputType === 'email' && !validateEmail(value)) {
-                hasErrors.push(true);
-                errorElement.innerHTML = "Inserisci un email valida";
-            }
-            else if (inputType !== 'checkbox') {
-                errorElement.innerHTML = "";
-            }
-
         }
+
     });
 
     return !hasErrors.includes(true);
 
+}
+
+function validateDataNascita(data){
+    const re = /(19[3-9][4-9]|19[4-9]\d|200[0-6])-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])/;
+    return re.test(data);
 }
 
 function validateEmail(email) {
@@ -320,7 +446,32 @@ function validateText(text){
 }
 
 function validateNumber(number){
-    const num = parseFloat(number);
-    return !isNaN(num);
+    const re = /^\d+(\.\d+)?$/
+    return re.test(number);
+}
+
+function validateDateGame(date){
+    const re = /(19|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])/;
+    return re.test(date);
+}
+
+function validateGeneri(form) {
+    const checkboxes = form.querySelectorAll('input[name="genere"]:checked');
+    return checkboxes.length > 0;
+}
+
+function validateCheckGames(form){
+    const checkboxes = form.querySelectorAll('input[name="listGames"]:checked');
+    return checkboxes.length > 0;
+}
+
+function validateTipoUser(form){
+    const radioButtons = form.querySelectorAll('input[name="tipo"]:checked');
+    return radioButtons.length === 1;
+}
+
+function validateUrl(url) {
+    const urlPattern = /(http|https):\/\/[^\s\/$.?#].\S*/;
+    return url !== "" && urlPattern.test(url);
 }
 

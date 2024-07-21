@@ -26,7 +26,7 @@
         <a  role="link" href="${context}/UpdateUser?from=logout" class="action">Logout<i class="ri-logout-box-line"></i></a>
     </div>
 
-    <div style="width: 20%;visibility: hidden;"></div>
+    <div style="width: 20%;visibility: hidden;" id="type">${type}</div>
 
     <div id="output" class="output">
         <div id="dashboard">
@@ -83,71 +83,144 @@
         </div>
 
         <div id="form-table-action">
-            <div id="prodotti-form-add">
-                <form action="/jj" method="post" onsubmit="return checkFormAdmin(event, this)" id="addProdotto">
+            <div id="addProdotto">
+                <form action="${context}/AdminManager" method="post" onsubmit="return checkFormAdmin(this)">
+
+                    <input type="hidden" name="from" value="addProdotto">
 
                     <label for="addNome">Nome</label>
                     <input type="text" name="nome" id="addNome" />
-                    <label class="error-input"></label>
+                    <label class="error-input">
+                        <c:forEach items="${errori}" var="error">
+                            <c:if test="${fn:containsIgnoreCase(error, 'nome')}">
+                                ${error}
+                            </c:if>
+                        </c:forEach>
+                    </label>
 
                     <label for="addDesc">Descrizione</label>
                     <textarea name="descrizione" id="addDesc"></textarea>
-                    <label class="error-input"></label>
+                    <label class="error-input">
+                        <c:forEach items="${errori}" var="error">
+                            <c:if test="${fn:containsIgnoreCase(error, 'descrizione')}">
+                                ${error}
+                            </c:if>
+                        </c:forEach>
+                    </label>
 
                     <label for="addData">Data di rilascio</label>
-                    <input type="date" name="data" id="addData" />
-                    <label class="error-input" ></label>
+                    <input type="date" name="dataRilascio" id="addData" />
+                    <label class="error-input" >
+                        <c:forEach items="${errori}" var="error">
+                            <c:if test="${fn:containsIgnoreCase(error, 'data')}">
+                                ${error}
+                            </c:if>
+                        </c:forEach>
+                    </label>
 
                     <label for="addPrezzo">Prezzo (€)</label>
-                    <input type="text" name="prezzo" id="addPrezzo" />
-                    <label class="error-input"></label>
+                    <input type="text" name="prezzo" id="addPrezzo" value="0" />
+                    <label class="error-input">
+                        <c:forEach items="${errori}" var="error">
+                            <c:if test="${fn:containsIgnoreCase(error, 'prezzo')}">
+                                ${error}
+                            </c:if>
+                        </c:forEach>
+                    </label>
 
                     <label for="addSconto">Sconto (%)</label>
-                    <input type="text" name="sconto" id="addSconto" />
-                    <label class="error-input"></label>
+                    <input type="text" name="sconto" id="addSconto" value="0" />
+                    <label class="error-input">
+                        <c:forEach items="${errori}" var="error">
+                            <c:if test="${fn:containsIgnoreCase(error, 'sconto')}">
+                                ${error}
+                            </c:if>
+                        </c:forEach>
+                    </label>
 
                     <label>Generi</label>
-                    <c:forEach items="${generi}" var="genere">
-                        <input id="${genere}" type="checkbox" name="genere" value="${genere}">
-                        <label for="${genere}">${genere}</label><br>
-                    </c:forEach>
-                    <label class="error-input"></label>
+                    <div class="scroll-box">
+                        <c:forEach items="${generi}" var="genere">
+                            <input id="${genere}" type="checkbox" name="genere" value="${genere}">
+                            <label for="${genere}">${genere}</label><br>
+                        </c:forEach>
+                    </div>
+                    <label id="error-generi" class="error-input">
+                        <c:forEach items="${errori}" var="error">
+                            <c:if test="${fn:containsIgnoreCase(error, 'genere')}">
+                                ${error}
+                            </c:if>
+                        </c:forEach>
+                    </label>
 
                     <label for="addImg">Immagine</label>
                     <input type="url" id="addImg" name="urlImg" accept="image/*" />
-                    <label class="error-input"></label>
+                    <label class="error-input">
+                        <c:forEach items="${errori}" var="error">
+                            <c:if test="${fn:containsIgnoreCase(error, 'urlImg')}">
+                                ${error}
+                            </c:if>
+                        </c:forEach>
+                    </label>
 
                     <label for="addTrailer">Trailer</label>
                     <input type="url" id="addTrailer" name="urlTrailer" />
-                    <label class="error-input"></label>
+                    <label class="error-input">
+                        <c:forEach items="${errori}" var="error">
+                            <c:if test="${fn:containsIgnoreCase(error, 'urlTrailer')}">
+                                ${error}
+                            </c:if>
+                        </c:forEach>
+                    </label>
 
                     <input type="reset" value="Reset">
                     <input type="submit" value="Salva">
 
-                    <label id="error-general">
-                        <c:forEach items="${errori}" var="errore">
-                            <c:if test="${fn:containsIgnoreCase(errore, 'presente')}">
-                                ${errore}
+                    <br>
+                    <label id="mexProd-general" class="mex-general">
+                        <c:forEach items="${errori}" var="mex">
+                            <c:if test="${fn:containsIgnoreCase(mex, 'presente') || fn:containsIgnoreCase(mex, 'aggiunto')}">
+                                ${mex}
                             </c:if>
                         </c:forEach>
                     </label>
                 </form>
             </div>
 
-            <div id="user-form-add">
-                <form action="" method="post" onsubmit="return checkFormAdmin(this)" id="addUser">
+            <div id="addUser">
+                <form action="${context}/AdminManager" method="post" onsubmit="return checkFormAdmin(this)">
+
+                    <input type="hidden" name="from" value="addUser">
 
                     <label for="addEmail">Email</label>
                     <input type="email" name="email" id="addEmail" />
-                    <label class="error-input"></label>
+                    <label class="error-input">
+                        <c:forEach items="${errori}" var="errore">
+                            <c:if test="${fn:containsIgnoreCase(errore, 'email')}">
+                                ${errore}
+                            </c:if>
+                        </c:forEach>
+                    </label>
 
                     <label for="addNomeUser">Nome</label>
                     <input type="text" name="nome" id="addNomeUser" />
-                    <label class="error-input"></label>
+                    <label class="error-input">
+                        <c:forEach items="${errori}" var="errore">
+                            <c:if test="${fn:containsIgnoreCase(errore, ' nome')}">
+                                ${errore}
+                            </c:if>
+                        </c:forEach>
+                    </label>
 
                     <label for="addCognome">Cognome</label>
                     <input type="text" name="cognome" id="addCognome" />
-                    <label class="error-input" ></label>
+                    <label class="error-input" >
+                        <c:forEach items="${errori}" var="errore">
+                            <c:if test="${fn:containsIgnoreCase(errore, 'cognome')}">
+                                ${errore}
+                            </c:if>
+                        </c:forEach>
+                    </label>
 
                     <label for="addRegione">Regione</label>
                     <select name="regione" id="addRegione">
@@ -156,39 +229,111 @@
                         <option value="EU" aria-label="Europa">Europa</option>
                         <option value="AS" aria-label="Asia">Asia</option>
                     </select>
-                    <label class="error-input"></label>
+                    <label class="error-input">
+                        <c:forEach items="${errori}" var="errore">
+                            <c:if test="${fn:containsIgnoreCase(errore, 'regione')}">
+                                ${errore}
+                            </c:if>
+                        </c:forEach>
+                    </label>
 
                     <label for="addDataUser">Data di nascita</label>
-                    <input type="date" name="data" id="addDataUser" />
-                    <label class="error-input"></label>
+                    <input type="date" name="dataNascita" id="addDataUser" />
+                    <label class="error-input">
+                        <c:forEach items="${errori}" var="errore">
+                            <c:if test="${fn:containsIgnoreCase(errore, 'data')}">
+                                ${errore}
+                            </c:if>
+                        </c:forEach>
+                    </label>
 
                     <label for="addPass">Password</label>
                     <input type="password" name="password" id="addPass" />
-                    <label class="error-input"></label>
+                    <label class="error-input">
+                        <c:forEach items="${errori}" var="errore">
+                            <c:if test="${fn:containsIgnoreCase(errore, '8')}">
+                                ${errore}
+                            </c:if>
+                        </c:forEach>
+                    </label>
+
+                    <div>
+                        <label for="ad1">Admin1</label>
+                        <input type="radio" name="tipo" id="ad1" value="Admin1" />
+
+                        <label for="ad2">Admin2</label>
+                        <input type="radio" name="tipo" id="ad2" value="Admin2" />
+
+                        <label for="semplice">Semplice</label>
+                        <input type="radio" name="tipo" id="semplice" value="Semplice" />
+
+                        <label class="error-input" id="error-tipo-user">
+                            <c:forEach items="${errori}" var="mex">
+                                <c:if test="${fn:containsIgnoreCase(mex, 'tipo')}">
+                                    ${mex}
+                                </c:if>
+                            </c:forEach>
+                        </label>
+                    </div>
 
                     <input type="reset" value="Reset">
                     <input type="submit" value="Salva">
+
+                    <br>
+                    <label id="mexUser-general" class="mex-general">
+                        <c:forEach items="${errori}" var="mex">
+                            <c:if test="${fn:containsIgnoreCase(mex, 'presente') || fn:containsIgnoreCase(mex, 'aggiunto')}">
+                                ${mex}
+                            </c:if>
+                        </c:forEach>
+                    </label>
 
                 </form>
             </div>
 
-            <div id="genere-form-add">
-                <form action="" method="post" onsubmit="return checkFormAdmin(this)" id="addGenere">
+            <div id="addGenere">
+                <form action="${context}/AdminManager" method="post" onsubmit="return checkFormAdmin(this)">
+
+                    <input type="hidden" name="from" value="addGenere">
+
                     <label for="addGenereSingolo">Genere</label>
                     <input type="text" name="genere" id="addGenereSingolo" />
-                    <label class="error-input" id="errorGenereSingolo"></label>
+                    <label class="error-input">
+                        <c:forEach items="${errori}" var="mex">
+                            <c:if test="${fn:containsIgnoreCase(mex, 'valore')}">
+                                ${mex}
+                            </c:if>
+                        </c:forEach>
+                    </label>
 
                     <label>Giochi</label>
-                    <c:forEach items="${nomiGiochi}" var="nome">
-                        <br>
-                        <input id="${nome}" type="checkbox" name="${nome}" value="${nome}">
-                        <label for="${nome}">${nome}</label>
-                    </c:forEach>
-                    <label class="error-input" id="errorGenereGame"></label>
+                    <div class="scroll-box">
+                        <c:forEach items="${nomiGiochi}" var="nome">
+                            <br>
+                            <input id="${nome}" type="checkbox" name="listGames" value="${nome}">
+                            <label for="${nome}">${nome}</label>
+                        </c:forEach>
+                    </div>
+                    <label class="error-input" id="error-giochi-selezionati">
+                        <c:forEach items="${errori}" var="mex">
+                            <c:if test="${fn:containsIgnoreCase(mex, 'gioco')}">
+                                ${mex}
+                            </c:if>
+                        </c:forEach>
+                    </label>
 
 
                     <input type="reset" value="Reset">
                     <input type="submit" value="Salva">
+
+                    <br>
+                    <label id="mexGenere-general" class="mex-general">
+                        <c:forEach items="${errori}" var="mex">
+                            <c:if test="${fn:containsIgnoreCase(mex, 'presente') || fn:containsIgnoreCase(mex, 'aggiunto')}">
+                                ${mex}
+                            </c:if>
+                        </c:forEach>
+                    </label>
                 </form>
             </div>
             <!--
