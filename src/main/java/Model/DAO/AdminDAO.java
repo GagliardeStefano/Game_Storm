@@ -550,6 +550,42 @@ public class AdminDAO {
             throw new RuntimeException(e);
         }
     }
+    public int deleteProdotto(String nome){
+        try(Connection conn = ConPool.getConnection()) {
+
+            PreparedStatement ps = conn.prepareStatement("DELETE  FROM prodotti WHERE nome = ?");
+            ps.setString(1, nome);
+
+            return ps.executeUpdate();
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public int deleteUser(String email){
+        try(Connection conn = ConPool.getConnection()) {
+
+            PreparedStatement ps = conn.prepareStatement("DELETE  FROM utente WHERE email = ?");
+            ps.setString(1, email);
+
+            return ps.executeUpdate();
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public int deleteGenere(String nome){
+        try(Connection conn = ConPool.getConnection()) {
+
+            PreparedStatement ps = conn.prepareStatement("DELETE  FROM genere WHERE nome_genere = ?");
+            ps.setString(1, nome);
+
+            return ps.executeUpdate();
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
 }

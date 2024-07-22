@@ -34,7 +34,10 @@
     display:flex;
     justify-content:center;
     gap:40px;
-    flex-wrap:wrap;
+}
+#form-delete{
+    display:flex;
+    width:20%;
 }
 .table-actions button{
     background:var(--sfondo4);
@@ -76,6 +79,7 @@
     margin-left: 4em;
     align-items: center;
     justify-content: center;
+    margin-top:5em;
 }
 
 #dashboard {
@@ -193,6 +197,43 @@ th {
     border: 1px solid #ccc; /* Bordo per evidenziare il contenitore */
     padding: 10px; /* Spaziatura interna del contenitore */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ombreggiatura per l'effetto visivo */
+    display:flex;
+    flex-direction:column;
+}
+
+.output form{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    height:100%;
+    gap:5px;
+    width:100%;
+}
+.output form input{
+    display:flex;
+    width:auto;
+}
+#addData{
+
+    min-width:160px;
+    text-align:center;
+    min-height:25px
+}
+#addDesc{
+    min-height:35px;
+}
+.generi-form{
+    display:flex;
+    flex-wrap:wrap;
+    width:40%;
+    margin-left:11em
+
+}
+.from-button{
+    display:flex;
+    flex:1 0 50%;
+
+
 }
 
 @media (max-width: 1500px) {
@@ -230,6 +271,19 @@ th {
         background-color: var(--hover);
     }
 }
+@media (max-width:910px){
+    .generi-form{
+        margin-left:0;
+    }
+    .from-button{
+        display:flex;
+        flex:0 0 100%;
+        margin-left:5em
+
+
+    }
+    .
+}
 @media (max-width:750px){
 
     #dashboard .element{
@@ -237,6 +291,16 @@ th {
         font-size:15px;
         gap:5em;
         padding:2em
+    }
+    .table-actions{
+        flex-direction:column;
+    }
+    #form-delete{
+        width:100%;
+    }
+    .table-actions button{
+        width:50%;
+        margin:auto;
     }
 
 }
@@ -258,6 +322,9 @@ th {
     #dashboard .element{
 
         width:100%;
+    }
+    .from-button{
+        margin-left:0;
     }
 
 }

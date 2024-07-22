@@ -3,7 +3,7 @@ let dashboard = document.getElementById('dashboard');
 const searchBar = document.getElementById('searchBar');
 let addRecordButton = document.getElementById('add-record');
 let deleteRecordButton = document.getElementById('delete-record');
-let updateRecordButton = document.getElementById('edit-record');
+
 let allForm = document.getElementById('form-table-action').querySelectorAll('#form-table-action > div');
 let typeReq = document.getElementById('type').innerHTML;
 let tabellaScelta;
@@ -54,13 +54,11 @@ function showForms(){
 function hiddenButtons(){
     addRecordButton.style.display = 'none';
     deleteRecordButton.style.display = 'none';
-    updateRecordButton.style.display = 'none';
 }
 
 function showButtons(){
     addRecordButton.style.display = 'block';
     deleteRecordButton.style.display = 'block';
-    updateRecordButton.style.display = 'block';
 }
 
 // Aggiungi un evento di click a tutti gli elementi con classe 'action'
@@ -128,6 +126,9 @@ function getTable(element){
     xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             let response = JSON.parse(xhttp.responseText);
+            if(document.getElementById('form-delete')){
+                eliminaEntita();
+            }
             printTable(response);
             displayTable();
         }
@@ -141,6 +142,10 @@ function getTable(element){
 
 
 function printTable(response) {
+    if(document.getElementById('form-delete')){
+        document.getElementById('form-delete').style.display = 'none';
+    }
+
     let tableBody = document.getElementById('tableBody');
     let tableHead = document.getElementById('tableHead');
     let nomeTabella = document.getElementById('nomeTabella');
@@ -266,13 +271,45 @@ function aggiungiEntita(){
     }
 }
 
-function eliminaEntita(){
-    table.style.display = 'none';
+function eliminaEntita() {
+    let formDelete = document.getElementById('form-delete');
+    if(formDelete.style.display === 'none'){
+        formDelete.style.display = 'flex';
+    }else {
+        formDelete.style.display = 'none';
+
+        let hiddenInput  = document.getElementById('hidden-delete');
+        let Input = document.getElementById('delete-input');
+        Input.value = "";
+
+
+        // Definire le proprietà del nuovo input in base alla tabella selezionata
+        switch (tabellaScelta) {
+            case "prodotti":
+                hiddenInput.value += "Prod";
+                Input.placeholder = 'Inserisci nome del prodotto';
+                Input.title = 'Inserisci il nome del record che vuoi eliminare';
+                break;
+            case "utente":
+                hiddenInput.value += "User";
+                Input.placeholder = 'Inserisci email utente';
+                Input.title = 'Inserisci email';
+                break;
+            case "genere":
+                hiddenInput.value += "Genere";
+                Input.placeholder = 'Inserisci nome del genere';
+                Input.title = 'Inserisci il nome del record che vuoi eliminare';
+                break;
+            default:
+                return;
+        }
+
+    }
 }
 
-function modificaEntita(){
-    table.style.display = 'none';
-}
+
+
+
 
 
 searchBar.addEventListener('keyup', function(event){

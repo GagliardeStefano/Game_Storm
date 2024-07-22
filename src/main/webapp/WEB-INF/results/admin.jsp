@@ -65,9 +65,18 @@
                 <c:if test="${user.tipo == TipoUtente.Admin1}">
                     <button type="button" tabindex onclick="aggiungiEntita()" id="add-record">Aggiungi</button>
                     <button type="button" tabindex onclick="eliminaEntita()" id="delete-record">Elimina</button>
+                    <form id="form-delete" action="${context}/AdminManager" method="post">
+                        <input type="hidden" id="hidden-delete" name="from" value="delete">
+                        <input type="text" name="input" id="delete-input" placeholder="" title="">
+                        <label class="error-input">
+                            <c:forEach items="${errori}" var="errore">
+                                <c:if test="${fn:containsIgnoreCase(errore, 'eliminato') || fn:containsIgnoreCase(errore, 'non eliminato')}" >
+                                    ${errore}
+                                </c:if>
+                            </c:forEach>
+                        </label>
+                    </form>
                 </c:if>
-
-                <button type="button" tabindex onclick="modificaEntita()" id="edit-record">Modifica</button>
                 <label>
                     <input aria-label="search" name="searchInDb" id="searchBar" type="search" placeholder="Cerca....">
                 </label>

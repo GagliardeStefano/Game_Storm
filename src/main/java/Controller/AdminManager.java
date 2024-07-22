@@ -76,6 +76,7 @@ public class AdminManager extends HttpServlet {
         Validator validator = new Validator();
         RequestDispatcher dispatcher;
         SessionManager sm = new SessionManager(req, false);
+        int check;
 
         String from = req.getParameter("from");
 
@@ -240,6 +241,63 @@ public class AdminManager extends HttpServlet {
                 req.setAttribute("type", "addGenere");
                 dispatcher = req.getRequestDispatcher("/WEB-INF/results/admin.jsp");
                 dispatcher.forward(req, resp);
+                break;
+
+            case "deleteProd":
+                String nomeProd = req.getParameter("input");
+                if (!nomeProd.isEmpty()){
+                    check=dao.deleteProdotto(nomeProd);
+                    if (check >= 1 ){
+                        validator.addError(false,"Prodotto eliminato");
+                        req.setAttribute("errori", validator.getErrors());
+                    }else {
+                        validator.addError(false,"Prodotto non eliminato,inserire correttamnete il nome");
+                        req.setAttribute("errori", validator.getErrors());
+                    }
+                    dispatcher = req.getRequestDispatcher("/WEB-INF/results/admin.jsp");
+                    dispatcher.forward(req, resp);
+
+                }
+                break;
+
+
+            case "deleteUser":
+                String emailUser = req.getParameter("input");
+                if (!emailUser.isEmpty()){
+                    check=dao.deleteUser(emailUser);
+                    if (check >= 1){
+                        validator.addError(false,"Utente eliminato");
+                        req.setAttribute("errori", validator.getErrors());
+                    }
+                    else {
+                        validator.addError(false,"Utente non eliminato, inserire correttamente l'email");
+                        req.setAttribute("errori", validator.getErrors());
+                    }
+                    dispatcher = req.getRequestDispatcher("/WEB-INF/results/admin.jsp");
+                    dispatcher.forward(req, resp);
+
+                }
+
+                break;
+
+
+            case "deleteGenere":
+                String nomeGenere = req.getParameter("input");
+                if(!nomeGenere.isEmpty()){
+                    check=dao.deleteGenere(nomeGenere);
+                    if (check >= 1){
+                        validator.addError(false,"Genere eliminato");
+                        req.setAttribute("errori", validator.getErrors());
+                    }else {
+                        validator.addError(false,"Genere non eliminato, inserire correttamente il nome");
+                        req.setAttribute("errori", validator.getErrors());
+                    }
+                    dispatcher = req.getRequestDispatcher("/WEB-INF/results/admin.jsp");
+                    dispatcher.forward(req, resp);
+
+                }
+
+
                 break;
         }
     }
