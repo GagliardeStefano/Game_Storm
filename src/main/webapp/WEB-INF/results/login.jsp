@@ -83,12 +83,12 @@
                         <label for="register-input-data" class="login-label">Data di nascita</label>
                         <input id="register-input-data" title="Devi essere almeno maggiorenne" name="Data" class="login-input" type="date" aria-label="Data di nascita"  />
                         <span id="reg-data-error" class="error-input">
-                                <c:forEach items="${errori}" var="errore">
-                                    <c:if test="${fn:containsIgnoreCase(errore, 'data')}">
-                                        ${errore}
-                                    </c:if>
-                                </c:forEach>
-                            </span>
+                            <c:forEach items="${errori}" var="errore">
+                                <c:if test="${fn:containsIgnoreCase(errore, 'data')}">
+                                    ${errore}
+                                </c:if>
+                            </c:forEach>
+                        </span>
                     </div>
                     <div class="input-half">
                         <label for="register-input-regione" class="login-label">Regione</label>

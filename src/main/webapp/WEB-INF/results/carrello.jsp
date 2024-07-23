@@ -41,7 +41,7 @@
                                 ${gioco.prodotto.dataRilascio}
                             </div>
                             <div class="action-cart">
-                                <div class="cestino" onclick="removeCartItem(this,${gioco.prodotto.id})">
+                                <div role="button" tabindex="0" class="cestino" onclick="removeCartItem(this,${gioco.prodotto.id})">
                                     <i id="cestino1" class="ri-delete-bin-5-line"></i>
                                 </div>
                                 <c:choose>
@@ -58,7 +58,7 @@
                                                 <c:set var="isFavorite" value="true" />
                                             </c:if>
                                         </c:forEach>
-                                        <div class="favourite" id="${gioco.prodotto.id}" onclick="updateFavourite(${gioco.prodotto.id})">
+                                        <div class="favourite" role="button" tabindex="0" id="${gioco.prodotto.id}" onclick="updateFavourite(${gioco.prodotto.id})">
                                             <c:choose>
                                                 <c:when test="${isFavorite}">
                                                     <i id="heart" class="ri-heart-fill fill" ></i>

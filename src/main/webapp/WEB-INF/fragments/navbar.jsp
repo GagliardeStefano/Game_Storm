@@ -41,9 +41,9 @@
         </div>
     </header>
     <div class="search-bar-container">
-        <form action="" class="search-bar">
+        <form tabindex="0" action="" role="form" class="search-bar">
             <label>
-                <input tabindex type="search" role="searchbox" placeholder="Search..." name="search" aria-label="search">
+                <input role="searchbox" tabindex="0" type="search" placeholder="Search..." name="search" aria-label="search">
             </label>
         </form>
     </div>

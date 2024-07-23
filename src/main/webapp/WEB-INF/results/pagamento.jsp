@@ -24,7 +24,7 @@
                                     <c:forEach items="${carte}" var="carta">
                                         <div class="carta">
                                             <label for="${carta.id}"></label>
-                                            <input type="radio" id="${carta.id}" name="cartaSalvata" value="${carta.id}">
+                                            <input type="radio" aria-label="cartaCredito" id="${carta.id}" name="cartaSalvata" value="${carta.id}">
                                             <div class="info-main">
                                                 <p>Nome : ${carta.nome}</p>
                                                 <p>Cognome : ${carta.cognome}</p>

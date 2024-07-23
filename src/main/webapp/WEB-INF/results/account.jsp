@@ -290,8 +290,8 @@
                                         </div>
 
                                         <div class="actions">
-                                            <div tabindex="0" onclick="modificaCarta(${carta.id})" class="modifica"><i title="Modifca carta" class="ri-edit-2-line"></i></div>
-                                            <div tabindex="0" onclick="deleteCarta(${carta.id})" class="elimina"><i title="Elimina dalla lista" class="ri-delete-bin-5-line"></i></div>
+                                            <div tabindex="0" role="button" onclick="modificaCarta(${carta.id})" class="modifica"><i title="Modifca carta" class="ri-edit-2-line"></i></div>
+                                            <div tabindex="0" role="button" onclick="deleteCarta(${carta.id})" class="elimina"><i title="Elimina dalla lista" class="ri-delete-bin-5-line"></i></div>
                                         </div>
                                     </div>
                                 </div>
@@ -303,7 +303,7 @@
 
             <!-- MODIFICA DATI -->
             <div id="modifica-dati" style="display: none">
-                <p tabindex="0" onclick="abilitaModifica(this)" class="modifica">Abilita Modifica</p>
+                <p tabindex="0" role="button" onclick="abilitaModifica(this)" class="modifica">Abilita Modifica</p>
                 <form action="UpdateUser?from=modifica" method="post" onsubmit="return validateUpdateForm(event, this)" class="disabled">
                     <div class="container-input-row">
                         <div class="container-input">

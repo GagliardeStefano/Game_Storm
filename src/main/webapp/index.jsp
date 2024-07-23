@@ -44,7 +44,7 @@
                         <div class="card">
                             <div class="card-content">
                                 <div class="card-image-container">
-                                    <a href="${context}/CardManager?id=${gioco.id}"><img class="card__image" src="${context}${gioco.img}" alt=""></a>
+                                    <a href="${context}/CardManager?id=${gioco.id}"><img class="card__image" src="${context}${gioco.img}" alt="${gioco.nome}"></a>
                                     <div class="scontato">-${gioco.sconto}%</div>
                                 </div>
                                 <div class = "card-info">
@@ -58,7 +58,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-image-container">
-                        <a href="${context}/CardManager?id=${gioco.id}"><img class="card__image" src="${context}${gioco.img}" alt=""></a>
+                        <a href="${context}/CardManager?id=${gioco.id}"><img class="card__image" src="${context}${gioco.img}" alt="${gioco.nome}"></a>
                     </div>
                     <div class = "card-info">
                         <h3 class="title">${gioco.nome}</h3>
@@ -85,7 +85,7 @@
                         <div class="card">
                             <div class="card-content">
                                 <div class="card-image-container">
-                                    <a href="${context}/CardManager?id=${gioco.id}"><img class="card__image" src="${context}${gioco.img}" alt=""></a>
+                                    <a href="${context}/CardManager?id=${gioco.id}"><img class="card__image" src="${context}${gioco.img}" alt="${gioco.nome}"></a>
                                     <div class="scontato">-${gioco.sconto}%</div>
                                 </div>
                                 <div class = "card-info">
@@ -99,7 +99,7 @@
                         <div class="card">
                             <div class="card-content">
                                 <div class="card-image-container">
-                                    <a href="${context}/CardManager?id=${gioco.id}"><img class="card__image" src="${context}${gioco.img}" alt=""></a>
+                                    <a href="${context}/CardManager?id=${gioco.id}"><img class="card__image" src="${context}${gioco.img}" alt="${gioco.nome}"></a>
                                 </div>
                                 <div class = "card-info">
                                     <h3 class="title">${gioco.nome}</h3>
@@ -125,7 +125,7 @@
                         <div class="card">
                             <div class="card-content">
                                 <div class="card-image-container">
-                                    <a href="${context}/CardManager?id=${gioco.id}"><img class="card__image" src="${context}${gioco.img}" alt=""></a>
+                                    <a href="${context}/CardManager?id=${gioco.id}"><img class="card__image" src="${context}${gioco.img}" alt="${gioco.nome}"></a>
                                     <div class="scontato">-${gioco.sconto}%</div>
                                 </div>
                                 <div class = "card-info">
@@ -139,7 +139,7 @@
                         <div class="card">
                             <div class="card-content">
                                 <div class="card-image-container">
-                                    <a href="${context}/CardManager?id=${gioco.id}"><img class="card__image" src="${context}${gioco.img}" alt=""></a>
+                                    <a href="${context}/CardManager?id=${gioco.id}"><img class="card__image" src="${context}${gioco.img}" alt="${gioco.nome}"></a>
                                 </div>
                                 <div class = "card-info">
                                     <h3 class="title">${gioco.nome}</h3>

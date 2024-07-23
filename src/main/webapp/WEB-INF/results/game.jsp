@@ -42,7 +42,7 @@
                             </div>
                         </c:when>
                         <c:otherwise>
-                            <div class="favourite" id="${prodotto.id}" onclick="updateFavourite(${prodotto.id})">
+                            <div role="button" tabindex="0"  class="favourite" id="${prodotto.id}" onclick="updateFavourite(${prodotto.id})">
                                 <c:choose>
                                     <c:when test="${preferito}">
                                         <i id="heart" class="ri-heart-fill fill" ></i>
@@ -64,7 +64,7 @@
                             </div>
                         </c:when>
                         <c:otherwise>
-                            <div class="cart" onclick="addToCart(${prodotto.id})">
+                            <div role="button" tabindex="0" class="cart" onclick="addToCart(${prodotto.id})">
                                 <i class="ri-shopping-cart-2-line"></i>
                                 <span>Aggiungi al carello</span>
                             </div>
@@ -91,7 +91,7 @@
             <h3>Trailer</h3>
         </div>
         <div class="trailer">
-            <iframe  src="${prodotto.trailer}" title="Grand Theft Auto VI" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <iframe role="presentation" tabindex="0" src="${prodotto.trailer}" title="${prodotto.nome}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
     </div>
     <div class="sezione simili">
