@@ -20,7 +20,6 @@
             <div class="cart">
                 <h1>Carrello</h1>
                 <c:if test="${empty carrello.prodotti }">
-                    <c:set var="vuoto" value="0" />
                     <div class="empty-cart-message">
                         <h2>Il tuo carrello è vuoto</h2>
                         <p>Aggiungi dei prodotti per iniziare a fare shopping!</p>
@@ -96,16 +95,16 @@
                         <p><fmt:formatNumber value="${carrello.prezzoScontatoTotale}" type="number" minFractionDigits="2" maxFractionDigits="2"/>€</p>
                     </div>
                     <c:choose>
-                        <c:when test="${vuoto == 0}">
+                        <c:when test="${carrello.prodotti.size() == 0}">
                             <div class="pagamento-button">Vai al pagamento ></div>
                         </c:when>
                         <c:when test="${empty user}">
-                            <a href="${context}/UserManager">
+                            <a id="link-pagamento" href="${context}/UserManager">
                                 <div class="pagamento-button">Vai al pagamento ></div>
                             </a>
                         </c:when>
                         <c:otherwise>
-                            <a href="${context}/CartManager?action=pagamento">
+                            <a id="link-pagamento" href="${context}/CartManager?action=pagamento">
                                 <div class="pagamento-button">Vai al pagamento ></div>
                             </a>
                         </c:otherwise>

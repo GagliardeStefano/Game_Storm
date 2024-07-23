@@ -36,7 +36,15 @@ function checkIfCartIsEmpty() {
     const cartItems = document.querySelectorAll('.cart-item');
     if (cartItems.length === 0) {
         showEmptyCartMessage();
+        removeLinkPagamento();
     }
+}
+
+function removeLinkPagamento(){
+    let button = document.getElementById('link-pagamento');
+
+    if (button != null)
+        button.href = "#";
 }
 
 function showEmptyCartMessage() {

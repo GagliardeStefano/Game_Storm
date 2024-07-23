@@ -1,6 +1,6 @@
 const param = document.getElementById('typeReq').textContent;
-const errosLogin = document.querySelectorAll("#login-form .error-input");
-const errosReg = document.querySelectorAll("#register-form .error-input");
+const errorLogin = document.querySelectorAll("#login-form .error-input");
+const errorReg = document.querySelectorAll("#register-form .error-input");
 const registerForm = document.getElementById('register-form');
 const loginForm = document.getElementById('login-form');
 const loginTab = document.getElementById('login-tab');
@@ -8,11 +8,11 @@ const registerTab = document.getElementById('register-tab');
 
 if(param === "l"){ //login
     showLogin();
-    hiddenErrors(errosReg);
+    hiddenErrors(errorReg);
 }
 else if (param === "r"){ //reg
     showRegister();
-    hiddenErrors(errosLogin);
+    hiddenErrors(errorLogin);
 }
 
 loginTab.childNodes[0].addEventListener('click', function() {

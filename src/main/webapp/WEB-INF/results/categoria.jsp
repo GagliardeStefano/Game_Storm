@@ -16,7 +16,6 @@
         <div class="gruppo1">
             <div class="genere-container">
                 <label>
-                    Seleziona:
                     <select name="generi" aria-label="generi" id="filtroGenere" class="filtro genere" >
                         <option name="genere" id="vuoto" aria-label="value-genere" value="0"> </option>
                         <% if (request.getAttribute("generi")!=null){ %>
@@ -31,7 +30,6 @@
             </div>
             <div class="ordine-container">
                 <label>
-                    Seleziona:
                     <select name="filtri" aria-label="filtri" id="filtroOrdine" class="filtro ordine">
 
                         <option name="genere" aria-label="filtro1" id="filtro1" value="0"></option>

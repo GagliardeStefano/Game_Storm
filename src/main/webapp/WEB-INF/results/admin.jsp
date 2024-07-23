@@ -119,7 +119,7 @@
                     </label>
 
                     <label for="addData">Data di rilascio</label>
-                    <input type="date" name="dataRilascio" id="addData" />
+                    <label><input aria-label="dataRilascio" type="date" name="dataRilascio" id="addData" /></label>
                     <label class="error-input" >
                         <c:forEach items="${errori}" var="error">
                             <c:if test="${fn:containsIgnoreCase(error, 'data')}">

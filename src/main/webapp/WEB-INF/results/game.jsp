@@ -99,18 +99,36 @@
         <jsp:useBean id="prodotti" scope="request" type="java.util.List"/>
         <div class="card-container trending">
             <c:forEach items="${prodotti}" var="correlato">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-image-container">
-                            <a role="link" href="${context}/CardManager?id=${correlato.id}"><img class="card__image" src="${context}${correlato.img}" alt="${correlato.nome}"></a>
-                            <div class="scontato">-${correlato.sconto}%</div>
+                <c:choose>
+                    <c:when test="${correlato.sconto > 0}">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-image-container">
+                                    <a href="${context}/CardManager?id=${correlato.id}"><img class="card__image" src="${context}${correlato.img}" alt="${correlato.nome}"></a>
+                                    <div class="scontato">-${correlato.sconto}%</div>
+                                </div>
+                                <div class = "card-info">
+                                    <h3 class="title">${correlato.nome}</h3>
+                                    <p><fmt:formatNumber value="${correlato.prezzoScontato}" type="number" minFractionDigits="2" maxFractionDigits="2"/>€</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class = "card-info">
-                            <h3 class="title">${correlato.nome}</h3>
-                            <p><fmt:formatNumber value="${correlato.prezzoScontato}" type="number" minFractionDigits="2" maxFractionDigits="2"/>€</p>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-image-container">
+                                    <a role="link" href="${context}/CardManager?id=${correlato.id}"><img class="card__image" src="${context}${correlato.img}" alt="${correlato.nome}"></a>
+                                </div>
+                                <div class = "card-info">
+                                    <h3 class="title">${correlato.nome}</h3>
+                                    <p><fmt:formatNumber value="${correlato.prezzoScontato}" type="number" minFractionDigits="2" maxFractionDigits="2"/>€</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    </c:otherwise>
+                </c:choose>
+
             </c:forEach>
         </div>
     </div>
