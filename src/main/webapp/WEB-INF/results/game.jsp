@@ -54,12 +54,22 @@
                             </div>
                         </c:otherwise>
                     </c:choose>
-
-
-                    <div class="cart" onclick="addToCart(${prodotto.id})">
-                        <i class="ri-shopping-cart-2-line"></i>
-                        <span>Aggiungi al carello</span>
-                    </div>
+                    <c:choose>
+                        <c:when test="${annoCarta > annoCorrente}">
+                            <div class="cart" >
+                                <div class="prossime-uscite">
+                                    <p class="data-text">Data di rilascio:</p>
+                                    <p class="data-rilascio">${prodotto.dataRilascio}</p>
+                                </div>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="cart" onclick="addToCart(${prodotto.id})">
+                                <i class="ri-shopping-cart-2-line"></i>
+                                <span>Aggiungi al carello</span>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>

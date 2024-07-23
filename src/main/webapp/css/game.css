@@ -220,6 +220,11 @@
     visibility: visible;
     opacity: 1;
 }
+.prossime-uscite{
+    display:flex;
+    flex-direction:column;
+    font-size:20px;
+}
 @media (min-width: 1200px) {
     .main-container .card {
         flex-direction: row;
@@ -331,6 +336,9 @@
         width: 50%;
         font-size:19px;
         gap:10px
+    }
+    .prossime-uscite{
+        font-size:15px
     }
 
 }

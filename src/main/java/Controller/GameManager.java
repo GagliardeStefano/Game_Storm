@@ -12,11 +12,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.List;
 
 @WebServlet(name = "CardManager", value = "/CardManager")
 
-public class CardManager extends HttpServlet {
+public class GameManager extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,6 +38,10 @@ public class CardManager extends HttpServlet {
             Prodotto prodotto = prodottoDAO.doRetrieveById(id);
 
             if(prodotto != null){
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(prodotto.getDataRilascio());
+                int annoCarta = cal.get(Calendar.YEAR);
+                int annoCorrente = LocalDate.now().getYear();
 
                 List<String> generi = prodottoDAO.getGeneriByIdProd(id);
 
@@ -43,6 +49,8 @@ public class CardManager extends HttpServlet {
                 req.setAttribute("generi", generi);
                 List<Prodotto> prodotti=prodottoDAO.getCorrelati(generi,id);
                 req.setAttribute("prodotti",prodotti);
+                req.setAttribute("annoCarta",annoCarta);
+                req.setAttribute("annoCorrente",annoCorrente);
                 RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/results/game.jsp");
                 dispatcher.forward(req,resp);
             }
