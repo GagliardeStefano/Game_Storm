@@ -3,7 +3,20 @@
     width: 100%;
     height: 100%;
     justify-content:center;
-    margin: auto auto 5em;
+    flex-direction:column;
+    gap:50px;
+    margin: 5em 0 5em 0;
+}
+#form-pagamento.form-carte{
+    display:flex;
+    flex-direction:column;
+    gap:60px;
+
+}
+.form-container{
+    display:flex;
+    justify-content:center;
+    gap:7em
 }
 .carte-credito{
     display:flex;
@@ -46,9 +59,104 @@
     color: var(--scritte);
 }
 
-#paga{
-    width:40%
+
+.pagamento-button{
+    display:flex;
+    width:20%;
+    gap:20px;
 }
-#reset{
-    width: 40%;
+.totale{
+    display:flex;
+    justify-content:center;
+    background:var(--hover);
+    width:10%;
+    margin:0 auto;
+    border-radius:5px;
+    padding:10px;
+    text-align:center;
+}
+.form-aggiunta-carta{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+.salva-carta{
+    display:flex;
+}
+.salva-carta label{
+    width:60%
+}
+.salva-carta input{
+    width:10%
+}
+.container-carte {
+    width: 400px; /* Larghezza del contenitore */
+    height: 400px; /* Altezza del contenitore */
+    overflow-y: scroll; /* Abilita lo scorrimento verticale */
+    border: 1px solid #ccc; /* Bordo per evidenziare il contenitore */
+    padding: 10px; /* Spaziatura interna del contenitore */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ombreggiatura per l'effetto visivo */
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+.carta p{
+    display:flex;
+    width:230px;
+    flex-direction:row;
+}
+.empty-cart-message{
+    display:flex;
+    flex-direction:column;
+    text-align:center;
+    gap:20px;
+}
+.empty-cart-message a{
+    text-decoration:underline;
+}
+@media(max-width:940px){
+    .form-container{
+        flex-direction:column;
+        gap:20px;
+        padding:60px;
+    }
+    .container-carte{
+
+    }
+    .carte-credito{
+        width:100%;
+    }
+    .pagamento-button{
+        width:50%;
+    }
+    .totale{
+        width:50%;
+    }
+    #form-pagamento.form-carte{
+        gap:0px;
+
+    }
+    .salva-carta label{
+        width:30%
+    }
+    #page-pagamento{
+        margin-bottom:20em;
+        margin-top:10em
+    }
+    .container-carte{
+        width:auto;
+    }
+
+}
+
+@media(max-width:460px){
+    .salva-carta label{
+        width:45%
+    }
+    .carta{
+        margin:auto;
+    }
+
+
 }
