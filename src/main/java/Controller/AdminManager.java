@@ -178,7 +178,6 @@ public class AdminManager extends HttpServlet {
                     UserDAO userDAO = new UserDAO();
 
                     if (userDAO.emailAlreadyExists(email)){
-                        System.out.println("utente già presente");
                         validator = new Validator();
                         validator.addError(false, "Utente già presente");
                         req.setAttribute("errori", validator.getErrors());

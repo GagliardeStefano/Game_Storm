@@ -46,7 +46,6 @@ public class Validator {
 
         if(!condition){
             this.errors.add(error);
-            System.out.println("error: "+error);
             return false;
         }
         return true;
@@ -114,7 +113,6 @@ public class Validator {
     private void asserListe(String[] generi, String msg) {
 
        if(generi == null){
-           System.out.println("non ha elementi");
            addError(false, msg);
        }
     }

@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -50,7 +51,11 @@ public class UserManager extends HttpServlet {
                     Map<String, List<Carrello>> ordini;
 
                     wishlist = userDAO.getWishlistByEmail(email);
-                    ordini = userDAO.getOrdiniByMonth(email);
+                    try {
+                        ordini = userDAO.getOrdiniByMonth(email);
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
                     metodiPagamento = userDAO.getMetodiPagamentoByEmail(email);
 
                     sessionManager.setAttribute("ordini", ordini);

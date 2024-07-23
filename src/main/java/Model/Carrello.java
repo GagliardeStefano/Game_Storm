@@ -15,7 +15,7 @@ public class Carrello {
     private double totale = 0;
     private double scontoTotale = 0;
     private double prezzoScontatoTotale=0;
-    private Date data;
+    private String data;
 
     public Carrello(){
         this.prodotti = new ArrayList<>();
@@ -120,11 +120,11 @@ public class Carrello {
         return totale;
     }
 
-    public void setData(Date data) {
+    public void setData(String data) {
         this.data = data;
     }
 
-    public Date getData() {
+    public String getData() {
         return data;
     }
 

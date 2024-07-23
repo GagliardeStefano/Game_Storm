@@ -24,31 +24,42 @@ public class CartManager extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         SessionManager sm = new SessionManager(req, false);
-        UserDAO userDAO = new UserDAO();
-        Carrello carrello;
 
-        if(sm.getSession() != null){
+        String action = req.getParameter("action");
 
-            carrello = (Carrello) sm.getAttribute("carrello");
 
-            if (carrello == null) {
+        if (action != null && action.equals("pagamento")) {
+            req.getRequestDispatcher("/WEB-INF/results/pagamento.jsp").forward(req, resp);
+        }else {
+
+
+            UserDAO userDAO = new UserDAO();
+            Carrello carrello;
+
+            if(sm.getSession() != null){
+
+                carrello = (Carrello) sm.getAttribute("carrello");
+
+                if (carrello == null) {
+                    carrello = new Carrello();
+                }
+
+            }else {
+                sm = new SessionManager(req, true);
                 carrello = new Carrello();
             }
 
-        }else {
-            sm = new SessionManager(req, true);
-            carrello = new Carrello();
+            sm.setAttribute("carrello", carrello);
+            User user = (User) sm.getAttribute("user");
+            if (user != null){
+                sm.setAttribute("wishlist", userDAO.getWishlistByEmail(user.getEmail()));
+            }
+
+
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/results/carrello.jsp");
+            dispatcher.forward(req, resp);
         }
 
-        sm.setAttribute("carrello", carrello);
-        User user = (User) sm.getAttribute("user");
-        if (user != null){
-            sm.setAttribute("wishlist", userDAO.getWishlistByEmail(user.getEmail()));
-        }
-
-
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/results/carrello.jsp");
-        dispatcher.forward(req, resp);
 
     }
 

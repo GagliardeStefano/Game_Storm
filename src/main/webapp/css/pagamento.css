@@ -1,0 +1,54 @@
+#page-pagamento{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content:center;
+    margin: auto auto 5em;
+}
+.carte-credito{
+    display:flex;
+    width:50%;
+    flex-direction:column;
+    align-items:center;
+    padding:20px;
+}
+.carte-credito .info-main{
+    padding:20px;
+
+}
+
+.form-carte{
+    display: flex;
+    width: 100%;
+    gap:20px;
+    align-items:center;
+
+}
+
+.carta{
+    display: flex;
+}
+
+.info-main{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+
+}
+.form-carte input{
+    display:flex;
+    width:100%;
+    padding:8px;
+    border-radius:5px;
+    background:var(--sfondo2);
+    border:none;
+    color: var(--scritte);
+}
+
+#paga{
+    width:40%
+}
+#reset{
+    width: 40%;
+}

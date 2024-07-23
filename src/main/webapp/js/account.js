@@ -225,6 +225,7 @@
 
             let gameDiv = document.createElement("div");
             gameDiv.classList.add("game");
+            gameDiv.classList.add("gameMore");
             gameDiv.innerHTML = newGame;
 
             container.appendChild(gameDiv);
@@ -287,14 +288,12 @@
         const more = container.querySelector('.game.more');
         more.style.display = 'flex';
 
-        let otherGameSibling = more.nextElementSibling;
+        let otherGames = container.querySelectorAll('.gameMore');
 
-        while (otherGameSibling) {
-            if (otherGameSibling.classList.contains('game')) {
-                otherGameSibling.remove();
-            }
-            otherGameSibling = otherGameSibling.nextElementSibling;
-        }
+        otherGames.forEach(function(element) {
+            element.remove();
+        });
+
     }
 
     /*-- METODI DI PAGAMENTO --*/
@@ -318,16 +317,23 @@
 
     function modificaCarta(id){
 
-        const form = document.getElementById(id);
+
+        const form = document.getElementById("form-carta"+id);
 
         const data = form.previousElementSibling;
+
         const mainDAti = data.previousElementSibling;
+
 
         mainDAti.style.display = 'none';
         data.style.display = 'none';
         form.classList.remove('hidden');
 
+        addEventListenerAtInput(form, id);
 
+    }
+
+    function addEventListenerAtInput(form, id){
         let dataInput = form.querySelector('#data'+id);
         dataInput.addEventListener('input', function(event){
 
@@ -391,7 +397,7 @@
 
     function checkValueAndSubmit(event, id){
 
-        let form = document.getElementById(id);
+        let form = document.getElementById("form-carta"+id);
 
         event.preventDefault();
 
@@ -417,6 +423,7 @@
 
                     mainDAti.querySelector('#info-numero').innerHTML = "Termina con .... "+formData.get("numero").split(' ')[3];
                     data.querySelector('#info-data').innerHTML = "Data di scadenza: "+formData.get("data");
+                    mainDAti.querySelector('#info-cvv').innerHTML = "CVV: "+formData.get("cvv");
 
                     form.classList.add('hidden');
                     data.style.display = 'flex';
@@ -447,7 +454,6 @@
 
         const cognome = form.querySelector('#cognome'+id);
         let errorCognome = form.querySelector('#error-cognome');
-
 
         let hasErrors = [];
 

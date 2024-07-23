@@ -16,7 +16,9 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,10 +37,10 @@ public class UserManagerRegister extends HttpServlet {
             check = (User) sessionManager.getAttribute("user");
         }
 
-        List<Prodotto> wishlist;
-        Map<String, List<Carrello>> ordini;
-        List<CartaCredito> metodiPagamento;
-        Carrello carrello;
+        List<Prodotto> wishlist = new ArrayList<>();
+        Map<String, List<Carrello>> ordini = new HashMap<>();
+        List<CartaCredito> metodiPagamento = new ArrayList<>();
+        Carrello carrello = new Carrello();
         Validator validator = new Validator();
         UserDAO userDAO = new UserDAO();
         RequestDispatcher dispatcher;
@@ -46,14 +48,19 @@ public class UserManagerRegister extends HttpServlet {
         if (check != null) {
 
             wishlist = userDAO.getWishlistByEmail(check.getEmail());
-            ordini = userDAO.getOrdiniByMonth(check.getEmail());
+            try {
+                ordini = userDAO.getOrdiniByMonth(check.getEmail());
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
             metodiPagamento = userDAO.getMetodiPagamentoByEmail(check.getEmail());
             carrello = userDAO.getCartByEmail(check.getEmail());
 
             sessionManager.setAttribute("wishlist", wishlist);
             sessionManager.setAttribute("ordini", ordini);
             sessionManager.setAttribute("carte", metodiPagamento);
-            sessionManager.setAttribute("carrello", carrello);
+            if (!carrello.getProdotti().isEmpty())
+                sessionManager.setAttribute("carrello", carrello);
 
             dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
             dispatcher.forward(req, resp);
@@ -110,6 +117,11 @@ public class UserManagerRegister extends HttpServlet {
                     //salvo nella sessione
                     sessionManager = new SessionManager(req, true);
                     sessionManager.setAttribute("user", user);
+                    sessionManager.setAttribute("wishlist", wishlist);
+                    sessionManager.setAttribute("ordini", ordini);
+                    sessionManager.setAttribute("carte", metodiPagamento);
+                    if (!carrello.getProdotti().isEmpty())
+                        sessionManager.setAttribute("carrello", carrello);
 
                     dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
                     dispatcher.forward(req, resp);

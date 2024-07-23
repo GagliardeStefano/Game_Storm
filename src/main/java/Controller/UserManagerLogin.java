@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +45,11 @@ public class UserManagerLogin extends HttpServlet {
 
                 switch (check.getTipo()){
                     case Semplice:
-                        caricaStrutturePerUtente(check.getEmail(), sessionManager);
+                        try {
+                            caricaStrutturePerUtente(check.getEmail(), sessionManager);
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
+                        }
 
                         dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
                         dispatcher.forward(req, resp);
@@ -99,7 +104,11 @@ public class UserManagerLogin extends HttpServlet {
 
                             switch (user.getTipo()){
                                 case Semplice:
-                                    caricaStrutturePerUtente(email, sessionManager);
+                                    try {
+                                        caricaStrutturePerUtente(email, sessionManager);
+                                    } catch (ParseException e) {
+                                        throw new RuntimeException(e);
+                                    }
                                     sessionManager.setAttribute("user", user);
                                     dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
                                     dispatcher.forward(req, resp);
@@ -109,6 +118,7 @@ public class UserManagerLogin extends HttpServlet {
                                 case Admin2:
                                     sessionManager.setAttribute("user", user);
                                     resp.sendRedirect("http://localhost:8080/GameStorm_war/AdminManager");
+                                    /*TODO cambiare forse per https */
                                     break;
 
                             }
@@ -136,7 +146,7 @@ public class UserManagerLogin extends HttpServlet {
         doGet(req, resp);
     }
 
-    private void caricaStrutturePerUtente(String email, SessionManager sessionManager){
+    private void caricaStrutturePerUtente(String email, SessionManager sessionManager) throws ParseException {
 
         UserDAO userDAO = new UserDAO();
 
@@ -154,6 +164,7 @@ public class UserManagerLogin extends HttpServlet {
         sessionManager.setAttribute("wishlist", wishlist);
         sessionManager.setAttribute("ordini", ordini);
         sessionManager.setAttribute("carte", metodiPagamento);
-        sessionManager.setAttribute("carrello", carrello);
+        if (!carrello.getProdotti().isEmpty())
+            sessionManager.setAttribute("carrello", carrello);
     }
 }

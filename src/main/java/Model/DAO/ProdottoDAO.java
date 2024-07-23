@@ -644,6 +644,7 @@ public class ProdottoDAO {
             throw new RuntimeException(e);
         }
     }
+
     public Prodotto getProdByName(String nome){
         try(Connection conn = ConPool.getConnection()){
 
@@ -669,6 +670,21 @@ public class ProdottoDAO {
             }
             return null;
 
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean keyAlreadyExists(String key){
+        try(Connection conn = ConPool.getConnection()){
+
+            PreparedStatement ps = conn.prepareStatement("SELECT key_prodotto FROM ordini WHERE key_prodotto = ?");
+
+            ps.setString(1, key);
+            ResultSet rs = ps.executeQuery();
+
+            return rs.next();
 
         }catch (SQLException e){
             throw new RuntimeException(e);

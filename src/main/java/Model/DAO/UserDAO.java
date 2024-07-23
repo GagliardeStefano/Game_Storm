@@ -10,8 +10,12 @@ import Model.Utils.ProdottoComposto;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
-import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.Date;
 import java.util.stream.Collectors;
 
 public class UserDAO {
@@ -182,11 +186,11 @@ public class UserDAO {
 
             List<Carrello> out = new ArrayList<>();
             Carrello carrello = null;
-            Date lastDate = null;
+            String lastDate = null;
             int count = 0; // Contatore per tenere traccia delle righe per ogni ordine
 
             while (rs.next()) {
-                Date currentDate = rs.getDate("data_acquisto");
+                String currentDate = rs.getString("data_acquisto");
 
                 // Se la data corrente è diversa dalla data dell'ultimo carrello
                 if (!currentDate.equals(lastDate)) {
@@ -281,16 +285,17 @@ public class UserDAO {
         }
     }
 
-    public Map<String, List<Carrello>> getOrdiniByMonth(String email){
+    public Map<String, List<Carrello>> getOrdiniByMonth(String email) throws ParseException {
 
         List<Carrello> ordini = getOrdiniEffettuatiByEmail(email);
         ordini.sort(Comparator.comparing(Carrello::getData).reversed());
 
         Map<String, List<Carrello>> ordiniByMonth = new HashMap<>();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         for(Carrello ordine : ordini){
             Calendar cal = Calendar.getInstance();
-            cal.setTime(ordine.getData());
+            cal.setTime(formatter.parse(ordine.getData()));
             int year = cal.get(Calendar.YEAR);
             int month = cal.get(Calendar.MONTH) + 1; // I mesi in Calendar vanno da 0 a 11
             String key = year + "-" + String.format("%02d", month);
@@ -332,7 +337,6 @@ public class UserDAO {
                 cartaCredito.setNumero(rs.getString("numero"));
                 cartaCredito.setData_scadenza(rs.getString("data_scadenza"));
                 cartaCredito.setCvv(rs.getString("cvv"));
-                cartaCredito.setTipo(rs.getString("tipo"));
 
                 out.add(cartaCredito);
             }
@@ -374,6 +378,26 @@ public class UserDAO {
             ps.setString(4, cvv);
             ps.setString(5, id);
             ps.setString(6, email);
+
+            ps.executeUpdate();
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void addCartaCredito(CartaCredito cartaCredito, String email){
+        try(Connection conn = ConPool.getConnection()){
+
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO " +
+                    "pagamenti(email_utente, numero, proprietario, data_scadenza, cvv) " +
+                    "VALUES (?, ?, ?, ?, ?) ");
+
+            ps.setString(1, email);
+            ps.setString(2, cartaCredito.getNumero());
+            ps.setString(3, cartaCredito.getCognome() +" "+ cartaCredito.getNome());
+            ps.setString(4, cartaCredito.getData_scadenza());
+            ps.setString(5, cartaCredito.getCvv());
 
             ps.executeUpdate();
 
@@ -507,6 +531,37 @@ public class UserDAO {
             }
 
             return carrello;
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void saveAcquistoByEmail(String email, List<ProdottoComposto> giochi){
+        try(Connection conn = ConPool.getConnection()){
+
+            LocalDateTime now = LocalDateTime.now();
+
+// Stampa la data e l'orario nel formato predefinito (es. 2024-07-22T14:30:45)
+
+
+// Formatta la data e l'orario in un formato specifico
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String formattedDateTime = now.format(formatter);
+
+// Preparazione dell'istruzione SQL
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO ordini VALUES (?,?,?,?,?)");
+
+            for (ProdottoComposto prodotto : giochi) {
+                ps.setString(1, email);
+                ps.setString(2, formattedDateTime); // Inserisci la data e l'orario formattati
+                ps.setInt(3, prodotto.getProdotto().getId());
+                ps.setDouble(4, prodotto.getProdotto().getPrezzoScontato());
+                ps.setString(5, prodotto.getKey());
+
+                ps.executeUpdate();
+            }
+
 
         }catch (SQLException e){
             throw new RuntimeException(e);

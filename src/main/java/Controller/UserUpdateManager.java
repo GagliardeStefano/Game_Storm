@@ -1,6 +1,8 @@
 package Controller;
 
 import Model.Carrello;
+import Model.CartaCredito;
+import Model.DAO.ProdottoDAO;
 import Model.DAO.UserDAO;
 import Model.User;
 import Model.Utils.ProdottoComposto;
@@ -25,7 +27,7 @@ public class UserUpdateManager extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-
+        ProdottoDAO prodottoDAO = new ProdottoDAO();
         UserDAO userDAO = new UserDAO();
         SessionManager sm = new SessionManager(req, false);
         Validator validator = new Validator();
@@ -189,6 +191,70 @@ public class UserUpdateManager extends HttpServlet {
 
                             sm.getSession().invalidate();
                             resp.sendRedirect("index.jsp");
+                            break;
+
+                        case "pagamento":
+
+                            String radioButton = req.getParameter("cartaSalvata");
+
+                            if (radioButton == null){
+
+                                String nomeProp = req.getParameter("nome");
+                                String cognomeProp = req.getParameter("cognome");
+                                String numeroCarta = req.getParameter("numero");
+                                String dataCarta = req.getParameter("data");
+                                String cvvCarta = req.getParameter("cvv");
+
+                                String salvaCarta = req.getParameter("salvaCarta");
+
+
+                                validator.validateCarta(numeroCarta, dataCarta, cvvCarta, nomeProp, cognomeProp);
+
+                                if (validator.hasErrors()){
+                                    req.setAttribute("errori", validator.getErrors());
+                                    RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/results/pagamento.jsp");
+                                }
+
+                                if (salvaCarta != null){
+                                    if (salvaCarta.equals("Salva")){
+
+                                         CartaCredito cartaCredito = new CartaCredito();
+                                        cartaCredito.setNome(nomeProp);
+                                        cartaCredito.setCognome(cognomeProp);
+                                        cartaCredito.setNumero(numeroCarta);
+                                        cartaCredito.setData_scadenza(dataCarta);
+                                        cartaCredito.setCvv(cvvCarta);
+
+                                        userDAO.addCartaCredito(cartaCredito, user.getEmail());
+
+                                    }
+                                }
+
+                            }
+
+                            Carrello cartAcquistato = (Carrello) sm.getAttribute("carrello");
+                            if (cartAcquistato != null){
+                                List<ProdottoComposto> prodotti = cartAcquistato.getProdotti();
+                                List<ProdottoComposto> out = new ArrayList<>();
+
+                                String keyOfProd;
+                                for (ProdottoComposto prodottoComposto : prodotti){
+                                    do{
+                                        keyOfProd = prodottoComposto.generateKey();
+                                    }while (prodottoDAO.keyAlreadyExists(keyOfProd));
+                                    prodottoComposto.setKey(keyOfProd);
+                                    out.add(prodottoComposto);
+                                }
+
+                                userDAO.saveAcquistoByEmail(user.getEmail(), out);
+                                userDAO.deleteCartByEmail(user.getEmail());
+
+                                req.setAttribute("esito", "successo");
+                                req.getRequestDispatcher("/WEB-INF/results/pagamento.jsp?esito=successo").forward(req, resp);
+
+
+                            }
+
                             break;
                     }
                 }

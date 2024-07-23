@@ -351,7 +351,6 @@ function checkFormAdmin(form) {
 
     document.getElementById('mexProd-general').innerHTML = "";
     let inputs = new FormData(form);
-    console.log("dentro");
     return NoErrorForm(form, inputs) === true;
 
 }
@@ -371,7 +370,6 @@ function NoErrorForm(form, inputs){
                 errorElement.innerHTML = "";
                 let inputType = inputElement.type;
 
-                console.log("tabella scelta: "+tabellaScelta);
                 if(tabellaScelta === "prodotti"){
 
                     if(!validateGeneri(form)){
@@ -419,9 +417,7 @@ function NoErrorForm(form, inputs){
                 }
                 else if (inputType === 'date') {
 
-                    console.log("key: "+key)
                     if(key === "dataNascita" && !validateDataNascita(value)){
-                        console.log("dentro data user");
                         hasErrors.push(true);
                         errorElement.innerHTML = "Deve essere almeno maggiorenne";
 

@@ -217,12 +217,12 @@
 
                                             <div class="container-main-info">
                                                 <div class="info-main">
-                                                    <p>${carta.tipo}</p>
                                                     <p id="info-numero">Termina con .... ${carta.numero.split(" ")[3]}</p>
+                                                    <p id="info-cvv">CVV: ${carta.cvv}</p>
                                                 </div>
                                                 <div  class="data_scadenza"><p id="info-data">Data di scadenza: ${carta.data_scadenza}</p></div>
 
-                                                <form onsubmit="return checkValueAndSubmit(event, ${carta.id})" id="${carta.id}" method="post" class="hidden">
+                                                <form onsubmit="return checkValueAndSubmit(event, ${carta.id})" id="form-carta${carta.id}" method="post" class="hidden">
                                                     <div>
                                                         <label for="nome${carta.id}">Nome: </label>
                                                         <input tabindex="0" id="nome${carta.id}" type="text" name="nome" value="${carta.nome}">
@@ -290,7 +290,7 @@
                                         </div>
 
                                         <div class="actions">
-                                            <div tabindex="0" onclick="modificaCarta(${carta.id})" class="modifica"><i title="modifca carta" class="ri-edit-2-line"></i></div>
+                                            <div tabindex="0" onclick="modificaCarta(${carta.id})" class="modifica"><i title="Modifca carta" class="ri-edit-2-line"></i></div>
                                             <div tabindex="0" onclick="deleteCarta(${carta.id})" class="elimina"><i title="Elimina dalla lista" class="ri-delete-bin-5-line"></i></div>
                                         </div>
                                     </div>
