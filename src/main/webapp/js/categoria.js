@@ -1,13 +1,157 @@
 let titolo = document.getElementById("textTitoloSezioneEstesa");
 
 // Ottiene la stringa della query dall'URL
-const queryString = window.location.search;
+const windowLocation = window.location.search;
 // Crea un oggetto URLSearchParams per analizzare la stringa della query
-const urlParams = new URLSearchParams(queryString);
+const urlParams = new URLSearchParams(windowLocation);
 // Restituisce il valore del parametro specificato
-if(urlParams.get("categoria")!=null) {
-    titolo.textContent = urlParams.get("categoria").replace("-", " ");
+const categoria = urlParams.get("categoria");
+const query = urlParams.get("search");
+if(categoria != null) {
+    if(categoria !== "search") {
+        titolo.textContent = categoria.replace("-", " ");
+    }
 }
+/*logica ricerca*/
+const search = document.getElementById("search");
+const searchBar = document.getElementById("searchBar");
+const giveClassCategoria = document.querySelector('.fragment-nav');
+const filtroGenere = document.getElementById('filtroGenere');
+const overlayGenere = document.getElementById('overlayGenere');
+const filtroOrdine = document.getElementById('filtroOrdine');
+const overlayOrdine = document.getElementById('overlayOrdine');
+const filtroPrezzoMin = document.getElementById('filtroMinPrice');
+const filtroPrezzoMax = document.getElementById('filtroMaxPrice');
+const resetButton = document.querySelector('.reset');
+
+if(categoria === "search" || (query !== "" && query !== null)) {
+    if(query !== ""){
+        searchBar.value = query;
+        ajaxRequestFiltri();
+    }
+    giveClassCategoria.classList.toggle('show-search-bar');
+    search.addEventListener("click", function (event){
+        event.preventDefault();
+    })
+    searchBar.focus();
+    searchBar.addEventListener("keyup", function (e) {
+        ajaxRequestFiltri()
+    })
+} else{
+    giveClassCategoria.classList.remove('show-search-bar');
+}
+
+
+/* logica filtri*/
+function ajaxRequestFiltri(offset){
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("POST", window.location.href,true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.onreadystatechange = function() {
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                let cardContainer = document.querySelector(".sezione .card-container");
+                let response = JSON.parse(xhttp.responseText);
+                let numProdotti = response.pop().numProdotti;
+                printGame(cardContainer, response);
+                if(cardContainer.childElementCount >= numProdotti){
+                    mostraAltro.style = "display:none"
+                }
+                else{
+                    mostraAltro.style = "display:unset"
+                }
+                if(categoria === "search" || query !== null) {
+                    if(categoria === "search"){
+                        if (searchBar.value === "") {
+                            titolo.textContent = "Tutti i nostri giochi"
+                        }
+                        else {
+                            titolo.textContent = "Risultati per " + searchBar.value
+                        }
+                    }
+                    else {
+                        if (query === null || query ==="" || searchBar.value === "") {
+                            titolo.textContent = "Tutti i nostri giochi"
+                        } else {
+                            titolo.textContent = "Risultati per " + searchBar.value
+                        }
+                    }
+                }
+            } else {
+                console.error("Errore nella richiestaajax: " + xhttp.status + "\n"+ xhttp.statusText);
+            }
+        }
+    };
+
+    let data = "genere=" + filtroGenere.value
+        + "&ordine=" + filtroOrdine.value
+        + "&minPrice=" + filtroPrezzoMin.value
+        + "&maxPrice=" + filtroPrezzoMax.value
+        if(offset !== undefined) {
+            data += "&offset=" + offset;
+        }
+            data += "&q=" + searchBar.value;
+
+    xhttp.send(data);
+}
+
+
+
+filtroGenere.addEventListener('change', () => {
+    ajaxRequestFiltri();
+    if(filtroGenere.value && filtroGenere.value !== 0){
+        overlayGenere.style.display = 'none';
+    } else {
+        overlayGenere.style.display = 'flex';
+    }
+});
+
+filtroOrdine.addEventListener('change', () => {
+    ajaxRequestFiltri();
+    if(filtroOrdine.value && filtroOrdine.value !== "0"){
+        overlayOrdine.style.display = 'none';
+    } else {
+        overlayOrdine.style.display = 'flex';
+    }
+});
+
+filtroPrezzoMin.addEventListener('input', () => {
+    if(parseInt(filtroPrezzoMax.value) < parseInt(filtroPrezzoMin.value) && filtroPrezzoMin.value != ""){
+        alert("Inserire range prezzo valido min > max ")
+        filtroPrezzoMin.value = 0
+        ajaxRequestFiltri()
+    }else{
+        ajaxRequestFiltri();
+    }
+    ajaxRequestFiltri();
+})
+
+filtroPrezzoMax.addEventListener('input', () => {
+    if(parseInt(filtroPrezzoMax.value) < parseInt(filtroPrezzoMin.value) && filtroPrezzoMax.value != ""){
+        alert("Inserire range prezzo valido max < min")
+        filtroPrezzoMax.value = 200
+        ajaxRequestFiltri()
+    }else{
+        ajaxRequestFiltri();
+    }
+})
+
+resetButton.addEventListener('click', ()=>{
+    filtroOrdine.value = "0";
+    filtroGenere.value= "0";
+    filtroPrezzoMin.value = 0;
+    filtroPrezzoMax.value = 200;
+    overlayGenere.style.display = 'flex';
+    overlayOrdine.style.display = 'flex';
+    ajaxRequestFiltri();
+})
+
+const mostraAltro = document.querySelector('.mostraAltroText');
+mostraAltro.addEventListener('click', () => {
+    let cardContainer = document.querySelector(".sezione .card-container");
+    ajaxRequestFiltri(cardContainer.childElementCount);
+})
+
 
 function printGame (container, games){
     while(container.firstChild){
@@ -56,91 +200,3 @@ function printGame (container, games){
         })
     }
 }
-
-/* logica filtri*/
-function ajaxRequestFiltri(offset){
-    const xhttp = new XMLHttpRequest();
-    xhttp.open("POST", window.location.href,true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.onreadystatechange = function() {
-        if (this.readyState === 4) {
-            if (this.status === 200) {
-                let cardContainer = document.querySelector(".sezione .card-container");
-                let response = JSON.parse(xhttp.responseText);
-                let numProdotti = response.pop().numProdotti;
-                printGame(cardContainer, response);
-                console.log("child: " + cardContainer.childElementCount);
-                console.log("numProdotti: " + numProdotti);
-                if(cardContainer.childElementCount >= numProdotti){
-                    mostraAltro.style = "display:none"
-                }
-                else{
-                    mostraAltro.style = "display:unset"
-                }
-
-
-            } else {
-                console.error("Errore nella richiestaajax: " + xhttp.status + "\n"+ xhttp.responseText);
-            }
-        }
-    };
-    let data = "genere=" + filtroGenere.value
-        + "&ordine=" + filtroOrdine.value
-        + "&minPrice=" + filtroPrezzoMin.value
-        + "&maxPrice=" + filtroPrezzoMax.value
-        if(offset !== undefined) {
-            data += "&offset=" + offset;
-        }
-    xhttp.send(data);
-}
-
-const filtroGenere = document.getElementById('filtroGenere');
-const overlayGenere = document.getElementById('overlayGenere');
-const filtroOrdine = document.getElementById('filtroOrdine');
-const overlayOrdine = document.getElementById('overlayOrdine');
-const filtroPrezzoMin = document.getElementById('filtroMinPrice');
-const filtroPrezzoMax = document.getElementById('filtroMaxPrice');
-const resetButton = document.querySelector('.reset');
-
-filtroGenere.addEventListener('change', () => {
-    ajaxRequestFiltri();
-    if(filtroGenere.value && filtroGenere.value != 0){
-        overlayGenere.style.display = 'none';
-    } else {
-        overlayGenere.style.display = 'flex';
-    }
-});
-
-filtroOrdine.addEventListener('change', () => {
-    ajaxRequestFiltri();
-    if(filtroOrdine.value && filtroOrdine.value !== "0"){
-        overlayOrdine.style.display = 'none';
-    } else {
-        overlayOrdine.style.display = 'flex';
-    }
-});
-
-filtroPrezzoMin.addEventListener('change', () => {
-    ajaxRequestFiltri();
-})
-
-filtroPrezzoMax.addEventListener('change', () => {
-   ajaxRequestFiltri();
-})
-
-resetButton.addEventListener('click', ()=>{
-    filtroOrdine.value = "0";
-    filtroGenere.value= "0";
-    filtroPrezzoMin.value = 0;
-    filtroPrezzoMax.value = 200;
-    overlayGenere.style.display = 'flex';
-    overlayOrdine.style.display = 'flex';
-    ajaxRequestFiltri();
-})
-
-const mostraAltro = document.querySelector('.mostraAltroText');
-mostraAltro.addEventListener('click', () => {
-    let cardContainer = document.querySelector(".sezione .card-container");
-    ajaxRequestFiltri(cardContainer.childElementCount);
-})
-

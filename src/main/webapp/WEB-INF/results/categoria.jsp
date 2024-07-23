@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="${context}/css/sezioni.css">
     <link rel="stylesheet" href="${context}/css/categoria.css">
     <script> const contextPath = '${context}';</script>
-
 </head>
 <body>
 <%@ include file="../fragments/navbar.jsp"%>
@@ -33,12 +32,11 @@
                     <select name="filtri" aria-label="filtri" id="filtroOrdine" class="filtro ordine">
 
                         <option name="genere" aria-label="filtro1" id="filtro1" value="0"></option>
-                        <option name="genere" aria-label="filtro2" id="filtro2" value="bestsellers_desc">Bestseller</option>
                         <option name="genere" aria-label="filtro3" id="filtro3" value="discount_desc">Sconto: migliore</option>
-                        <option name="genere" aria-label="filtro4" id="filtro4" value="price_asc">Prezzo: da basso ad alto</option>
-                        <option name="genere" aria-label="filtro5" id="filtro5" value="price_desc">Prezzo: da alto a basso</option>
-                        <option name="genere" aria-label="filtro6" id="filtro6" value="avail_date_desc">Uscita: nuovo</option>
-                        <option name="genere"  aria-label="filtro7" id="filtro7" value="avail_date_asc">Uscita: vecchio</option>
+                        <option name="genere" aria-label="filtro4" id="filtro4" value="price_asc">Prezzo: crescente</option>
+                        <option name="genere" aria-label="filtro5" id="filtro5" value="price_desc">Prezzo: decrescente</option>
+                        <option name="genere" aria-label="filtro6" id="filtro6" value="avail_date_desc">Uscita: più recente</option>
+                        <option name="genere"  aria-label="filtro7" id="filtro7" value="avail_date_asc">Uscita: meno recente</option>
 
                     </select>
                 </label>

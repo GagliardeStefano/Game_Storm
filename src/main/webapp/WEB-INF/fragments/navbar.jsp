@@ -19,7 +19,7 @@
                 </div>
                 <div class="right">
                     <ul>
-                        <li><i role="button" tabindex="0" id="search" onclick="showSearchBar()" class="ri-search-line" aria-label="search"></i></li>
+                        <li><a href="${context}/CategoriaManager?categoria=search"><i role="button" tabindex="0" id="search"  class="ri-search-line" aria-label="search"></i> </a></li>
                         <li><a role="link" href="${context}/CartManager"><span class="num">
                             <c:choose>
                             <c:when test="${not empty sessionScope.carrello}">
@@ -43,7 +43,7 @@
     <div class="search-bar-container">
         <form tabindex="0" action="" role="form" class="search-bar">
             <label>
-                <input role="searchbox" tabindex="0" type="search" placeholder="Search..." name="search" aria-label="search">
+                <input id="searchBar" role="searchbox" tabindex="0" type="search" placeholder="Search..." name="search" aria-label="search">
             </label>
         </form>
     </div>
@@ -62,9 +62,9 @@
                         <li><a role="link" href="#footer">Contatti</a></li>
                         <div class="search">
                             <i class="ri-search-line"></i>
-                            <form action="">
+                            <form action="CategoriaManager">
                                 <label>
-                                    <input type="search" tabindex role="searchbox" placeholder="Search..." name="search" aria-label="search">
+                                    <input id="searchBarMobile" type="search" tabindex role="searchbox" placeholder="Search..." name="search" aria-label="search">
                                 </label>
                             </form>
                         </div>

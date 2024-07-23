@@ -14,6 +14,7 @@ import org.json.simple.JSONObject;
 import javax.swing.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.attribute.UserDefinedFileAttributeView;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,10 +25,23 @@ public class CategoriaManager extends HttpServlet {
         ProdottoDAO pDAO = new ProdottoDAO();
         String categoria = request.getParameter("categoria");
         List<String> generi = pDAO.doRetrieveGeneri();
-        List<Prodotto> giochi = pDAO.doRetrieveByCategoria(categoria);
+        List<Prodotto> giochi;
+        RequestDispatcher dispatcher;
+
+        if(categoria == null){
+            giochi = pDAO.doRetrieveSix();
+            String query = request.getParameter("search");
+            dispatcher = request.getRequestDispatcher("/WEB-INF/results/categoria.jsp?categoria=search&q=" + query);
+        } else {
+            if (categoria.equals("search")) {
+                giochi = pDAO.doRetrieveSix();
+            } else {
+                giochi = pDAO.doRetrieveByCategoria(categoria);
+            }
+            dispatcher = request.getRequestDispatcher("/WEB-INF/results/categoria.jsp?categoria=" + categoria);
+        }
         request.setAttribute("generi", generi);
         request.setAttribute("giochi", giochi);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/results/categoria.jsp?categoria=" + categoria);
         dispatcher.forward(request, response);
 
     }
@@ -46,21 +60,44 @@ public class CategoriaManager extends HttpServlet {
         else{
             offset = 3;
         }
+        String searchQuery = request.getParameter("q");
+
         List<Prodotto> prodotti;
 
+        //almeno un filtro modificato senza search query o con query vuota
+        if((genere != 0 || !ordine.equals("0") || prezzoMin!= 0|| prezzoMax!= 200) && searchQuery.isBlank() ) {
+            if(categoria == null){
+                prodotti = pDAO.doRetrieveByFilter(genere, ordine, prezzoMin, prezzoMax, searchQuery);
+            } else {
 
-        if(genere != 0 || !ordine.equals("0") || prezzoMin!= 0|| prezzoMax!= 200) {
-            prodotti=pDAO.doRetrieveByFiltriAndCategoria(categoria, genere, ordine, prezzoMin, prezzoMax);
-        } else{
-            prodotti = pDAO.doRetrieveAllByCategoria(categoria);
+                if (categoria.equals("search")) {
+                    //query vuota
+                    prodotti = pDAO.doRetrieveByFilter(genere, ordine, prezzoMin, prezzoMax, searchQuery);
+                } else {
+                    //senza query
+                    prodotti = pDAO.doRetrieveByFiltriAndCategoria(categoria, genere, ordine, prezzoMin, prezzoMax);
+                }
+            }
+        } // con search query
+        else if(searchQuery != null && !searchQuery.isEmpty()) {
+            request.setAttribute("q", searchQuery);
+            prodotti = pDAO.doRetrieveByFilter(genere, ordine, prezzoMin, prezzoMax, searchQuery);
+        } //caso base
+        else{
+            if(categoria == null || categoria.equals("search")){
+                prodotti = pDAO.doRetrieveAll();
+            } else {
+                prodotti = pDAO.doRetrieveAllByCategoria(categoria);
+            }
+
         }
 
-            JSONArray jsonProdottiArray = getJsonArray(prodotti, offset);
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            PrintWriter out = response.getWriter();
-            out.print(jsonProdottiArray.toJSONString());
-            out.flush();
+        JSONArray jsonProdottiArray = getJsonArray(prodotti, offset);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        out.print(jsonProdottiArray.toJSONString());
+        out.flush();
     }
 
     private static JSONArray getJsonArray(List<Prodotto> prodotti, int offset) {
