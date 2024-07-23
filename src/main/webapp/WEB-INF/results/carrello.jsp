@@ -99,6 +99,11 @@
                         <c:when test="${vuoto == 0}">
                             <div class="pagamento-button">Vai al pagamento ></div>
                         </c:when>
+                        <c:when test="${empty user}">
+                            <a href="${context}/UserManager">
+                                <div class="pagamento-button">Vai al pagamento ></div>
+                            </a>
+                        </c:when>
                         <c:otherwise>
                             <a href="${context}/CartManager?action=pagamento">
                                 <div class="pagamento-button">Vai al pagamento ></div>

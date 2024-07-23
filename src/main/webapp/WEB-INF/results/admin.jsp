@@ -61,11 +61,10 @@
             <h2 id="nomeTabella"></h2>
 
             <div class="table-actions">
-
+                <button type="button" tabindex onclick="aggiungiEntita()" id="add-record">Aggiungi</button>
                 <c:if test="${user.tipo == TipoUtente.Admin1}">
-                    <button type="button" tabindex onclick="aggiungiEntita()" id="add-record">Aggiungi</button>
                     <button type="button" tabindex onclick="eliminaEntita()" id="delete-record">Elimina</button>
-                    <form id="form-delete" action="${context}/AdminManager" method="post">
+                    <form id="form-delete" action="${context}/AdminManager" style="display: none" method="post">
                         <input type="hidden" id="hidden-delete" name="from" value="delete">
                         <input type="text" name="input" id="delete-input" placeholder="" title="">
                         <label class="error-input">
@@ -345,31 +344,7 @@
                     </label>
                 </form>
             </div>
-            <!--
-            <div id="prodotti-form-delete">
 
-            </div>
-
-            <div id="user-form-delete">
-
-            </div>
-
-            <div id="genere-form-delete">
-
-            </div>
-
-
-            <div id="prodotti-form-modify">
-
-            </div>
-
-            <div id="user-form-modify">
-
-            </div>
-
-            <div id="genere-form-modify">
-
-            </div>-->
 
         </div>
     </div>

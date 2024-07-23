@@ -9,6 +9,10 @@ let typeReq = document.getElementById('type').innerHTML;
 let tabellaScelta;
 let dropdownContainer = document.querySelector('.dropdown-container');
 
+let formDelete = document.getElementById('form-delete');
+
+hiddenTable();
+
 switch (typeReq){
     case "addProdotto":
         hiddenDashboard();
@@ -28,9 +32,30 @@ switch (typeReq){
         tabellaScelta = "genere";
         showFormById('addGenere', true);
         break;
+    case "deleteProd":
+
+        hiddenDashboard();
+        tabellaScelta = "prodotti";
+        getTable("Prodotti");
+        eliminaEntita()
+        break;
+    case "deleteUser":
+
+        hiddenDashboard();
+        tabellaScelta = "utente";
+        getTable("Utenti");
+        eliminaEntita()
+        break;
+    case "deleteGenere":
+
+        hiddenDashboard();
+        tabellaScelta = "genere";
+        getTable("Generi");
+        eliminaEntita()
+        break;
+    default:break;
 }
 
-table.style.display = 'none';
 
 // Funzione per mostrare/nascondere il dropdown-container
 function displayContainer() {
@@ -111,6 +136,7 @@ function getTable(element){
             tabellaScelta = "carrello";
             break;
         case 'Ordini':
+        case 'Ordini effettuati':
             tabellaScelta = "ordini";
             break;
     }
@@ -126,15 +152,12 @@ function getTable(element){
     xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             let response = JSON.parse(xhttp.responseText);
-            if(document.getElementById('form-delete')){
-                eliminaEntita();
-            }
             printTable(response);
             displayTable();
         }
     };
 
-    xhttp.open("POST", "AdminManager", true);
+    xhttp.open("POST", "AdminManager", false);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("from=showTable&tabella="+tabellaScelta);
 
@@ -272,39 +295,42 @@ function aggiungiEntita(){
 }
 
 function eliminaEntita() {
-    let formDelete = document.getElementById('form-delete');
-    if(formDelete.style.display === 'none'){
-        formDelete.style.display = 'flex';
-    }else {
+
+    if(formDelete.style.display === 'flex'){
         formDelete.style.display = 'none';
-
-        let hiddenInput  = document.getElementById('hidden-delete');
-        let Input = document.getElementById('delete-input');
-        Input.value = "";
-
-
-        // Definire le proprietà del nuovo input in base alla tabella selezionata
-        switch (tabellaScelta) {
-            case "prodotti":
-                hiddenInput.value += "Prod";
-                Input.placeholder = 'Inserisci nome del prodotto';
-                Input.title = 'Inserisci il nome del record che vuoi eliminare';
-                break;
-            case "utente":
-                hiddenInput.value += "User";
-                Input.placeholder = 'Inserisci email utente';
-                Input.title = 'Inserisci email';
-                break;
-            case "genere":
-                hiddenInput.value += "Genere";
-                Input.placeholder = 'Inserisci nome del genere';
-                Input.title = 'Inserisci il nome del record che vuoi eliminare';
-                break;
-            default:
-                return;
-        }
-
+    }else {
+        formDelete.style.display = 'flex';
     }
+
+
+    let hiddenInput  = document.getElementById('hidden-delete');
+    hiddenInput.value = "delete";
+    let Input = document.getElementById('delete-input');
+    Input.value = "";
+
+
+    // Definire le proprietà del nuovo input in base alla tabella selezionata
+    switch (tabellaScelta) {
+        case "prodotti":
+            hiddenInput.value += "Prod";
+            Input.placeholder = 'Inserisci nome del prodotto';
+            Input.title = 'Inserisci il nome del record che vuoi eliminare';
+            break;
+        case "utente":
+            hiddenInput.value += "User";
+            Input.placeholder = 'Inserisci email utente';
+            Input.title = 'Inserisci email';
+            break;
+        case "genere":
+            hiddenInput.value += "Genere";
+            Input.placeholder = 'Inserisci nome del genere';
+            Input.title = 'Inserisci il nome del record che vuoi eliminare';
+            break;
+        default:
+            return;
+    }
+
+
 }
 
 

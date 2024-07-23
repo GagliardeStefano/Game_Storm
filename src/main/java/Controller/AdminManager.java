@@ -253,6 +253,7 @@ public class AdminManager extends HttpServlet {
                         validator.addError(false,"Prodotto non eliminato,inserire correttamnete il nome");
                         req.setAttribute("errori", validator.getErrors());
                     }
+                    req.setAttribute("type", "deleteProd");
                     dispatcher = req.getRequestDispatcher("/WEB-INF/results/admin.jsp");
                     dispatcher.forward(req, resp);
 
@@ -272,6 +273,7 @@ public class AdminManager extends HttpServlet {
                         validator.addError(false,"Utente non eliminato, inserire correttamente l'email");
                         req.setAttribute("errori", validator.getErrors());
                     }
+                    req.setAttribute("type", "deleteUser");
                     dispatcher = req.getRequestDispatcher("/WEB-INF/results/admin.jsp");
                     dispatcher.forward(req, resp);
 
@@ -291,11 +293,11 @@ public class AdminManager extends HttpServlet {
                         validator.addError(false,"Genere non eliminato, inserire correttamente il nome");
                         req.setAttribute("errori", validator.getErrors());
                     }
+                    req.setAttribute("type", "deleteGenere");
                     dispatcher = req.getRequestDispatcher("/WEB-INF/results/admin.jsp");
                     dispatcher.forward(req, resp);
 
                 }
-
 
                 break;
         }

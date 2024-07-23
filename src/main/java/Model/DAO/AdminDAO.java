@@ -232,7 +232,7 @@ public class AdminDAO {
             PreparedStatement ps = conn.prepareStatement(
                     "SELECT ordini.email_utente, ordini.data_acquisto, " +
                             "GROUP_CONCAT(prodotti.nome ORDER BY prodotti.nome SEPARATOR ' / ') AS nomi_giochi, " +
-                            "GROUP_CONCAT(ordini.prezzo_prodotto ORDER BY prodotti.nome SEPARATOR ' / ') AS prezzi_giochi, " +
+                            "GROUP_CONCAT(ROUND(ordini.prezzo_prodotto, 2) ORDER BY prodotti.nome SEPARATOR ' / ') AS prezzi_giochi, " +
                             "GROUP_CONCAT(ordini.key_prodotto ORDER BY prodotti.nome SEPARATOR ' / ') AS chiavi_giochi, " +
                             "ROUND(SUM(ordini.prezzo_prodotto), 2) AS totale " +
                             "FROM ordini " +
@@ -277,14 +277,14 @@ public class AdminDAO {
         try (Connection conn = ConPool.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(
                     "SELECT carrello.email_utente," +
-                        "GROUP_CONCAT(prodotti.nome ORDER BY prodotti.nome SEPARATOR ' / ') AS nomi_giochi, " +
-                        "GROUP_CONCAT(prodotti.immagine ORDER BY prodotti.nome SEPARATOR ', ') AS immagini_giochi, "+
-                        "GROUP_CONCAT(prodotti.prezzo ORDER BY prodotti.nome SEPARATOR ' / ') AS prezzi_giochi, "+
-                        "GROUP_CONCAT(prodotti.sconto ORDER BY prodotti.nome SEPARATOR ' / ') AS sconti_giochi, "+
-                        "ROUND(SUM(prodotti.prezzo * (1 - prodotti.sconto / 100)), 2) AS totale "+
-                        "FROM carrello "+
-                        "JOIN prodotti ON carrello.ID_prodotto = prodotti.ID "+
-                        "GROUP BY carrello.email_utente"
+                            "GROUP_CONCAT(prodotti.nome ORDER BY prodotti.nome SEPARATOR ' / ') AS nomi_giochi, " +
+                            "GROUP_CONCAT(prodotti.immagine ORDER BY prodotti.nome SEPARATOR ', ') AS immagini_giochi, "+
+                            "GROUP_CONCAT(prodotti.prezzo ORDER BY prodotti.nome SEPARATOR ' / ') AS prezzi_giochi, "+
+                            "GROUP_CONCAT(prodotti.sconto ORDER BY prodotti.nome SEPARATOR ' / ') AS sconti_giochi, "+
+                            "ROUND(SUM(prodotti.prezzo * (1 - prodotti.sconto / 100)), 2) AS totale "+
+                            "FROM carrello "+
+                            "JOIN prodotti ON carrello.ID_prodotto = prodotti.ID "+
+                            "GROUP BY carrello.email_utente"
             );
 
             ResultSet rs = ps.executeQuery();

@@ -248,6 +248,9 @@ public class UserUpdateManager extends HttpServlet {
 
                                 userDAO.saveAcquistoByEmail(user.getEmail(), out);
                                 userDAO.deleteCartByEmail(user.getEmail());
+                                carrello = new Carrello();
+                                sm.setAttribute("carrello", carrello);
+
 
                                 req.setAttribute("esito", "successo");
                                 req.getRequestDispatcher("/WEB-INF/results/pagamento.jsp?esito=successo").forward(req, resp);

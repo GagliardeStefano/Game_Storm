@@ -148,7 +148,7 @@
                                             <div class="info-main">
                                                 <div class="data">
                                                     <h3>Data di acquisto</h3>
-                                                    <p>${ordine.data}</p>
+                                                    <p>${fn:split(ordine.data, " ")[0]}</p>
                                                 </div>
                                                 <div class="totale">
                                                     <h3>Totale</h3>

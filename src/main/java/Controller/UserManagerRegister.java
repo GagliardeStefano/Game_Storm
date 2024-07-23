@@ -120,8 +120,8 @@ public class UserManagerRegister extends HttpServlet {
                     sessionManager.setAttribute("wishlist", wishlist);
                     sessionManager.setAttribute("ordini", ordini);
                     sessionManager.setAttribute("carte", metodiPagamento);
-                    if (!carrello.getProdotti().isEmpty())
-                        sessionManager.setAttribute("carrello", carrello);
+
+                    UserManagerLogin.setCarrelloInSessione(sessionManager, user.getEmail());
 
                     dispatcher = req.getRequestDispatcher("/WEB-INF/results/account.jsp");
                     dispatcher.forward(req, resp);
