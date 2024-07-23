@@ -232,8 +232,33 @@ th {
 .from-button{
     display:flex;
     flex:1 0 50%;
+}
+.container-generi{
+    display:flex;
+    gap:20px;
+}
+.container-generi input{
+    height:100%;
 
-
+}
+.container-nomi{
+    display:flex;
+    gap:20px
+}
+.container-nomi input{
+    height:100%;
+}
+.container-admin1{
+    display:flex;
+    gap:10px;
+}
+.container-admin2{
+    display:flex;
+    gap:10px;
+}
+.container-semplice{
+    display:flex;
+    gap:10px;
 }
 
 @media (max-width: 1500px) {

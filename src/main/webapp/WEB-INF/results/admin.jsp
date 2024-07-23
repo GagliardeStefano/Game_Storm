@@ -14,14 +14,14 @@
 
     <div class="actions">
         <a role="link" href="${context}/index.jsp"><img class="logo" src="${context}/images/logoWhiteNoBackround.png" alt="Logo"></a>
-        <a role="button" onclick="displayDashboard()" class="active action" >Dashboard<i class="ri-dashboard-2-line"></i></a>
-        <a role="button" onclick="displayContainer()" class="dropdown action" >Dati<div class="icon"><i class="ri-database-2-line"></i><i class="ri-arrow-drop-down-line"></i></div></a>
+        <a role="button" tabindex="0" onclick="displayDashboard()" class="active action" >Dashboard<i class="ri-dashboard-2-line"></i></a>
+        <a role="button" tabindex="0" onclick="displayContainer()" class="dropdown action" >Dati<div class="icon"><i class="ri-database-2-line"></i><i class="ri-arrow-drop-down-line"></i></div></a>
         <div class="dropdown-container">
-            <a role="button" onclick="getTable(this.innerHTML)" class="action">Prodotti</a>
-            <a role="button" onclick="getTable(this.innerHTML)" class="action">Generi</a>
-            <a role="button" onclick="getTable(this.innerHTML)" class="action">Utenti</a>
-            <a role="button" onclick="getTable(this.innerHTML)" class="action">Carrelli</a>
-            <a role="button" onclick="getTable(this.innerHTML)" class="action">Ordini</a>
+            <a role="button" tabindex="0" onclick="getTable(this.innerHTML)" class="action">Prodotti</a>
+            <a role="button" tabindex="0" onclick="getTable(this.innerHTML)" class="action">Generi</a>
+            <a role="button" tabindex="0" onclick="getTable(this.innerHTML)" class="action">Utenti</a>
+            <a role="button" tabindex="0" onclick="getTable(this.innerHTML)" class="action">Carrelli</a>
+            <a role="button" tabindex="0" onclick="getTable(this.innerHTML)" class="action">Ordini</a>
         </div>
         <a  role="link" href="${context}/UpdateUser?from=logout" class="action">Logout<i class="ri-logout-box-line"></i></a>
     </div>
@@ -30,20 +30,20 @@
 
     <div id="output" class="output">
         <div id="dashboard">
-            <div onclick="getTable('Carrelli')" class="element">
+            <div role="button" tabindex="0" onclick="getTable('Carrelli')" class="element">
                 <h2>Carrelli</h2>
                 <p>${totCarrelli}</p>
             </div>
-            <div onclick="getTable('Utenti')" class="element">
+            <div role="button" tabindex="0" onclick="getTable('Utenti')" class="element">
                 <h2>Utenti</h2>
                 <p>${totUtenti}</p>
             </div>
-            <div onclick="getTable('Ordini effettuati')" class="element">
+            <div role="button" tabindex="0" onclick="getTable('Ordini effettuati')" class="element">
                 <h2>Ordini</h2>
                 <p>${totOrdini}</p>
             </div>
 
-            <div onclick="getTable('Prodotti')" class="element">
+            <div role="button" tabindex="0" onclick="getTable('Prodotti')" class="element">
                 <h2>Prodotti</h2>
                 <p>${totProdotti}</p>
             </div>
@@ -66,7 +66,9 @@
                     <button type="button" tabindex onclick="eliminaEntita()" id="delete-record">Elimina</button>
                     <form id="form-delete" action="${context}/AdminManager" style="display: none" method="post">
                         <input type="hidden" id="hidden-delete" name="from" value="delete">
-                        <input type="text" name="input" id="delete-input" placeholder="" title="">
+                        <label>
+                            <input aria-label="placeholder-delte" type="text" name="input" id="delete-input" placeholder="" title="">
+                        </label>
                         <label class="error-input">
                             <c:forEach items="${errori}" var="errore">
                                 <c:if test="${fn:containsIgnoreCase(errore, 'eliminato') || fn:containsIgnoreCase(errore, 'non eliminato')}" >
@@ -149,8 +151,12 @@
                     <label>Generi</label>
                     <div class="scroll-box">
                         <c:forEach items="${generi}" var="genere">
-                            <input id="${genere}" type="checkbox" name="genere" value="${genere}">
-                            <label for="${genere}">${genere}</label><br>
+                            <div class="container-generi">
+                                <label>
+                                    <input aria-label="genere" id="${genere}" type="checkbox" name="genere" value="${genere}">
+                                </label>
+                                <label for="${genere}">${genere}</label><br>
+                            </div>
                         </c:forEach>
                     </div>
                     <label id="error-generi" class="error-input">
@@ -266,15 +272,18 @@
                     </label>
 
                     <div>
-                        <label for="ad1">Admin1</label>
-                        <input type="radio" name="tipo" id="ad1" value="Admin1" />
-
-                        <label for="ad2">Admin2</label>
-                        <input type="radio" name="tipo" id="ad2" value="Admin2" />
-
-                        <label for="semplice">Semplice</label>
-                        <input type="radio" name="tipo" id="semplice" value="Semplice" />
-
+                        <div class="container-admin1">
+                            <input type="radio" name="tipo" id="ad1" value="Admin1" />
+                            <label for="ad1">Admin1</label>
+                        </div>
+                        <div class="container-admin2">
+                            <input type="radio" name="tipo" id="ad2" value="Admin2" />
+                            <label for="ad2">Admin2</label>
+                        </div>
+                        <div class="container-semplice">
+                            <input type="radio" name="tipo" id="semplice" value="Semplice" />
+                            <label for="semplice">Semplice</label>
+                        </div>
                         <label class="error-input" id="error-tipo-user">
                             <c:forEach items="${errori}" var="mex">
                                 <c:if test="${fn:containsIgnoreCase(mex, 'tipo')}">
@@ -318,8 +327,12 @@
                     <div class="scroll-box">
                         <c:forEach items="${nomiGiochi}" var="nome">
                             <br>
-                            <input id="${nome}" type="checkbox" name="listGames" value="${nome}">
-                            <label for="${nome}">${nome}</label>
+                            <div class="container-nomi">
+                                <label>
+                                    <input aria-label="list-games" id="${nome}" type="checkbox" name="listGames" value="${nome}">
+                                </label>
+                                <label for="${nome}">${nome}</label>
+                            </div>
                         </c:forEach>
                     </div>
                     <label class="error-input" id="error-giochi-selezionati">
