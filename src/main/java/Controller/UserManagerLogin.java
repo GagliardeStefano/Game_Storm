@@ -125,7 +125,6 @@ public class UserManagerLogin extends HttpServlet {
                                 }
                                 sessionManager.setAttribute("user", user);
                                 resp.sendRedirect("http://localhost:8080/GameStorm_war/AdminManager");
-                                /*TODO cambiare forse per https */
                                 break;
 
                         }
