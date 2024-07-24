@@ -34,3 +34,5 @@
                 <% } %>
         <% } %>
 
+<!-- SCRIPT -->
+<script> const contextPath = '${context}';</script>

@@ -121,13 +121,13 @@ public class AdminDAO {
                     String[] imagePaths = rs.getString(i).split(", "); // Supponendo che immagini_giochi contenga più percorsi separati da ', '
                     StringBuilder imagesHtml = new StringBuilder();
                     for (String path : imagePaths) {
-                        imagesHtml.append("<img src='/GameStorm_war").append(path).append("' alt='immagine'>");
+                        imagesHtml.append("<img src='/GameStorm-1.0-SNAPSHOT").append(path).append("' alt='immagine'>");
                     }
                     columnValue = imagesHtml.toString();
                 }
 
                 if (columnName.equals("immagine") || columnName.equals("foto")) {
-                    columnValue = "<img src='/GameStorm_war" + rs.getString(i) + "' alt='" + columnName + "'>";
+                    columnValue = "<img src='/GameStorm-1.0-SNAPSHOT" + rs.getString(i) + "' alt='" + columnName + "'>";
                 }
 
                 record.put(columnName, columnValue);

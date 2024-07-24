@@ -212,9 +212,6 @@
                                 <div id="carta${carta.id}" class="carta">
                                     <div class="info-container">
                                         <div class="info">
-
-                                           <!-- <img src="${context}/images/carteCredito/${carta.tipo}.png" alt="Carta di credito"/> -->
-
                                             <div class="container-main-info">
                                                 <div class="info-main">
                                                     <p id="info-numero">Termina con .... ${carta.numero.split(" ")[3]}</p>

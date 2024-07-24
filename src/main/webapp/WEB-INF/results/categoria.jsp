@@ -6,7 +6,7 @@
     <title>Categoria</title>
     <link rel="stylesheet" href="${context}/css/sezioni.css">
     <link rel="stylesheet" href="${context}/css/categoria.css">
-    <script> const contextPath = '${context}';</script>
+
 </head>
 <body>
 <%@ include file="../fragments/navbar.jsp"%>

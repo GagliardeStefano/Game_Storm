@@ -90,7 +90,7 @@
             option.addEventListener("click", function() {
 
                 const newAvatar = option.getAttribute("data-avatar");
-                let srcAvatar = `/GameStorm_war/images/avatar/${newAvatar}`;
+                let srcAvatar = `${contextPath}/images/avatar/${newAvatar}`;
 
 
                 let xhttp = new XMLHttpRequest();
@@ -105,7 +105,7 @@
 
                 xhttp.open("POST", "UpdateUser", true);
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xhttp.send("from=changeAvatar&path=" + encodeURIComponent(srcAvatar.replace("/GameStorm_war", "")));
+                xhttp.send("from=changeAvatar&path=" + encodeURIComponent(srcAvatar.replace(`${contextPath}`, "")));
             });
         });
     }

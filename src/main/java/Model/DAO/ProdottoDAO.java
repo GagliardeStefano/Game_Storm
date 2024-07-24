@@ -324,7 +324,7 @@ public class ProdottoDAO {
                                         "FROM prodotti p " +
                                         "JOIN ordini o ON p.ID = o.ID_prodotto " +
                                         "JOIN prodotto_genere pg ON p.ID = pg.ID_prodotto " +
-                                        "WHERE prezzo prezzo_scontato ? AND ? " +
+                                        "WHERE prezzo - (prezzo * sconto / 100) BETWEEN ? AND ? " +
                                         "GROUP BY p.ID, p.nome, p.descrizione, p.data_rilascio, p.prezzo, p.sconto, p.immagine, p.trailer " +
                                         "ORDER BY vendite DESC"
                         );

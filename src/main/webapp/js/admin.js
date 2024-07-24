@@ -78,12 +78,14 @@ function showForms(){
 
 function hiddenButtons(){
     addRecordButton.style.display = 'none';
-    deleteRecordButton.style.display = 'none';
+    if(deleteRecordButton)
+        deleteRecordButton.style.display = 'none';
 }
 
 function showButtons(){
     addRecordButton.style.display = 'block';
-    deleteRecordButton.style.display = 'block';
+    if(deleteRecordButton)
+        deleteRecordButton.style.display = 'block';
 }
 
 // Aggiungi un evento di click a tutti gli elementi con classe 'action'
@@ -377,7 +379,11 @@ function checkFormAdmin(form) {
 
     document.getElementById('mexProd-general').innerHTML = "";
     let inputs = new FormData(form);
-    return NoErrorForm(form, inputs) === true;
+    if(NoErrorForm(form, inputs) === true){
+        return false;
+    }else {
+        return true;
+    }
 
 }
 
@@ -391,8 +397,9 @@ function NoErrorForm(form, inputs){
 
         if (key !== "from"){
             if (inputElement) {
-
+                console.log(inputElement);
                 let errorElement = inputElement.nextElementSibling;
+                console.log(errorElement);
                 errorElement.innerHTML = "";
                 let inputType = inputElement.type;
 
@@ -480,7 +487,7 @@ function NoErrorForm(form, inputs){
 
     });
 
-    return !hasErrors.includes(true);
+    return hasErrors.includes(true);
 
 }
 

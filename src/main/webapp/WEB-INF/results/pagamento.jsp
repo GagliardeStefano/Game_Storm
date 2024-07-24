@@ -13,7 +13,7 @@
     <c:choose>
         <c:when test="${empty esito}">
 
-            <form action="/GameStorm_war/UpdateUser" method="post" class="form-carte" id="form-pagamento" onsubmit="return validateFormPagamentoCard(this, '')">
+            <form action="${context}/UpdateUser" method="post" class="form-carte" id="form-pagamento" onsubmit="return validateFormPagamentoCard(this, '')">
                 <input type="hidden" name="from" value="pagamento">
                 <div class="form-container" style="display: flex;width: 100%;">
                     <div class="container-carte">
@@ -130,8 +130,8 @@
 
 
 
-<script src="/GameStorm_war/js/account.js"></script>
-<script src="/GameStorm_war/js/pagamento.js"></script>
+<script src="${context}/js/account.js"></script>
+<script src="${context}/js/pagamento.js"></script>
 
 
 
