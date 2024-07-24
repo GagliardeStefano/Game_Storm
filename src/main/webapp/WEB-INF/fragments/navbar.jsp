@@ -4,7 +4,7 @@
             <div class="content">
                 <div class="left">
                     <span role="button" tabindex="0" class="trigger"><i class="ri-menu-line"></i></span>
-                    <div class="logo"><a role="link" href="${context}/index.jsp"><img src="${context}/images/logoWhiteNoBackround.png" alt="Logo"></a></div>
+                    <div class="logo"><a role="link" tabindex="0" href="${context}/index.jsp"><img src="${context}/images/logoWhiteNoBackround.png" alt="Logo"></a></div>
                 </div>
                 <div class="middle">
                     <nav>
@@ -41,11 +41,13 @@
         </div>
     </header>
     <div class="search-bar-container">
-        <form tabindex="0" action="" role="form" class="search-bar">
-            <label>
-                <input id="searchBar" role="searchbox" tabindex="0" type="search" placeholder="Search..." name="search" aria-label="search">
-            </label>
-        </form>
+        <label>
+            <form tabindex="0" action="" role="form" class="search-bar">
+                <label>
+                    <input id="searchBar" role="searchbox" tabindex="0" onclick="" type="search" placeholder="Search..." name="search" aria-label="search">
+                </label>
+            </form>
+        </label>
     </div>
 
     <!-- MOBILE -->

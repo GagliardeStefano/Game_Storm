@@ -172,7 +172,7 @@ function printGame (container, games){
                 var newGame = `
                             <div class="card-content">
                                 <div class="card-image-container">
-                                        <a href="${contextPath}/CardManager?id=${game.id}"><img class="card__image" src="${contextPath}${game.img}" alt=""></a>
+                                       <a role="link" aria-label="link-img" tabindex="0" href="${contextPath}/CardManager?id=${game.id}"><img class="card__image" src="${contextPath}${game.img}" alt="${game.nome}"></a>
                                     </div>
                                 <div class = "card-info">
                                     <h3 class="title">${game.nome}</h3>

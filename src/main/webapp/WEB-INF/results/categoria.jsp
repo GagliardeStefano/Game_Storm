@@ -77,7 +77,7 @@
                             <div class="card">
                                 <div class="card-content">
                                     <div class="card-image-container">
-                                        <a href="${context}/CardManager?id=${gioco.id}"><img class="card__image" src="${context}${gioco.img}" alt="${gioco.nome}"></a>
+                                        <a role="link" tabindex="0" aria-label="link-img" href="${context}/CardManager?id=${gioco.id}"><img class="card__image" src="${context}${gioco.img}" alt="${gioco.nome}"></a>
                                         <div class="scontato">-${gioco.sconto}%</div>
                                     </div>
                                     <div class = "card-info">
@@ -91,7 +91,7 @@
                             <div class="card">
                                 <div class="card-content">
                                     <div class="card-image-container">
-                                        <a href="${context}/CardManager?id=${gioco.id}"><img class="card__image" src="${context}${gioco.img}" alt=""></a>
+                                        <a role="link" tabindex="0" aria-label="link-img" href="${context}/CardManager?id=${gioco.id}"><img class="card__image" src="${context}${gioco.img}" alt="${gioco.nome}"></a>
                                     </div>
                                     <div class = "card-info">
                                         <h3 class="title">${gioco.nome}</h3>
