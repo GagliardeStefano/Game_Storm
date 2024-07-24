@@ -124,7 +124,7 @@ public class UserManagerLogin extends HttpServlet {
                                     throw new RuntimeException(e);
                                 }
                                 sessionManager.setAttribute("user", user);
-                                resp.sendRedirect("http://localhost:8080/GameStorm_war/AdminManager");
+                                resp.sendRedirect("https://localhost:8443/GameStorm-1.0-SNAPSHOT/AdminManager");
                                 break;
 
                         }
