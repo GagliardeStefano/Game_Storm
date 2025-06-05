@@ -18,7 +18,7 @@
 
 ---
 
-## 🚀 Funzionalità principali
+## Funzionalità principali
 
 - Visualizzazione catalogo di videogiochi
 - Pagina dettaglio del prodotto
